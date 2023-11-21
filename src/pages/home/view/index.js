@@ -1,5 +1,13 @@
 import React from "react";
+import FeedList from "./feedList";
+import Carousel from "./carousel";
 
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <div>
+      <Carousel />
+      <FeedList />
+      Home
+    </div>
+  );
 }
