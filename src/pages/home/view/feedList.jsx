@@ -14,7 +14,7 @@ export default FeedList;
 
 const StListWrapper = styled.ul`
   width: 1000px;
-  background-color: ${({ theme }) => theme.color.baseLight};
+  background-color: ${({ theme }) => theme.color.white};
   display: flex;
   flex-direction: row;
   gap: 20px;

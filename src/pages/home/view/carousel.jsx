@@ -2,11 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 function Carousel() {
-  return (
-    <StCarouselBox>
-      <Carousel></Carousel>
-    </StCarouselBox>
-  );
+  return <StCarouselBox></StCarouselBox>;
 }
 
 export default Carousel;
