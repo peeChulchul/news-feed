@@ -1,18 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import FieldsetCheckBox from "./fieldsetCheckBox";
-import mockHashtag from "./mockHashtag";
+import Fieldset from "./fieldset";
+import InputCheckRadio from "./inputCheckRadio";
+
+import { data } from "./mockHashtag";
+
 function EditorForm() {
+  const [category, setCategory] = useState(data.checkedCategory);
+  const [hashtag, setHashtag] = useState([]);
+  const onSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const onChangeCategory = (e) => {
+    setCategory(e.target.value);
+  };
+  const onChangeHashtag = (e) => {
+    const hasValue = hashtag.includes(e.target.value);
+    if (hasValue) {
+      setHashtag(hashtag.filter((n) => n !== e.target.value));
+    } else {
+      const copy = [...hashtag];
+      copy.push(e.target.value);
+      setHashtag(copy);
+    }
+  };
+
   return (
     <StFormWrap>
-      <StForm>
-        <fieldset>
-          <legend>사진</legend>
-        </fieldset>
-        <input type="file" name="" id="" />
-        <FieldsetCheckBox listData={mockHashtag} type={"radio"} legend={"카테고리"}></FieldsetCheckBox>
-        <FieldsetCheckBox listData={mockHashtag} type={"checkbox"} legend={"해시태그"}></FieldsetCheckBox>
-        <textarea name="" id="" cols="30" rows="10"></textarea>
+      <StForm onSubmit={onSubmit}>
+        <Fieldset legend={"사진"}>
+          <input type="file" name="" id="" />
+        </Fieldset>
+
+        <Fieldset legend={"카테고리"}>
+          <InputCheckRadio
+            listData={data.allCategory}
+            checkedData={category}
+            type={"radio"}
+            name={"category"}
+            onChange={onChangeCategory}
+          ></InputCheckRadio>
+        </Fieldset>
+        <Fieldset legend={"해시태그"}>
+          <InputCheckRadio
+            listData={data.allHashtag}
+            checkedData={hashtag}
+            type={"checkbox"}
+            name={"hashtag"}
+            onChange={onChangeHashtag}
+          ></InputCheckRadio>
+        </Fieldset>
+        <Fieldset legend={"내용"}>
+          <textarea name="내용" id="" cols="30" rows="10"></textarea>
+        </Fieldset>
+        <button>Summit</button>
       </StForm>
     </StFormWrap>
   );

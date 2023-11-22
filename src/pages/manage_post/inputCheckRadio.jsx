@@ -1,37 +1,33 @@
 import React from "react";
 import styled from "styled-components";
-function FieldsetCheckBox({ listData, type, legend }) {
+function InputCheckRadio({ listData, checkedData, type, name, onChange }) {
+  const checked = (type, value) => {
+    if (type === "radio") {
+      return checkedData === value;
+    } else {
+      return [...checkedData].includes(value);
+    }
+  };
   return (
-    <StFieldset>
-      {legend ? <StLegend>{legend}</StLegend> : null}
+    <>
       {listData.map((n, i) => {
         return (
-          <>
-            <StInput type={type} name={`form__${type}`} id={`editorForm__${type}-${i}`} />
-            <label htmlFor={`editorForm__${type}-${i}`}>{legend === "해시태그" ? `#${n}` : n}</label>
-          </>
+          <span key={`input__${type}-${name}-${i}`}>
+            <StInput
+              type={type}
+              name={name}
+              id={`input__${type}-${name}-${i}`}
+              value={n}
+              defaultChecked={checked(type, n)}
+              onChange={onChange}
+            />
+            <label htmlFor={`input__${type}-${name}-${i}`}>{n}</label>
+          </span>
         );
       })}
-    </StFieldset>
+    </>
   );
 }
-
-const StFieldset = styled.fieldset`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-`;
-
-const StLegend = styled.legend`
-  font-size: ${(props) => props.theme.fontSize.lg};
-  margin-bottom: 1rem;
-  font-weight: bold;
-`;
 
 const StInput = styled.input`
   display: none;
@@ -66,4 +62,4 @@ const StInput = styled.input`
   }
 `;
 
-export default FieldsetCheckBox;
+export default InputCheckRadio;
