@@ -21,9 +21,9 @@ function CarouselTag() {
 export default CarouselTag;
 
 const StCarouselTagWrapper = styled.div`
-  width: 800px;
+  width: 850px;
   height: 80px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.color.white};
   display: flex;
   flex-direction: row;
   justify-content: center;
