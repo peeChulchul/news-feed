@@ -13,4 +13,9 @@ export const GlobalStyle = createGlobalStyle`
     a{
         text-decoration: none;
     }
+    body{
+        font-family: 'Noto Sans KR';
+        letter-spacing: -0.03cap;
+    }
+
 `;
