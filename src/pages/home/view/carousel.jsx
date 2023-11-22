@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CarouselTag from "./components/carouselTag";
+import CarouselTag from "../carouselTag";
 
 function Carousel() {
   return (

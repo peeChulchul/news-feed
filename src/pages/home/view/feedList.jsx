@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import FeedCard from "pages/home/view/components/feedCard";
+import FeedCard from "../feedCard";
 
 function FeedList() {
   return (
