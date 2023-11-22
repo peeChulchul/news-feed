@@ -1,18 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { IoMdHeartEmpty } from "react-icons/io";
+import Avatar from "components/avatar";
+import Hashtag from "components/hashtag";
 
 function FeedCard() {
   return (
     <CardWrapper>
       <StFeedInfo>
         <StUserInfo>
-          <StAvatar>
-            <img
-              src="https://i.namu.wiki/i/Bge3xnYd4kRe_IKbm2uqxlhQJij2SngwNssjpjaOyOqoRhQlNwLrR2ZiK-JWJ2b99RGcSxDaZ2UCI7fiv4IDDQ.webp"
-              alt="프로필이미지"
-            ></img>
-          </StAvatar>
+          <Avatar />
           <div>
             <h2>sweet_potato</h2>
             <p>
@@ -29,8 +26,8 @@ function FeedCard() {
       </StFeedImg>
       <StContentWarapper>
         <StTagBox>
-          <StTag>#헬스</StTag>
-          <StTag>#러닝</StTag>
+          <Hashtag hashtag={true} content={"헬스"} size={"sm"} onClick={() => alert("안녕")} />
+          <Hashtag hashtag={true} content={"러닝"} size={"sm"} />
         </StTagBox>
         <p>오운완 오운완 오운완 오운완 오운완 오운완 오운완 오운완 오운완오운완 오운완 오운완</p>
       </StContentWarapper>
@@ -91,18 +88,6 @@ const StUserInfo = styled.div`
   }
 `;
 
-const StAvatar = styled.figure`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  & img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
 const StContentWarapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -125,7 +110,7 @@ const StTagBox = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 0.25rem;
+  gap: 0.5rem;
 `;
 
 const StTag = styled.div`

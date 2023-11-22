@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import styled, { useTheme } from "styled-components";
-import { MdSettings, MdNewspaper } from "react-icons/md";
+import { MdSettings } from "react-icons/md";
 import { Accordion } from "pages/common/accordion";
 import { IoIosPaper, IoIosClose } from "react-icons/io";
 import { IoCalendar, IoHome } from "react-icons/io5";
 import { FaBowlFood, FaMessage, FaHeart } from "react-icons/fa6";
 import { GiMuscleUp } from "react-icons/gi";
+import SvgBox from "components/svgbox";
+import Avatar from "components/avatar";
+import { AUTH } from "fb/myfirebase";
 const StContainer = styled.aside`
   background-color: #f5f5f5;
   width: 300px;
@@ -48,13 +51,6 @@ const StAuthBox = styled.div`
   }
 `;
 
-const StRoundedImgBox = styled.div`
-  width: ${({ width }) => (width ? width : "60px")};
-  height: ${({ height }) => (height ? height : "60px")};
-  border-radius: 100%;
-  background-color: yellow;
-`;
-
 const StAuthPostInfoBox = styled.div`
   display: flex;
 `;
@@ -75,12 +71,12 @@ const StAuthPostInfo = styled.div`
   }
 `;
 
-const StSvgBox = styled.div`
-  font-size: ${({ $fontSize, theme }) => ($fontSize ? $fontSize : theme.fontSize.xl)};
-  svg {
-    fill: ${({ $fill }) => $fill};
-  }
-`;
+// const SvgBox = styled.div`
+//   font-size: ${({ $fontSize, theme }) => ($fontSize ? $fontSize : theme.fontSize.xl)};
+//   svg {
+//     fill: ${({ $fill }) => $fill};
+//   }
+// `;
 
 const NavigationBox = styled.div`
   background-color: #f6623d1c;
@@ -116,6 +112,8 @@ export default function Sidebar() {
   const theme = useTheme();
   const [show, setShow] = useState(true);
 
+  console.log(AUTH);
+
   return (
     <StContainer $show={show}>
       {/* 사이드바 닫기 */}
@@ -125,33 +123,33 @@ export default function Sidebar() {
       <StAuthWrapper>
         {/* 사용자부분 */}
         <StAuthBox>
-          <StRoundedImgBox />
+          <Avatar width={"60px"} height={"60px"} />
           <h1>닉네임</h1>
-          <StSvgBox>
+          <SvgBox>
             <MdSettings />
-          </StSvgBox>
+          </SvgBox>
         </StAuthBox>
 
         {/* 게시물 */}
         <StAuthPostInfoBox>
           <StAuthPostInfo>
-            <StSvgBox $fill={theme.color.base} $fontSize={"3rem"}>
+            <SvgBox fill={theme.color.base} fontSize={"3rem"}>
               <GiMuscleUp />
-            </StSvgBox>
+            </SvgBox>
             <h1>50,000</h1>
             <p>운동 게시물</p>
           </StAuthPostInfo>
           <StAuthPostInfo>
-            <StSvgBox $fill={theme.color.black} $fontSize={"3rem"}>
+            <SvgBox fill={theme.color.black} fontSize={"3rem"}>
               <FaBowlFood />
-            </StSvgBox>
+            </SvgBox>
             <h1>50,000</h1>
             <p>식단 게시물</p>
           </StAuthPostInfo>
           <StAuthPostInfo>
-            <StSvgBox $fill={theme.color.danger} $fontSize={"3rem"}>
+            <SvgBox fill={theme.color.danger} fontSize={"3rem"}>
               <FaHeart />
-            </StSvgBox>
+            </SvgBox>
             <h1>50,000</h1>
             <p>팔로워</p>
           </StAuthPostInfo>
@@ -174,21 +172,21 @@ export default function Sidebar() {
       >
         <StAccordinonChildrenBox>
           <StAccordionChildren>
-            <StSvgBox $fill={"#33BFFF"}>
+            <SvgBox fill={"#33BFFF"}>
               <IoIosPaper />
-            </StSvgBox>
+            </SvgBox>
             <h1>오운완</h1>
           </StAccordionChildren>
           <StAccordionChildren>
-            <StSvgBox $fill={"#29CC39"}>
+            <SvgBox fill={"#29CC39"}>
               <IoCalendar />
-            </StSvgBox>
+            </SvgBox>
             <h1>오식완</h1>
           </StAccordionChildren>
           <StAccordionChildren>
-            <StSvgBox $fill={theme.color.success}>
+            <SvgBox fill={theme.color.success}>
               <FaMessage />
-            </StSvgBox>
+            </SvgBox>
             <h1>팔로우</h1>
           </StAccordionChildren>
         </StAccordinonChildrenBox>
