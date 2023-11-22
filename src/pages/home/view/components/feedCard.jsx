@@ -110,7 +110,7 @@ const StContentWarapper = styled.div`
   gap: 0.5rem;
   & p {
     font-size: 0.8rem;
-    font-weight: 500;
+    font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
