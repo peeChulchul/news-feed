@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../header";
+import Footer from "../footer";
 import Sidebar from "pages/layout/view/sidebar";
 
 export default function Layout({ children }) {
@@ -10,6 +11,7 @@ export default function Layout({ children }) {
       <Sidebar />
       <div style={{ width: "500px", height: "500px", backgroundColor: "black" }}>테스트</div>
       <>{children}</>
+      <Footer />
     </div>
     </>
   );
