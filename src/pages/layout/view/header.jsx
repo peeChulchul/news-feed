@@ -8,26 +8,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { openModal, closeModal, loginModal, logoutModal } from "redux/modules/modalState";
 
 export default function Header() {
-  const dispatch = useDispatch();
-  const { active, login, onSummit } = useSelector((modules) => modules.modalState);
+  // const dispatch = useDispatch();
+  // const { active, login, onSummit } = useSelector((modules) => modules.modalState);
 
   // dispatch(openModal);
   // dispatch(closeModal);
 
-  console.log(active, login, onSummit);
-  // // Login Modal
+  // console.log(active, login, onSummit);
+  // Login Modal
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalOpen2, setModalOpen2] = useState(false);
   const modalBackgound = useRef();
 
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState();
+  
 
-  const ModalOpenOnclickHandler = (event) => {
+  const ModalBackgroundOnclickHandler = (event) => {
     if (event.target === modalBackgound.current) {
-      // setModalOpen(false);
-      // setModalOpen2(false);
-      dispatch(closeModal());
-      dispatch(closeModal());
+      setModalOpen(false);
+      // dispatch(closeModal());
+      // dispatch(closeModal());
     }
   };
 
@@ -77,7 +76,7 @@ export default function Header() {
   };
   return (
     <>
-      <button onClick={() => dispatch(loginModal())}>로그인상태 변하는 버튼</button>
+      <button onClick={() => (loginModal())}>로그인상태 변하는 버튼</button>
       <StHeader>
         <StTitle>
           하루
@@ -87,16 +86,18 @@ export default function Header() {
         <StInput type="text" placeholder="Enter a search"></StInput>
         <StLoginBtn
           onClick={() => {
-            // setModalOpen(true);
-            dispatch(openModal());
+            setModalOpen(true);
+            setIsLogin(true);
+            // dispatch(openModal());
           }}
         >
           Log in
         </StLoginBtn>
         <StSignupBtn
           onClick={() => {
-            // setModalOpen2(true);
-            dispatch(openModal());
+            setModalOpen(true);
+            setIsLogin(false);
+            // dispatch(openModal());
           }}
         >
           Sign up
@@ -104,9 +105,10 @@ export default function Header() {
       </StHeader>
       <div>
         {
-          // modalOpen
-          active && (
-            <StModalContainer ref={modalBackgound} onClick={ModalOpenOnclickHandler}>
+          // active
+          modalOpen ? 
+          isLogin ? 
+            <StModalContainer ref={modalBackgound} onClick={ModalBackgroundOnclickHandler}>
               <StModalContent>
                 <StLoginModalTitle>로그인</StLoginModalTitle>
                 <StModalLoginInput
@@ -130,14 +132,42 @@ export default function Header() {
                 <StModalGoogleBtn>Sign in Google</StModalGoogleBtn>
               </StModalContent>
             </StModalContainer>
-          )
+            :
+            <StModalContainer ref={modalBackgound} onClick={ModalBackgroundOnclickHandler}>
+            <StModalContent>
+              <StModalSignupTitle>회원가입</StModalSignupTitle>
+              <StModalLoginInput placeholder="이름 입력" />
+              <StModalLoginInput
+                type="email"
+                value={email}
+                name="email"
+                onChange={onChange}
+                required
+                placeholder="사용할 이메일 입력"
+              />
+              <StModalLoginInput
+                type="password"
+                value={password}
+                name="password"
+                onChange={onChange}
+                required
+                placeholder="사용할 비밀번호 입력"
+              />
+              <StModalLoginInput placeholder="비밀번호 다시한번 확인" />
+              <StModalLonInBtn onClick={signUp}>회원가입</StModalLonInBtn>
+              <StModalSignupBtn>로그인</StModalSignupBtn>
+              <StModalGoogleBtn>Sign in Google</StModalGoogleBtn>
+            </StModalContent>
+          </StModalContainer>
+          :
+          null
         }
       </div>
-      <div>
+      {/* <div>
         {
-          // modalOpen2
-          active && !login && (
-            <StModalContainer ref={modalBackgound} onClick={ModalOpenOnclickHandler}>
+          // active && !login
+          modalOpen && (
+            <StModalContainer ref={modalBackgound} onClick={ModalBackgroundOnclickHandler}>
               <StModalContent>
                 <StModalSignupTitle>회원가입</StModalSignupTitle>
                 <StModalLoginInput placeholder="이름 입력" />
@@ -165,7 +195,7 @@ export default function Header() {
             </StModalContainer>
           )
         }
-      </div>
+      </div> */}
     </>
   );
 }
