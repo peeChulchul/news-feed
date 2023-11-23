@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import CarouselTag from "../carouselTag";
 
-function Carousel() {
+function Carousel({ feeds }) {
   return (
     <StCarouselBox>
-      <CarouselTag></CarouselTag>
+      <CarouselTag feeds={feeds}></CarouselTag>
     </StCarouselBox>
   );
 }

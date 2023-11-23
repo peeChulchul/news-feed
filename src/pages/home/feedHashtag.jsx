@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import Hashtag from "components/hashtag";
 
-function FeedHashtag({ feed }) {
+function FeedHashtag({ hashtag = [] }) {
   return (
     <StTagBox>
-      {feed.hashtag.map((tag) => {
+      {hashtag.map((tag) => {
         return <Hashtag hashtag={true} content={tag} size={"sm"} onClick={() => alert("안녕")} />;
       })}
     </StTagBox>

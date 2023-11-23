@@ -1,29 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { collection, getDocs, query } from "firebase/firestore";
-import { POST_DB } from "fb/myfirebase";
+
 import FeedCard from "../feedCard";
 // import { data } from "pages/manage_post/mockHashtag";
 
-function FeedList() {
-  const [feeds, setFeeds] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const q = query(collection(POST_DB, "posts"));
-      const querySnapshot = await getDocs(q);
-      const initialFeeds = [];
-
-      querySnapshot.forEach((doc) => {
-        initialFeeds.push({ id: doc.id, ...doc.data() });
-      });
-
-      setFeeds(initialFeeds);
-    };
-
-    fetchData();
-  }, []);
-
+function FeedList({ feeds }) {
   return (
     <StListWrapper>
       <StFeedList>

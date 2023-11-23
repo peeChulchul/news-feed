@@ -25,7 +25,7 @@ function FeedCard({ feed }) {
         <img src={feed.imgs} alt="피드이미지"></img>
       </StFeedImg>
       <StContentWarapper>
-        <FeedHashtag feed={feed} />
+        <FeedHashtag hashtag={feed.hashtag} />
         <p>{feed.content}</p>
       </StContentWarapper>
     </StCardWrapper>
@@ -91,7 +91,7 @@ const StContentWarapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 1rem 0 0.75rem 0;
-  gap: 0.5rem;
+  gap: 0.75rem;
   & p {
     font-size: 0.8rem;
     font-weight: 600;

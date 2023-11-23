@@ -3,14 +3,14 @@ import styled from "styled-components";
 import tagData from "data/tagData.json";
 import { v4 as uuid } from "uuid";
 
-function CarouselTag() {
+function CarouselTag({ feeds }) {
   return (
     <StCarouselTagWrapper>
       {tagData.map((item) => {
         return (
           <StCarouselTag key={uuid()}>
             <img src={item.image} alt="{item.workout}"></img>
-            <div>{item.workout}</div>
+            <div>{item.hashtag}</div>
           </StCarouselTag>
         );
       })}
