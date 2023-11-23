@@ -1,30 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Fieldset from "./fieldset";
 import InputCheckRadio from "./inputCheckRadio";
 import InputImg from "./inputImg";
-
 import { data } from "./mockHashtag";
+import PreviewImg from "./previewImg";
+import { createImgState } from "utils/convertImg";
 
 function EditorForm() {
-  const [img, setImg] = useState([]);
+  const [selectImage, setSelectImage] = useState([]);
   const [category, setCategory] = useState(data.checkedCategory);
   const [hashtag, setHashtag] = useState([]);
+  const [content, setContent] = useState("");
   const onSubmit = (e) => {
     e.preventDefault();
+
+    const submitObj = {
+      category,
+      hashtag,
+      content
+    };
+    console.log(submitObj);
   };
 
-  const onChangeImg = (e) => {
-    const file = e.currentTarget.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setImg(reader.result);
-        console.log(reader.result);
-        resolve();
-      };
-    });
+  const onSelectImg = (e) => {
+    const files = e.currentTarget.files;
+    for (let file of files) {
+      createImgState(file).then((res) => {
+        setSelectImage((prev) => [...prev, res]);
+      });
+    }
   };
 
   const onChangeCategory = (e) => {
@@ -41,14 +46,20 @@ function EditorForm() {
     }
   };
 
+  const onChangeContent = (e) => {
+    setContent(e.target.value);
+  };
+
   return (
     <StFormWrap>
-      <div>
-        <img src={img} alt="" />
+      <div style={{ display: "flex" }}>
+        {selectImage.map((n, i) => {
+          return <PreviewImg src={n.previewURL} key={i} alt="" />;
+        })}
       </div>
       <StForm onSubmit={onSubmit}>
         <Fieldset legend={"사진"}>
-          <InputImg onChange={onChangeImg} />
+          <InputImg onChange={onSelectImg} />
         </Fieldset>
 
         <Fieldset legend={"카테고리"}>
@@ -70,7 +81,7 @@ function EditorForm() {
           ></InputCheckRadio>
         </Fieldset>
         <Fieldset legend={"내용"}>
-          <textarea name="내용" id="" cols="30" rows="10"></textarea>
+          <textarea name="내용" id="" cols="30" rows="10" value={content} onChange={onChangeContent}></textarea>
         </Fieldset>
         <button>Summit</button>
       </StForm>
