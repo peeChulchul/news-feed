@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-
 import FeedCard from "../feedCard";
-// import { data } from "pages/manage_post/mockHashtag";
+import { useSelector } from "react-redux";
 
-function FeedList({ feeds }) {
+function FeedList() {
+  // const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.firestoreState);
+
   return (
     <StListWrapper>
       <StFeedList>
-        {feeds.map((feed) => {
+        {posts.map((feed) => {
           return <FeedCard feed={feed} />;
         })}
       </StFeedList>
