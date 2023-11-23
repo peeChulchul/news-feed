@@ -16,7 +16,7 @@ const StCarouselBox = styled.div`
   width: 1000px;
   margin: 1rem auto;
   padding: 10px;
-  background-color: ${({ theme }) => theme.color.disable};
+  /* background-color: ${({ theme }) => theme.color.disable}; */
   display: flex;
   justify-content: center;
 `;

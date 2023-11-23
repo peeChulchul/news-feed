@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import tagData from "data/tagData.json";
 import { v4 as uuid } from "uuid";
-// import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function CarouselTag() {
   // const dispatch = useDispatch();
-  // const { posts } = useSelector((state) => state.firestoreState);
+  const { posts } = useSelector((state) => state.firestoreState);
+  const [activeTag, setActiveTag] = useState(posts);
 
-  const onClickTagNameHandler = () => alert("dd");
+  const onClickTagNameHandler = (post) => {
+    setActiveTag(post.hashtag);
+  };
 
   //   }
   // };
@@ -17,8 +20,14 @@ function CarouselTag() {
     <StCarouselTagWrapper>
       {tagData.map((post) => {
         return (
-          <StCarouselTag key={uuid()} onClick={onClickTagNameHandler}>
-            <img src={post.image} alt="{post.hashtag}"></img>
+          <StCarouselTag
+            key={uuid()}
+            onClick={() => onClickTagNameHandler(post)}
+            $activeTag={activeTag === post.hashtag}
+          >
+            <figure>
+              <img src={post.image} alt="{post.hashtag}"></img>
+            </figure>
             <h2>{post.hashtag}</h2>
           </StCarouselTag>
         );
@@ -29,7 +38,7 @@ function CarouselTag() {
 
 export default CarouselTag;
 
-const StCarouselTagWrapper = styled.div`
+const StCarouselTagWrapper = styled.ul`
   width: 850px;
   height: 80px;
   background-color: ${({ theme }) => theme.color.white};
@@ -41,20 +50,13 @@ const StCarouselTagWrapper = styled.div`
   overflow: hidden;
 `;
 
-const StCarouselTag = styled.figure`
+const StCarouselTag = styled.li`
   position: relative;
   width: 70px;
   height: 70px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  & :hover {
-    background-color: ${({ theme }) => theme.color.baseDark};
-  }
-  /* & :hover::before {
-    background-color: ;
-  } */
-
   & img {
     width: 100%;
     height: 100%;

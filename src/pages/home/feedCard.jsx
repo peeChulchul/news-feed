@@ -3,11 +3,10 @@ import styled from "styled-components";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Avatar from "components/avatar";
 import FeedHashtag from "./feedHashtag";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 
 function FeedCard({ feed }) {
   const navigate = useNavigate();
-  const { userid, postid } = useParams();
 
   const onClickFeedHandler = () => {
     navigate(`/posts/${feed.uid}/${feed.postid}`);

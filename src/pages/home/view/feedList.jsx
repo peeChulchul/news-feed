@@ -2,17 +2,25 @@ import React from "react";
 import styled from "styled-components";
 import FeedCard from "../feedCard";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 
 function FeedList() {
   // const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.firestoreState);
+  const { category } = useParams();
 
   return (
     <StListWrapper>
       <StFeedList>
-        {posts.map((feed) => {
-          return <FeedCard feed={feed} />;
-        })}
+        {category
+          ? posts
+              .filter((feed) => feed.category === category)
+              .map((feed) => {
+                return <FeedCard feed={feed} />;
+              })
+          : posts.map((feed) => {
+              return <FeedCard feed={feed} />;
+            })}
       </StFeedList>
     </StListWrapper>
   );
