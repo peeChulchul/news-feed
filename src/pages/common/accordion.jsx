@@ -16,7 +16,7 @@ const StHeader = styled.div`
   height: ${({ $height }) => ($height ? $height : "32px")};
   padding: ${({ $padding }) => ($padding ? `${$padding}` : "0.5rem")};
   gap: ${({ $gap, theme }) => ($gap ? $gap : theme.spacing.base)};
-  margin-bottom: ${({ $gap, theme }) => ($gap ? `calc(${$gap} / 2)` : theme.spacing.base)};
+  margin-bottom: ${({ $gap, theme }) => ($gap ? `calc(${$gap})` : theme.spacing.base)};
   background-color: ${({ $bg }) => $bg};
   border-radius: ${({ $borderRadius }) => ($borderRadius ? $borderRadius : "8px")};
   h1 {

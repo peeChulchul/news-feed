@@ -1,6 +1,5 @@
 import { AUTH } from "fb/myfirebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import theme from "styles/theme";
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -56,12 +55,12 @@ export default function Login({ setModalType }) {
 }
 
 const StModalContent = styled.div`
-  background-color: ${theme.color.white};
+  background-color: ${({ theme }) => theme.color.white};
   width: 300px;
   height: 400px;
 `;
 const StLoginModalTitle = styled.div`
-  font-size: ${theme.fontSize.xxxl};
+  font-size: ${({ theme }) => theme.fontSize.xxxl};
   font-weight: bold;
   margin: 65px 80px 20px 98px;
 `;
@@ -71,8 +70,8 @@ const StModalLoginInput = styled.input`
   margin: 5px 23px;
 `;
 const StModalLonInBtn = styled.button`
-  background-color: ${theme.color.white};
-  border: 1px solid ${theme.color.black};
+  background-color: ${({ theme }) => theme.color.white};
+  border: 1px solid ${({ theme }) => theme.color.black};
   width: 250px;
   height: 40px;
   margin: 5px 23px;
@@ -80,15 +79,15 @@ const StModalLonInBtn = styled.button`
   cursor: pointer;
 `;
 const StModalSignupBtn = styled.span`
-  border-bottom: 1px solid ${theme.color.black};
-  margin-left: 222px;
-  font-size: ${theme.fontSize.sm};
+  border-bottom: 1px solid ${({ theme }) => theme.color.black};
+  margin-left: 228px;
+  font-size: ${({ theme }) => theme.fontSize.sm};
 
   cursor: pointer;
 `;
 const StModalGoogleBtn = styled.button`
-  background-color: ${theme.color.success};
-  color: ${theme.color.white};
+  background-color: ${({ theme }) => theme.color.success};
+  color: ${({ theme }) => theme.color.white};
   width: 250px;
   height: 40px;
   margin: 10px 23px;

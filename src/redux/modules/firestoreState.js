@@ -1,8 +1,9 @@
 import { DB } from "fb/myfirebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, deleteDoc } from "firebase/firestore";
 
 const SUBSCRIBE_FIRESTORE = "firestore/SUBSCRIBE_AUTH";
 const SET_FIRESTORE = "firestore/SET_FIRESTORE";
+const DELETE_FIRESTORE = "firestore/DELETE_FIRESTORE";
 
 export const subscribeFirestore = (payload) => {
   return {
@@ -14,6 +15,12 @@ export const subscribeFirestore = (payload) => {
 export const setFirestore = (payload) => {
   return {
     type: SET_FIRESTORE,
+    payload
+  };
+};
+export const deleteFirestore = (payload) => {
+  return {
+    type: DELETE_FIRESTORE,
     payload
   };
 };
@@ -51,6 +58,15 @@ const firestoreState = (state = initialState, action) => {
           { merge: true }
         );
       })();
+      return state;
+    }
+    case DELETE_FIRESTORE: {
+      console.log(action);
+      (async () => {
+        //삭제 payload로 문서id를 받아야함
+        await deleteDoc(doc(DB, "posts", action.payload.postid));
+      })();
+
       return state;
     }
     // case LOGIN_MODAL: {

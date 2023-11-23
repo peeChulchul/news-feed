@@ -24,6 +24,7 @@ const StContainer = styled.aside`
   left: 0;
   height: 100%;
   position: absolute;
+  padding: ${({ theme }) => `0 calc(${theme.spacing.base} * 2)`};
   transform: ${({ $show }) => ($show ? "" : "translateX(-100%)")};
   transition: all 0.3s ease-in;
 `;
@@ -31,8 +32,8 @@ const StContainer = styled.aside`
 const StSidebarClose = styled.div`
   position: absolute;
   top: 8px;
-  right: 16px;
-  font-size: ${({ theme }) => theme.fontSize.xl};
+  right: 30px;
+  font-size: ${({ theme }) => theme.fontSize.xxl};
   cursor: pointer;
 `;
 
@@ -108,9 +109,7 @@ const StAccordionChildren = styled.div`
 export default function Sidebar() {
   const theme = useTheme();
   const [show, setShow] = useState(true);
-  const {
-    user: { uid, email }
-  } = useSelector((modules) => modules.authState);
+  const { user } = useSelector((modules) => modules.authState);
   const navigate = useNavigate();
 
   return (
@@ -155,8 +154,12 @@ export default function Sidebar() {
         </StAuthPostInfoBox>
 
         {/* 페이지이동 */}
-        <NavigationBox onClick={() => navigate(`/manage/newpost/${uid}`)}>게시글 쓰기</NavigationBox>
-        <NavigationBox>나의 게시글</NavigationBox>
+        {user?.uid && (
+          <>
+            <NavigationBox onClick={() => navigate(`/manage/newpost/${user.uid}`)}>게시글 쓰기</NavigationBox>
+            <NavigationBox>나의 게시글</NavigationBox>
+          </>
+        )}
       </StAuthWrapper>
 
       {/* 아코디언 버튼 */}

@@ -18,9 +18,10 @@ export default function Modal({ modalType, setModalOpen, setModalType }) {
   const user = AUTH.currentUser;
 
   // 로그아웃하기
-  const logOut = (event) => {
-    event.preventDefault();
-  };
+  // const logOut = async (event) => {
+  //   event.preventDefault();
+  //   await signOut(AUTH);
+  // };
   return (
     <div>
       <StModalContainer ref={modalBackgound} onClick={ModalBackgroundOnclickHandler}>

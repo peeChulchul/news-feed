@@ -3,11 +3,11 @@ import Header from "pages/layout/view/header";
 import Footer from "pages/layout/view/footer";
 import Sidebar from "pages/layout/view/sidebar";
 import { onAuthStateChanged } from "firebase/auth";
-import { AUTH, DB } from "fb/myfirebase";
+import { AUTH, DB, postsCollection } from "fb/myfirebase";
 import { useDispatch, useSelector } from "react-redux";
 import { subscribeAUth } from "redux/modules/authState";
 import { doc, getDoc, collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
-import { addFirestore, setFirestore, subscribeFirestore } from "redux/modules/firestoreState";
+import { addFirestore, deleteFirestore, setFirestore, subscribeFirestore } from "redux/modules/firestoreState";
 import styled from "styled-components";
 
 export default function Layout({ children }) {
@@ -15,10 +15,13 @@ export default function Layout({ children }) {
   const { posts, loading } = useSelector((modules) => modules.firestoreState);
   const { user } = useSelector((modules) => modules.authState);
 
-  console.log(posts);
+  console.log("포스트", posts);
+  console.log("유저", user);
+
   useEffect(() => {
     // posts컬렉션 을 실시간 수신대기 (구독)
-    const q = query(collection(DB, "posts"));
+    const q = query(postsCollection);
+    console.log(q);
     const dbSubscribe = onSnapshot(q, async (querySnapshot) => {
       const result = [];
       querySnapshot.forEach((doc) => {
@@ -46,36 +49,16 @@ export default function Layout({ children }) {
   }, [dispatch]);
 
   return (
-    <StContainer>
+    <StContainer id={"test"}>
       <Header />
-      {/* <div style={{ cursor: "pointer" }} onClick={() => dispatch(addFirestore())}>
-        테스트버튼 (ADD로 포스트추가)
-      </div>
-      <div
-        style={{ cursor: "pointer" }}
-        onClick={() =>
-          dispatch(
-            setFirestore({
-              content: "수정된테스트입니다.",
-              uid: "수정된테스트입니다.",
-              like: 0,
-              category: "오운완",
-              imgs: [
-                "https://social-phinf.pstatic.net/20140224_181/1393220729495a3K5P_JPEG/1393220562345-1.jpg",
-                "https://social-phinf.pstatic.net/20220426_269/1650948892717mHyp9_JPEG/829D6050-7839-4E0D-A53D-50BB6E4DD7ED.jpeg"
-              ],
-              hashtag: ["헬스", "복싱"],
-              postid: "001-001"
-            })
-          )
-        }
-      >
-        테스트버튼 (SET으로 포스트추가)
+      {/* <div style={{ cursor: "pointer" }} onClick={() => dispatch(deleteFirestore({ postid: "8UXTwYBBNYYBMikZH0rT" }))}>
+        테스트버튼 삭제
       </div> */}
-      <StBox>
+      <StBox id={"Box"}>
         <Sidebar />
         <>{children}</>
       </StBox>
+
       <Footer />
     </StContainer>
   );

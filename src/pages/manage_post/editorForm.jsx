@@ -1,30 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Fieldset from "./fieldset";
 import InputCheckRadio from "./inputCheckRadio";
 import InputImg from "./inputImg";
-
 import { data } from "./mockHashtag";
+import PreviewImg from "./previewImg";
+import { createImgFileState, createSummitObj, uploadImg } from "utils/useForm";
+import { v4 as uuid } from "uuid";
 
 function EditorForm() {
-  const [img, setImg] = useState([]);
+  const [selectImage, setSelectImage] = useState([]);
   const [category, setCategory] = useState(data.checkedCategory);
   const [hashtag, setHashtag] = useState([]);
-  const onSubmit = (e) => {
+  const [content, setContent] = useState("");
+
+  const onSubmit = async (e) => {
     e.preventDefault();
+    const checkDone = new Array(selectImage).fill(false);
+    for (let i = 0; i < selectImage.length; i++) {
+      const uploadSuccess = await uploadImg("posts", "mock01", selectImage[i]);
+      if (uploadSuccess === true) {
+        checkDone[i] = true;
+        console.log("업로드 중");
+      }
+    }
+    const allDone = checkDone.every((n) => n === true);
+    if (allDone) {
+      alert("업로드 완료");
+    }
+    //  createSummitObj(content, hashtag, imgdata);
+    // console.log(submitObj);
   };
 
-  const onChangeImg = (e) => {
-    const file = e.currentTarget.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setImg(reader.result);
-        console.log(reader.result);
-        resolve();
-      };
-    });
+  const onSelectImg = (e) => {
+    const files = e.currentTarget.files;
+    for (let file of files) {
+      const newImgFileState = createImgFileState(file);
+      setSelectImage((preState) => [...preState, newImgFileState]);
+    }
   };
 
   const onChangeCategory = (e) => {
@@ -41,14 +54,20 @@ function EditorForm() {
     }
   };
 
+  const onChangeContent = (e) => {
+    setContent(e.target.value);
+  };
+
   return (
     <StFormWrap>
-      <div>
-        <img src={img} alt="" />
+      <div style={{ display: "flex" }}>
+        {selectImage.map((n) => {
+          return <PreviewImg src={n.preveiwImg} key={uuid()} alt="" />;
+        })}
       </div>
       <StForm onSubmit={onSubmit}>
         <Fieldset legend={"사진"}>
-          <InputImg onChange={onChangeImg} />
+          <InputImg onChange={onSelectImg} />
         </Fieldset>
 
         <Fieldset legend={"카테고리"}>
@@ -70,7 +89,7 @@ function EditorForm() {
           ></InputCheckRadio>
         </Fieldset>
         <Fieldset legend={"내용"}>
-          <textarea name="내용" id="" cols="30" rows="10"></textarea>
+          <textarea name="내용" id="" cols="30" rows="10" value={content} onChange={onChangeContent}></textarea>
         </Fieldset>
         <button>Summit</button>
       </StForm>

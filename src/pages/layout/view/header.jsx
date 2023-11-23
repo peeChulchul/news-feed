@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import theme from "styles/theme";
 import { useState } from "react";
 
 import Modal from "./modal";
@@ -30,12 +29,11 @@ const StHeader = styled.header`
   height: 100px;
   width: 1200px;
   margin: 0 auto;
-  border: 2px solid ${theme.color.black};
-
+  border: 2px solid ${({ theme }) => theme.color.black};
   display: flex;
 `;
 const StTitle = styled.h1`
-  font-size: ${theme.fontSize.xxl};
+  font-size: ${({ theme }) => theme.fontSize.xxl};
   padding: 1.4rem 1.5rem;
 `;
 
@@ -44,26 +42,5 @@ const StInput = styled.input`
   height: 40px;
   margin: auto;
   border-radius: 25px;
-  padding-left: ${theme.spacing.lg};
+  padding-left: ${({ theme }) => theme.spacing.lg};
 `;
-
-// const StLoginBtn = styled.button`
-//   width: 110px;
-//   height: 40px;
-//   margin: auto 0;
-//   border-radius: 20px;
-//   border: 1px solid ${theme.color.black};
-//   background-color: ${theme.color.white};
-
-//   cursor: pointer;
-// `;
-// const StSignupBtn = styled.button`
-//   width: 110px;
-//   height: 40px;
-//   margin: auto 1.5rem auto 0.5rem;
-//   border-radius: 20px;
-//   background-color: ${theme.color.success};
-//   color: ${theme.color.white};
-
-//   cursor: pointer;
-// `;
