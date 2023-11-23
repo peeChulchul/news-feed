@@ -2,19 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import tagData from "data/tagData.json";
 import { v4 as uuid } from "uuid";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function CarouselTag() {
   // const dispatch = useDispatch();
-  // const { posts } = useSelector((state) => state.firestoreState);
+  const { posts } = useSelector((state) => state.firestoreState);
+
+  const onClickTagNameHandler = () => alert("dks");
 
   return (
     <StCarouselTagWrapper>
-      {tagData.map((item) => {
+      {tagData.map((post) => {
         return (
-          <StCarouselTag key={uuid()}>
-            <img src={item.image} alt="{item.workout}"></img>
-            <h2>{item.hashtag}</h2>
+          <StCarouselTag key={uuid()} onClick={onClickTagNameHandler}>
+            <img src={post.image} alt="{post.hashtag}"></img>
+            <h2>{post.hashtag}</h2>
           </StCarouselTag>
         );
       })}
@@ -42,6 +44,14 @@ const StCarouselTag = styled.figure`
   height: 70px;
   border-radius: 50%;
   overflow: hidden;
+  cursor: pointer;
+  & :hover {
+    background-color: ${({ theme }) => theme.color.baseDark};
+  }
+  /* & :hover::before {
+    background-color: ;
+  } */
+
   & img {
     width: 100%;
     height: 100%;
