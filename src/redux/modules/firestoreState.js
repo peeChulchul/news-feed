@@ -1,8 +1,19 @@
-const SUBSCRIBE_firestore = "firestore/SUBSCRIBE_AUTH";
+import { postsCollection } from "fb/myfirebase";
+import { addDoc } from "firebase/firestore";
+
+const SUBSCRIBE_FIRESTORE = "firestore/SUBSCRIBE_AUTH";
+
+const ADD_FIRESTORE = "firestore/ADD_FIRESTORE";
 
 export const subscribeFirestore = (payload) => {
   return {
-    type: SUBSCRIBE_firestore,
+    type: SUBSCRIBE_FIRESTORE,
+    payload
+  };
+};
+export const addFirestore = (payload) => {
+  return {
+    type: ADD_FIRESTORE,
     payload
   };
 };
@@ -13,12 +24,28 @@ const initialState = { posts: [], loading: true };
 
 const firestoreState = (state = initialState, action) => {
   switch (action.type) {
-    case SUBSCRIBE_firestore: {
+    case SUBSCRIBE_FIRESTORE: {
       return { ...state, posts: action.payload };
     }
-    // case OPEN_MODAL: {
-    //   return { ...state, active: true };
-    // }
+    case ADD_FIRESTORE: {
+      (async () => {
+        await addDoc(postsCollection, {
+          ...action.payload
+          // content: "테스트입니다",
+          // uid: "테스트입니다.",
+          // like: 0,
+          // category: "오운완",
+          // imgs: [
+          //   "https://social-phinf.pstatic.net/20140224_181/1393220729495a3K5P_JPEG/1393220562345-1.jpg",
+          //   "https://social-phinf.pstatic.net/20220426_269/1650948892717mHyp9_JPEG/829D6050-7839-4E0D-A53D-50BB6E4DD7ED.jpeg"
+          // ],
+          // hashtag: ["헬스", "복싱"],
+          // postid: "테스트입니다."
+        });
+      })();
+
+      return { ...state };
+    }
     // case CLOSE_MODAL: {
     //   return { ...state, active: false };
     // }

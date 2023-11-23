@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from "pages/layout/view/header";
 import Footer from "pages/layout/view/footer";
 import Sidebar from "pages/layout/view/sidebar";
@@ -7,13 +7,14 @@ import { AUTH, DB } from "fb/myfirebase";
 import { useDispatch, useSelector } from "react-redux";
 import { subscribeAUth } from "redux/modules/authState";
 import { doc, getDoc, collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
-import { subscribeFirestore } from "redux/modules/firestoreState";
+import { addFirestore, subscribeFirestore } from "redux/modules/firestoreState";
 
 export default function Layout({ children }) {
   const dispatch = useDispatch();
   const { posts, loading } = useSelector((modules) => modules.firestoreState);
   const { user } = useSelector((modules) => modules.authState);
 
+  console.log(posts);
   useEffect(() => {
     // posts컬렉션 을 실시간 수신대기 (구독)
     const q = query(collection(DB, "posts"));
@@ -21,7 +22,6 @@ export default function Layout({ children }) {
       const result = [];
       querySnapshot.forEach((doc) => {
         result.push(doc.data());
-        // setTestT((prev) => [...prev, doc.data()]);
       });
       dispatch(subscribeFirestore(result));
     });
@@ -47,7 +47,9 @@ export default function Layout({ children }) {
   return (
     <>
       <Header />
-
+      <div style={{ cursor: "pointer" }} onClick={() => dispatch(addFirestore())}>
+        테스트버튼 (포스트추가)
+      </div>
       <Sidebar />
       <>{children}</>
       <Footer />
