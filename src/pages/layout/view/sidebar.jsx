@@ -10,18 +10,21 @@ import SvgBox from "components/svgbox";
 import Avatar from "components/avatar";
 import { accordionData } from "data/sidebar/accordion_data";
 import { formatlocaleString } from "utils/format/number";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const StContainer = styled.aside`
   background-color: #f5f5f5;
   width: 300px;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => `calc(${theme.spacing.base} * 2)`};
   position: fixed;
   top: 0;
   left: 0;
-  position: relative;
+  height: 100%;
+  position: absolute;
+  padding: ${({ theme }) => `0 calc(${theme.spacing.base} * 2)`};
   transform: ${({ $show }) => ($show ? "" : "translateX(-100%)")};
   transition: all 0.3s ease-in;
 `;
@@ -29,8 +32,8 @@ const StContainer = styled.aside`
 const StSidebarClose = styled.div`
   position: absolute;
   top: 8px;
-  right: 16px;
-  font-size: ${({ theme }) => theme.fontSize.xl};
+  right: 30px;
+  font-size: ${({ theme }) => theme.fontSize.xxl};
   cursor: pointer;
 `;
 
@@ -106,6 +109,8 @@ const StAccordionChildren = styled.div`
 export default function Sidebar() {
   const theme = useTheme();
   const [show, setShow] = useState(true);
+  const { user } = useSelector((modules) => modules.authState);
+  const navigate = useNavigate();
 
   return (
     <StContainer $show={show}>
@@ -147,9 +152,14 @@ export default function Sidebar() {
             <p>팔로워</p>
           </StAuthPostInfo>
         </StAuthPostInfoBox>
+
         {/* 페이지이동 */}
-        <NavigationBox>게시글 쓰기</NavigationBox>
-        <NavigationBox>나의 게시글</NavigationBox>
+        {user?.uid && (
+          <>
+            <NavigationBox onClick={() => navigate(`/manage/newpost/${user.uid}`)}>게시글 쓰기</NavigationBox>
+            <NavigationBox>나의 게시글</NavigationBox>
+          </>
+        )}
       </StAuthWrapper>
 
       {/* 아코디언 버튼 */}
@@ -165,7 +175,7 @@ export default function Sidebar() {
       >
         <StAccordinonChildrenBox>
           {accordionData.map(({ fill, icon, title }) => (
-            <StAccordionChildren key={title}>
+            <StAccordionChildren onClick={() => navigate(`/${title}`)} key={title}>
               <SvgBox fill={fill}>{icon}</SvgBox>
               <h1>{title}</h1>
             </StAccordionChildren>
