@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import theme from "styles/theme";
 
 export default function AuthBtns({ setModalOpen, setModalType }) {
   return (
@@ -32,7 +31,7 @@ const StLoginBtn = styled.button`
   margin: auto 0;
   border-radius: 20px;
   border: 1px solid ${({ theme }) => theme.color.black};
-  background-color: ${theme.color.white};
+  background-color: ${({ theme }) => theme.color.white};
 
   cursor: pointer;
 `;
@@ -41,8 +40,8 @@ const StSignupBtn = styled.button`
   height: 40px;
   margin: auto 1.5rem auto 0.5rem;
   border-radius: 20px;
-  background-color: ${theme.color.success};
-  color: ${theme.color.white};
+  background-color: ${({ theme }) => theme.color.success};
+  color:${({ theme }) => theme.color.white};
 
   cursor: pointer;
 `;
