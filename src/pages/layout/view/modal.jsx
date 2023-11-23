@@ -25,8 +25,8 @@ export default function Modal({ modalType, setModalOpen, setModalType }) {
   return (
     <div>
       <StModalContainer ref={modalBackgound} onClick={ModalBackgroundOnclickHandler}>
-        {modalType === "login" && <Login setModalType={setModalType} />}
-        {modalType === "signup" && <Signup setModalType={setModalType} />}
+        {modalType === "login" && <Login setModalType={setModalType} setModalOpen={setModalOpen} />}
+        {modalType === "signup" && <Signup setModalType={setModalType} setModalOpen={setModalOpen} />}
       </StModalContainer>
     </div>
   );
