@@ -11,7 +11,7 @@ const Router = () => {
       <Layout>
         <Routes>
           {/* 홈화면 */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />}></Route>
           {/* 홈화면에서 게시물 클릭하면 나오는 게시물 상세 페이지 */}
           <Route path="posts/:userid/:postid" element={<DetailPost />} />
           {/* 게시물 생성 */}

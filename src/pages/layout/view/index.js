@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { subscribeAUth } from "redux/modules/authState";
 import { doc, getDoc, collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { addFirestore, setFirestore, subscribeFirestore } from "redux/modules/firestoreState";
+import styled from "styled-components";
 
 export default function Layout({ children }) {
   const dispatch = useDispatch();
@@ -45,9 +46,9 @@ export default function Layout({ children }) {
   }, [dispatch]);
 
   return (
-    <>
+    <StContainer>
       <Header />
-      <div style={{ cursor: "pointer" }} onClick={() => dispatch(addFirestore())}>
+      {/* <div style={{ cursor: "pointer" }} onClick={() => dispatch(addFirestore())}>
         테스트버튼 (ADD로 포스트추가)
       </div>
       <div
@@ -70,10 +71,23 @@ export default function Layout({ children }) {
         }
       >
         테스트버튼 (SET으로 포스트추가)
-      </div>
-      <Sidebar />
-      <>{children}</>
+      </div> */}
+      <StBox>
+        <Sidebar />
+        <>{children}</>
+      </StBox>
       <Footer />
-    </>
+    </StContainer>
   );
 }
+
+const StBox = styled.div`
+  width: 100%;
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+`;
+
+const StContainer = styled.div``;
