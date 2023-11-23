@@ -23,7 +23,8 @@ export default function Signup({ setModalType, setModalOpen }) {
   const [isConfirmPassword, setIsConfirmPassword] = useState(false)
 
   // 회원가입
-  const signUp = async () => {
+  const signUp = async (event) => {
+    event.preventDefault();
     try {
       const userCredential = await createUserWithEmailAndPassword(AUTH, email, password);
       console.log(userCredential);
@@ -59,7 +60,7 @@ export default function Signup({ setModalType, setModalOpen }) {
       setIsEmail(true);
     }
   }, []);
-  
+
   // 비밀번호
   const onChangePassword = useCallback((event) => {
     setPassword(event.target.value);
@@ -85,7 +86,7 @@ export default function Signup({ setModalType, setModalOpen }) {
   }, [password]);
 
   return (
-    <StModalContent>
+    <StModalContent  onSubmit={signUp}>
       <StModalSignupTitle>회원가입</StModalSignupTitle>
       <StModalLoginInput
         type="text"
@@ -140,8 +141,6 @@ export default function Signup({ setModalType, setModalOpen }) {
             </span>
         }
       <StModalLonInBtn
-        type="submit"
-        onClick={signUp}
         disabled={!(isName && isEmail && isPassword && isConfirmPassword)}>
         회원가입</StModalLonInBtn>
       <StModalSignupBtn onClick={() => setModalType("login")}>로그인</StModalSignupBtn>
@@ -150,10 +149,12 @@ export default function Signup({ setModalType, setModalOpen }) {
   );
 }
 
-const StModalContent = styled.div`
+const StModalContent = styled.form`
   background-color: ${({ theme }) => theme.color.white};
   width: 300px;
   height: 400px;
+
+  z-index: 100;
 `;
 const StModalLoginInput = styled.input`
   width: 250px;

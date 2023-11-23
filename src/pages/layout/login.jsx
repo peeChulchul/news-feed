@@ -33,7 +33,7 @@ export default function Login({ setModalType, setModalOpen }) {
   };
 
   return (
-    <StModalContent>
+    <StModalContent  onSubmit={logIn}>
       <StLoginModalTitle>로그인</StLoginModalTitle>
       <StModalLoginInput
         type="email"
@@ -52,8 +52,6 @@ export default function Login({ setModalType, setModalOpen }) {
         placeholder="비밀번호를 입력해주세요"
       />
       <StModalLonInBtn
-      type="submit"
-      onClick={logIn}
       disabled={!(email && password)}>로그인</StModalLonInBtn>
       <StModalSignupBtn onClick={() => setModalType("signup")}>회원가입</StModalSignupBtn>
       <StModalGoogleBtn>Sign in Google</StModalGoogleBtn>
@@ -61,10 +59,12 @@ export default function Login({ setModalType, setModalOpen }) {
   );
 }
 
-const StModalContent = styled.div`
+const StModalContent = styled.form`
   background-color: ${({ theme }) => theme.color.white};
   width: 300px;
   height: 400px;
+
+  z-index: 100;
 `;
 const StLoginModalTitle = styled.div`
   font-size: ${({ theme }) => theme.fontSize.xxxl};

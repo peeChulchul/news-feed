@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function AuthBtns({ setModalOpen, setModalType }) {
+  const Test = useSelector((state) => state.authState)
+  console.log(Test);
+
   return (
     <>
       <StLogInOutBtn
