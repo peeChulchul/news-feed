@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import styled, { useTheme } from "styled-components";
 import { MdSettings } from "react-icons/md";
 import { Accordion } from "pages/common/accordion";
-import { IoIosPaper, IoIosClose } from "react-icons/io";
+import { IoIosClose } from "react-icons/io";
 import { IoCalendar, IoHome } from "react-icons/io5";
-import { FaBowlFood, FaMessage, FaHeart } from "react-icons/fa6";
+import { FaMessage } from "react-icons/fa6";
 import { GiMuscleUp } from "react-icons/gi";
 import SvgBox from "components/svgbox";
 import Avatar from "components/avatar";
-import { AUTH } from "fb/myfirebase";
+import { accordionData } from "data/sidebar/accordion_data";
+import { formatlocaleString } from "utils/format/number";
+
 const StContainer = styled.aside`
   background-color: #f5f5f5;
   width: 300px;
@@ -71,13 +73,6 @@ const StAuthPostInfo = styled.div`
   }
 `;
 
-// const SvgBox = styled.div`
-//   font-size: ${({ $fontSize, theme }) => ($fontSize ? $fontSize : theme.fontSize.xl)};
-//   svg {
-//     fill: ${({ $fill }) => $fill};
-//   }
-// `;
-
 const NavigationBox = styled.div`
   background-color: #f6623d1c;
   padding: ${({ theme }) => ` calc(${theme.spacing.base} * 3) calc(${theme.spacing.base} * 2)`};
@@ -131,24 +126,24 @@ export default function Sidebar() {
         {/* 게시물 */}
         <StAuthPostInfoBox>
           <StAuthPostInfo>
-            <SvgBox fill={theme.color.base} fontSize={"3rem"}>
+            <SvgBox fill={"#33BFFF"} fontSize={"3rem"}>
               <GiMuscleUp />
             </SvgBox>
-            <h1>50,000</h1>
+            <h1>{formatlocaleString({ num: 50000 })}</h1>
             <p>운동 게시물</p>
           </StAuthPostInfo>
           <StAuthPostInfo>
-            <SvgBox fill={theme.color.black} fontSize={"3rem"}>
-              <FaBowlFood />
+            <SvgBox fill={"#29CC39"} fontSize={"3rem"}>
+              <IoCalendar />
             </SvgBox>
-            <h1>50,000</h1>
+            <h1>{formatlocaleString({ num: 10000 })}</h1>
             <p>식단 게시물</p>
           </StAuthPostInfo>
           <StAuthPostInfo>
-            <SvgBox fill={theme.color.danger} fontSize={"3rem"}>
-              <FaHeart />
+            <SvgBox fill={"#105EFB"} fontSize={"3rem"}>
+              <FaMessage />
             </SvgBox>
-            <h1>50,000</h1>
+            <h1>{formatlocaleString({ num: 25000 })}</h1>
             <p>팔로워</p>
           </StAuthPostInfo>
         </StAuthPostInfoBox>
@@ -169,24 +164,12 @@ export default function Sidebar() {
         borderRadius={"8px"}
       >
         <StAccordinonChildrenBox>
-          <StAccordionChildren>
-            <SvgBox fill={"#33BFFF"}>
-              <IoIosPaper />
-            </SvgBox>
-            <h1>오운완</h1>
-          </StAccordionChildren>
-          <StAccordionChildren>
-            <SvgBox fill={"#29CC39"}>
-              <IoCalendar />
-            </SvgBox>
-            <h1>오식완</h1>
-          </StAccordionChildren>
-          <StAccordionChildren>
-            <SvgBox fill={theme.color.success}>
-              <FaMessage />
-            </SvgBox>
-            <h1>팔로우</h1>
-          </StAccordionChildren>
+          {accordionData.map(({ fill, icon, title }) => (
+            <StAccordionChildren key={title}>
+              <SvgBox fill={fill}>{icon}</SvgBox>
+              <h1>{title}</h1>
+            </StAccordionChildren>
+          ))}
         </StAccordinonChildrenBox>
       </Accordion>
     </StContainer>
