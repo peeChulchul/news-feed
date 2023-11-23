@@ -3,15 +3,23 @@ import styled from "styled-components";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Avatar from "components/avatar";
 import FeedHashtag from "./feedHashtag";
+import { useNavigate, useParams } from "react-router";
 
 function FeedCard({ feed }) {
+  const navigate = useNavigate();
+  const { userid, postid } = useParams();
+
+  const onClickFeedHandler = () => {
+    navigate(`/posts/${feed.uid}/${feed.postid}`);
+  };
+
   return (
-    <StCardWrapper onClick={() => alert("안녕")}>
+    <StCardWrapper onClick={onClickFeedHandler}>
       <StFeedInfo>
         <StUserInfo>
           <Avatar />
           <div>
-            <h2>{feed.postid}</h2>
+            <h2>{feed.uid}</h2>
             <p>
               <span>like</span> {feed.like}
             </p>

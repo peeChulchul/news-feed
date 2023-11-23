@@ -2,13 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import tagData from "data/tagData.json";
 import { v4 as uuid } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 
 function CarouselTag() {
   // const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.firestoreState);
+  // const { posts } = useSelector((state) => state.firestoreState);
 
-  const onClickTagNameHandler = () => alert("dks");
+  const onClickTagNameHandler = () => alert("dd");
+
+  //   }
+  // };
 
   return (
     <StCarouselTagWrapper>
