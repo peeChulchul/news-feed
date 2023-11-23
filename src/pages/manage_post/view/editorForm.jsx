@@ -7,16 +7,20 @@ import { data } from "../mockHashtag";
 import PreviewImg from "../previewImg";
 import { createImgFileState, createSummitObj, uploadImg } from "utils/useForm";
 import { v4 as uuid } from "uuid";
-
+import { useDispatch } from "react-redux";
+import { setFirestore } from "redux/modules/firestoreState";
 function EditorForm() {
   const [selectImage, setSelectImage] = useState([]);
   const [category, setCategory] = useState(data.checkedCategory);
   const [hashtag, setHashtag] = useState([]);
   const [content, setContent] = useState("");
 
+  const dispatch = useDispatch();
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const checkDone = new Array(selectImage).fill(false);
+    const selectImgId = selectImage.map((n) => n.newFileName);
     for (let i = 0; i < selectImage.length; i++) {
       const uploadSuccess = await uploadImg("posts", "mock01", selectImage[i]);
       if (uploadSuccess === true) {
@@ -27,8 +31,14 @@ function EditorForm() {
     const allDone = checkDone.every((n) => n === true);
     if (allDone) {
       alert("업로드 완료");
+      const feedData = createSummitObj(category, content, hashtag, selectImgId);
+      console.log(feedData);
+      // ===================
+      // Storage 에 저장된 이미지의 id 값으로 전달해야하는지?
+      // Storage 에 저장된 이미지의 id 값으로 가져올 수 있는 이미지의 URL을 저장해야하는지?
+      // =============================
+      dispatch(setFirestore(feedData));
     }
-    //  createSummitObj(content, hashtag, imgdata);
     // console.log(submitObj);
   };
 

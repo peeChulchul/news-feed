@@ -35,14 +35,15 @@ async function uploadImg(storageMainFolderName, id, imgFileState) {
 }
 
 // firebase/firestore Database 이용 함수
-function createSummitObj(content, hashtags, imgsURL) {
+function createSummitObj(category, content, hashtags, imgsURL, postid = uuid(), uid = "admin01") {
   return {
-    content: content,
+    category,
+    content,
     hashtag: hashtags,
     imgs: imgsURL,
     like: 0,
-    postid: "mock01",
-    uid: "admin01"
+    postid,
+    uid
   };
 }
 export { createImgFileState, createSummitObj, uploadImg };
