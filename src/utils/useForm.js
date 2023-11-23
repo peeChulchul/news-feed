@@ -23,8 +23,8 @@ async function uploadImg(storageMainFolderName, id, imgFileState) {
   const path = [storageMainFolderName, id, imgFileState.newFileName];
   const imgRef = ref(STORAGE, path.join("/"));
   try {
-    const uploadSuccess = await uploadBytes(imgRef, imgFileState.file);
-    if (uploadSuccess) {
+    const uploadTask = await uploadBytes(imgRef, imgFileState.file);
+    if (uploadTask) {
       return true;
     } else {
       console.log("업로드에 실패하였습니다.");

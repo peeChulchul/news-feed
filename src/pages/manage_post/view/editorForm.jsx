@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Fieldset from "./fieldset";
-import InputCheckRadio from "./inputCheckRadio";
-import InputImg from "./inputImg";
-import { data } from "./mockHashtag";
-import PreviewImg from "./previewImg";
+import Fieldset from "../fieldset";
+import InputCheckRadio from "../inputCheckRadio";
+import InputImg from "../inputImg";
+import { data } from "../mockHashtag";
+import PreviewImg from "../previewImg";
 import { createImgFileState, createSummitObj, uploadImg } from "utils/useForm";
 import { v4 as uuid } from "uuid";
 
@@ -40,6 +40,28 @@ function EditorForm() {
     }
   };
 
+  const onDrop = (e) => {
+    e.preventDefault();
+    if (e.dataTransfer.items) {
+      [...e.dataTransfer.items].forEach((item, i) => {
+        if (
+          item.kind === "file" &&
+          (item.type === "image/jpeg" || item.type === "image/png" || item.type === "image/webp")
+        ) {
+          const file = item.getAsFile();
+          const newImgFileState = createImgFileState(file);
+          setSelectImage((preState) => [...preState, newImgFileState]);
+        }
+      });
+    } else {
+      [...e.dataTransfer.files].forEach((file, i) => {
+        console.log(`file[${i}].name = ${file.name}`);
+        console.log(`file[${i}].type = ${file.type}`);
+      });
+    }
+    console.log(selectImage);
+  };
+
   const onChangeCategory = (e) => {
     setCategory(e.target.value);
   };
@@ -60,14 +82,14 @@ function EditorForm() {
 
   return (
     <StFormWrap>
-      <div style={{ display: "flex" }}>
-        {selectImage.map((n) => {
-          return <PreviewImg src={n.preveiwImg} key={uuid()} alt="" />;
-        })}
-      </div>
       <StForm onSubmit={onSubmit}>
         <Fieldset legend={"사진"}>
-          <InputImg onChange={onSelectImg} />
+          <div style={{ display: "flex" }}>
+            {selectImage.map((n) => {
+              return <PreviewImg src={n.preveiwImg} key={uuid()} alt="" />;
+            })}
+          </div>
+          <InputImg onChange={onSelectImg} onDrop={onDrop} />
         </Fieldset>
 
         <Fieldset legend={"카테고리"}>
