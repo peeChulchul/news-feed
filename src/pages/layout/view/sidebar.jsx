@@ -112,8 +112,6 @@ export default function Sidebar() {
   const theme = useTheme();
   const [show, setShow] = useState(true);
 
-  console.log(AUTH);
-
   return (
     <StContainer $show={show}>
       {/* 사이드바 닫기 */}
