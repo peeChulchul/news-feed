@@ -7,7 +7,7 @@ import { AUTH, DB } from "fb/myfirebase";
 import { useDispatch, useSelector } from "react-redux";
 import { subscribeAUth } from "redux/modules/authState";
 import { doc, getDoc, collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
-import { addFirestore, subscribeFirestore } from "redux/modules/firestoreState";
+import { addFirestore, setFirestore, subscribeFirestore } from "redux/modules/firestoreState";
 
 export default function Layout({ children }) {
   const dispatch = useDispatch();
@@ -48,7 +48,28 @@ export default function Layout({ children }) {
     <>
       <Header />
       <div style={{ cursor: "pointer" }} onClick={() => dispatch(addFirestore())}>
-        테스트버튼 (포스트추가)
+        테스트버튼 (ADD로 포스트추가)
+      </div>
+      <div
+        style={{ cursor: "pointer" }}
+        onClick={() =>
+          dispatch(
+            setFirestore({
+              content: "수정된테스트입니다.",
+              uid: "수정된테스트입니다.",
+              like: 0,
+              category: "오운완",
+              imgs: [
+                "https://social-phinf.pstatic.net/20140224_181/1393220729495a3K5P_JPEG/1393220562345-1.jpg",
+                "https://social-phinf.pstatic.net/20220426_269/1650948892717mHyp9_JPEG/829D6050-7839-4E0D-A53D-50BB6E4DD7ED.jpeg"
+              ],
+              hashtag: ["헬스", "복싱"],
+              postid: "001-001"
+            })
+          )
+        }
+      >
+        테스트버튼 (SET으로 포스트추가)
       </div>
       <Sidebar />
       <>{children}</>
