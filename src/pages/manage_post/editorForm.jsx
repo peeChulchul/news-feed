@@ -5,30 +5,38 @@ import InputCheckRadio from "./inputCheckRadio";
 import InputImg from "./inputImg";
 import { data } from "./mockHashtag";
 import PreviewImg from "./previewImg";
-import { createImgState } from "utils/convertImg";
+import { createImgFileState, createSummitObj, uploadImg } from "utils/useForm";
+import { v4 as uuid } from "uuid";
 
 function EditorForm() {
   const [selectImage, setSelectImage] = useState([]);
   const [category, setCategory] = useState(data.checkedCategory);
   const [hashtag, setHashtag] = useState([]);
   const [content, setContent] = useState("");
-  const onSubmit = (e) => {
-    e.preventDefault();
 
-    const submitObj = {
-      category,
-      hashtag,
-      content
-    };
-    console.log(submitObj);
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const checkDone = new Array(selectImage).fill(false);
+    for (let i = 0; i < selectImage.length; i++) {
+      const uploadSuccess = await uploadImg("posts", "mock01", selectImage[i]);
+      if (uploadSuccess === true) {
+        checkDone[i] = true;
+        console.log("업로드 중");
+      }
+    }
+    const allDone = checkDone.every((n) => n === true);
+    if (allDone) {
+      alert("업로드 완료");
+    }
+    //  createSummitObj(content, hashtag, imgdata);
+    // console.log(submitObj);
   };
 
   const onSelectImg = (e) => {
     const files = e.currentTarget.files;
     for (let file of files) {
-      createImgState(file).then((res) => {
-        setSelectImage((prev) => [...prev, res]);
-      });
+      const newImgFileState = createImgFileState(file);
+      setSelectImage((preState) => [...preState, newImgFileState]);
     }
   };
 
@@ -53,8 +61,8 @@ function EditorForm() {
   return (
     <StFormWrap>
       <div style={{ display: "flex" }}>
-        {selectImage.map((n, i) => {
-          return <PreviewImg src={n.previewURL} key={i} alt="" />;
+        {selectImage.map((n) => {
+          return <PreviewImg src={n.preveiwImg} key={uuid()} alt="" />;
         })}
       </div>
       <StForm onSubmit={onSubmit}>
