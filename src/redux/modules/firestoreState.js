@@ -1,20 +1,20 @@
-const SUBSCRIBE_AUTH = "auth/SUBSCRIBE_AUTH";
+const SUBSCRIBE_firestore = "firestore/SUBSCRIBE_AUTH";
 
-export const subscribeAUth = (payload) => {
+export const subscribeFirestore = (payload) => {
   return {
-    type: SUBSCRIBE_AUTH,
+    type: SUBSCRIBE_firestore,
     payload
   };
 };
 
 // CRUD 로직 추가 필요 실시간 감지를 제외한 데이터베이스에 값을 저장하는 로직은 리듀서 내부에서.
 
-const initialState = { user: "loading", loading: true };
+const initialState = { posts: [], loading: true };
 
-const authState = (state = initialState, action) => {
+const firestoreState = (state = initialState, action) => {
   switch (action.type) {
-    case SUBSCRIBE_AUTH: {
-      return { ...state, user: action.payload, loading: false };
+    case SUBSCRIBE_firestore: {
+      return { ...state, posts: action.payload };
     }
     // case OPEN_MODAL: {
     //   return { ...state, active: true };
@@ -33,4 +33,4 @@ const authState = (state = initialState, action) => {
   }
 };
 
-export default authState;
+export default firestoreState;

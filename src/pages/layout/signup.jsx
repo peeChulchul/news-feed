@@ -5,7 +5,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { AUTH } from "fb/myfirebase";
 
 export default function Signup({ setModalType }) {
-  console.log(setModalType);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
