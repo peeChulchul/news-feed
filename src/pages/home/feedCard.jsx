@@ -2,18 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Avatar from "components/avatar";
-import Hashtag from "components/hashtag";
+import FeedHashtag from "./feedHashtag";
 
-function FeedCard() {
+function FeedCard({ feed }) {
   return (
-    <CardWrapper>
+    <StCardWrapper onClick={() => alert("안녕")}>
       <StFeedInfo>
         <StUserInfo>
           <Avatar />
           <div>
-            <h2>sweet_potato</h2>
+            <h2>{feed.postid}</h2>
             <p>
-              <span>follow</span> 30
+              <span>like</span> {feed.like}
             </p>
           </div>
         </StUserInfo>
@@ -22,26 +22,25 @@ function FeedCard() {
         </StLikeIcon>
       </StFeedInfo>
       <StFeedImg>
-        <img src="https://image.ytn.co.kr/general/jpg/2020/1130/202011300700017010_d.jpg" alt="피드이미지"></img>
+        <img src={feed.imgs} alt="피드이미지"></img>
       </StFeedImg>
       <StContentWarapper>
-        <StTagBox>
-          <Hashtag hashtag={true} content={"헬스"} size={"sm"} onClick={() => alert("안녕")} />
-          <Hashtag hashtag={true} content={"러닝"} size={"sm"} />
-        </StTagBox>
-        <p>오운완 오운완 오운완 오운완 오운완 오운완 오운완 오운완 오운완오운완 오운완 오운완</p>
+        <FeedHashtag hashtag={feed.hashtag} />
+        <p>{feed.content}</p>
       </StContentWarapper>
-    </CardWrapper>
+    </StCardWrapper>
   );
 }
 
 export default FeedCard;
 
-const CardWrapper = styled.li`
+const StCardWrapper = styled.li`
   width: 270px;
   background-color: #e0dddd;
   border-radius: 8px;
   padding: 1rem;
+  flex: 0;
+  cursor: pointer;
 `;
 
 const StFeedImg = styled.figure`
@@ -92,7 +91,7 @@ const StContentWarapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 1rem 0 0.75rem 0;
-  gap: 0.5rem;
+  gap: 0.75rem;
   & p {
     font-size: 0.8rem;
     font-weight: 600;
@@ -104,22 +103,4 @@ const StContentWarapper = styled.div`
 
 const StLikeIcon = styled.div`
   font-size: 23px;
-`;
-
-const StTagBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-`;
-
-const StTag = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  display: flex;
-  align-items: center;
-  width: max-content;
-  height: 1.25rem;
-  padding: 0.4rem;
-  border: 1px solid ${({ theme }) => theme.color.black};
-  border-radius: 1rem;
 `;
