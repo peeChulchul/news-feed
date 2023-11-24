@@ -13,12 +13,9 @@ export default function Modal({ modalType, setModalOpen, setModalType }) {
 
   const modalBackground = useRef();
 
-  const modalBackgroundOnclickHandler = (event) => {
-    if (event.target === modalBackground.current) {
-      setModalOpen(false);
-    }
+  const modalBackgroundOnclickHandler = () => {
+    setModalOpen(false);
   };
-
   return (
     <div>
       <StModalContainer>
