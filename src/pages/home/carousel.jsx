@@ -9,14 +9,13 @@ import { useSelector } from "react-redux";
 function Carousel({ setActiveTag }) {
   const { posts } = useSelector((state) => state.postsFirestoreState);
 
-  // const dispatch = useDispatch();
   const onClickTagNameHandler = (post) => {
     setActiveTag(post.hashtag);
   };
 
-  // posts.category === "오식완" ? tagData : foodTagData)
+  const tagDataSousrce = posts.category === "오운완" ? tagData : foodTagData;
+  console.log(tagDataSousrce);
 
-  console.log(foodTagData);
   return (
     <StCarouselBox>
       {tagData.map((post) => {
