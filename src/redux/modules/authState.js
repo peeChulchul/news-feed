@@ -9,12 +9,12 @@ export const subscribeAUth = (payload) => {
 
 // CRUD 로직 추가 필요 실시간 감지를 제외한 데이터베이스에 값을 저장하는 로직은 리듀서 내부에서.
 
-const initialState = { user: "loading", loading: true };
+const initialState = { user: null };
 
 const authState = (state = initialState, action) => {
   switch (action.type) {
     case SUBSCRIBE_AUTH: {
-      return { ...state, user: action.payload, loading: false };
+      return { user: action.payload };
     }
     // case OPEN_MODAL: {
     //   return { ...state, active: true };
