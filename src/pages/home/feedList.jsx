@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import FeedCard from "../feedCard";
+import FeedCard from "./feedCard";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
-function FeedList() {
-  // const dispatch = useDispatch();
+function FeedList({ activeTag }) {
   const { posts } = useSelector((state) => state.postsFirestoreState);
   const { category } = useParams();
 
@@ -14,13 +13,15 @@ function FeedList() {
       <StFeedList>
         {category
           ? posts
-              .filter((feed) => feed.category === category)
+              .filter((feed) => feed.category === category && (!activeTag || feed.hashtag.includes(activeTag)))
               .map((feed) => {
                 return <FeedCard feed={feed} key={feed.postid} />;
               })
-          : posts.map((feed) => {
-              return <FeedCard feed={feed} key={feed.postid} />;
-            })}
+          : posts
+              .filter((feed) => !activeTag || feed.hashtag.includes(activeTag))
+              .map((feed) => {
+                return <FeedCard feed={feed} key={feed.postid} />;
+              })}
       </StFeedList>
     </StListWrapper>
   );
