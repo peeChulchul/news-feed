@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import styled from "styled-components";
 import Googlelogin from "./google_login";
+import Githublogin from "./githublogin";
 
 export default function Login({ setModalType, setModalOpen }) {
   const [email, setEmail] = useState("");
@@ -24,17 +25,17 @@ export default function Login({ setModalType, setModalOpen }) {
     try {
       const userCredential = await signInWithEmailAndPassword(AUTH, email, password);
       console.log(userCredential);
-      alert("로그인에 성공하였습니다.")
+      alert("로그인에 성공하였습니다.");
       // 로그인 성공하면 모달창 닫히게
       setModalOpen(false);
     } catch (error) {
       console.log(error);
-      alert("이메일 또는 비밀번호가 일치하지 않습니다.")
+      alert("이메일 또는 비밀번호가 일치하지 않습니다.");
     }
   };
 
   return (
-    <StModalContent  onSubmit={logIn}>
+    <StModalContent onSubmit={logIn}>
       <StLoginModalTitle>로그인</StLoginModalTitle>
       <StModalLoginInput
         type="email"
@@ -50,12 +51,13 @@ export default function Login({ setModalType, setModalOpen }) {
         name="password"
         onChange={onChange}
         required
+        autoComplete="off"
         placeholder="비밀번호를 입력해주세요"
       />
-      <StModalLonInBtn
-      disabled={!(email && password)}>로그인</StModalLonInBtn>
+      <StModalLonInBtn disabled={!(email && password)}>로그인</StModalLonInBtn>
       <StModalSignupBtn onClick={() => setModalType("signup")}>회원가입</StModalSignupBtn>
-      <Googlelogin />
+      <Googlelogin setModalOpen={setModalOpen} />
+      <Githublogin setModalOpen={setModalOpen} />
     </StModalContent>
   );
 }

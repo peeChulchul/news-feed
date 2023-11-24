@@ -2,8 +2,12 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { AUTH } from "fb/myfirebase";
+import { useDispatch } from "react-redux";
+import { setUsersFirestore } from "redux/modules/usersFirestoreState";
 
 export default function Signup({ setModalType, setModalOpen }) {
+  const dispatch = useDispatch();
+
   // 닉네임, 이메일, 비밀번호, 비밀번호 확인
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,8 +31,11 @@ export default function Signup({ setModalType, setModalOpen }) {
     event.preventDefault();
     try {
       // const userCredential = await createUserWithEmailAndPassword(AUTH, email, password);
-      const userCredential = await createUserWithEmailAndPassword(AUTH, email, password);
-      console.log(userCredential);
+      const {
+        user: { uid, photourl = "", displayName = "" }
+      } = await createUserWithEmailAndPassword(AUTH, email, password);
+
+      dispatch(setUsersFirestore({ email, uid, photourl, displayName, user_liked: [], user_posts: [] }));
       alert("회원가입이 완료되었습니다.");
       // 회원가입 성공하면 모달창 닫히게
       setModalOpen(false);
@@ -109,10 +116,12 @@ export default function Signup({ setModalType, setModalOpen }) {
         name="password"
         onChange={onChangePassword}
         required
+        autoComplete="off"
         placeholder="비밀번호"
       />
       {password.length > 0 && <span className={`message ${isPassword ? "success" : "error"}`}>{passwordMessage}</span>}
       <StModalLoginInput
+        autoComplete="off"
         type="password"
         value={confirmPassword}
         name="confirmPassword"

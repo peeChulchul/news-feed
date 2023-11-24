@@ -17,11 +17,6 @@ export default function Modal({ modalType, setModalOpen, setModalType }) {
   // 사용자 인증정보 확인하기
   const user = AUTH.currentUser;
 
-  // 로그아웃하기
-  // const logOut = async (event) => {
-  //   event.preventDefault();
-  //   await signOut(AUTH);
-  // };
   return (
     <div>
       <StModalContainer ref={modalBackgound} onClick={ModalBackgroundOnclickHandler}>

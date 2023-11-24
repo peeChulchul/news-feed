@@ -1,14 +1,13 @@
 import React from "react";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { setUsersFirestore } from "redux/modules/usersFirestoreState";
 
-export default function Googlelogin({ setModalOpen }) {
-  const provider = new GoogleAuthProvider();
+export default function Githublogin({ setModalOpen }) {
+  const provider = new GithubAuthProvider();
   const auth = getAuth();
   const dispatch = useDispatch();
-
   // 자동로그인 방지
   provider.setCustomParameters({
     prompt: "select_account"
@@ -18,7 +17,7 @@ export default function Googlelogin({ setModalOpen }) {
     signInWithPopup(auth, provider) // popup을 이용한 signup
       .then((result) => {
         console.log(result);
-        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const credential = GithubAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const { email, uid, photourl = "", displayName = "" } = result.user;
 
@@ -33,10 +32,11 @@ export default function Googlelogin({ setModalOpen }) {
         alert("로그인에 실패하였습니다.");
       });
   }
-  return <StModalGoogleBtn onClick={handleGoogleLogin}>Sign in Google</StModalGoogleBtn>;
+
+  return <StModalGithubBtn onClick={handleGoogleLogin}>Sign in Github</StModalGithubBtn>;
 }
 
-const StModalGoogleBtn = styled.button`
+const StModalGithubBtn = styled.button`
   background-color: ${({ theme }) => theme.color.success};
   color: ${({ theme }) => theme.color.white};
   width: 250px;
