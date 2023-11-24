@@ -110,6 +110,8 @@ export default function Sidebar() {
   const theme = useTheme();
   const [show, setShow] = useState(true);
   const { user } = useSelector((modules) => modules.authState);
+  const { users } = useSelector((modules) => modules.usersFirestoreState);
+
   const navigate = useNavigate();
 
   return (
