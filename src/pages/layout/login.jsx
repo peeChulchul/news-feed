@@ -1,11 +1,12 @@
 import { AUTH } from "fb/myfirebase";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import styled from "styled-components";
 import Googlelogin from "./google_login";
-import Githublogin from "./github_login";
+import Githublogin from "./githublogin";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
-export default function Login({ setModalType, setModalOpen, modalClose, modalBackgroundOnclickHandler }) {
+export default function Login({ setModalType, setModalOpen, modalBackground, modalBackgroundOnclickHandler }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onChange = (event) => {
@@ -36,7 +37,9 @@ export default function Login({ setModalType, setModalOpen, modalClose, modalBac
 
   return (
     <StModalContent onSubmit={logIn}>
-      <StModalCloseBtn ref={modalClose} onClick={modalBackgroundOnclickHandler}>x</StModalCloseBtn>
+      <StModalCloseBtn ref={modalBackground}>
+        <IoCloseCircleOutline onClick={modalBackgroundOnclickHandler} />
+      </StModalCloseBtn>
       <StLoginModalTitle>로그인</StLoginModalTitle>
       <StModalLoginInput
         type="email"
@@ -57,10 +60,8 @@ export default function Login({ setModalType, setModalOpen, modalClose, modalBac
       />
       <StModalLonInBtn disabled={!(email && password)}>로그인</StModalLonInBtn>
       <StModalSignupBtn onClick={() => setModalType("signup")}>회원가입</StModalSignupBtn>
-      <StLoginBtns>
       <Googlelogin setModalOpen={setModalOpen} />
       <Githublogin setModalOpen={setModalOpen} />
-      </StLoginBtns>
     </StModalContent>
   );
 }
@@ -73,27 +74,28 @@ const StModalContent = styled.form`
   z-index: 100;
 `;
 const StModalCloseBtn = styled.div`
-  background-color: green;
-  font-size: 20px;
-
+  font-size: ${({ theme }) => theme.fontSize.xl};
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px;
   cursor: pointer;
 `;
 const StLoginModalTitle = styled.div`
   font-size: ${({ theme }) => theme.fontSize.xxxl};
   font-weight: bold;
-  margin: 65px 160px 20px 150px;
+  margin: 65px 145px 20px 155px;
 `;
 const StModalLoginInput = styled.input`
   width: 250px;
   height: 40px;
-  margin: 5px 50px 0 75px;
+  margin: 5px 80px 0 75px;
 `;
 const StModalLonInBtn = styled.button`
   background-color: ${({ theme }) => theme.color.white};
   border: 1px solid ${({ theme }) => theme.color.black};
   width: 250px;
   height: 40px;
-  margin: 5px 50px 0 75px;
+  margin: 5px 80px 0 75px;
 
   cursor: pointer;
 `;
@@ -101,9 +103,6 @@ const StModalSignupBtn = styled.span`
   border-bottom: 1px solid ${({ theme }) => theme.color.black};
   margin-left: 280px;
   font-size: ${({ theme }) => theme.fontSize.sm};
-  background-color: green;
+
   cursor: pointer;
 `;
-const StLoginBtns = styled.div`
-  display: flex;
-`

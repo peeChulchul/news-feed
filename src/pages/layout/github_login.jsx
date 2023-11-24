@@ -8,7 +8,7 @@ export default function Githublogin({ setModalOpen }) {
   const provider = new GithubAuthProvider();
   const auth = getAuth();
   const dispatch = useDispatch();
-  
+
   // 자동로그인 방지
   provider.setCustomParameters({
     prompt: "select_account"
@@ -42,7 +42,7 @@ const StModalGithubBtn = styled.button`
   color: ${({ theme }) => theme.color.white};
   width: 250px;
   height: 40px;
-  margin: 10px 23px;
+  margin: 5px 80px 0 75px;
 
   cursor: pointer;
 `;

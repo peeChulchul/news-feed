@@ -35,9 +35,9 @@ export default function Home() {
   }, [category]);
 
   return (
-    <div>
+    <>
       <Carousel setActiveTag={setActiveTag} />
       <FeedList activeTag={activeTag} />
-    </div>
+    </>
   );
 }

@@ -42,7 +42,7 @@ const StModalGoogleBtn = styled.button`
   color: ${({ theme }) => theme.color.white};
   width: 250px;
   height: 40px;
-  margin: 10px 23px;
+  margin: 10px 80px 0 75px;
 
   cursor: pointer;
 `;

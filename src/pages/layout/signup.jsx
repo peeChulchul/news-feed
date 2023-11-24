@@ -5,7 +5,7 @@ import { AUTH } from "fb/myfirebase";
 import { useDispatch } from "react-redux";
 import { setUsersFirestore } from "redux/modules/usersFirestoreState";
 
-export default function Signup({ setModalType, setModalOpen, modalClose, modalBackgroundOnclickHandler }) {
+export default function Signup({ setModalType, setModalOpen, modalBackground, modalBackgroundOnclickHandler }) {
   const dispatch = useDispatch();
 
   // 닉네임, 이메일, 비밀번호, 비밀번호 확인
@@ -98,7 +98,7 @@ export default function Signup({ setModalType, setModalOpen, modalClose, modalBa
 
   return (
     <StModalContent onSubmit={signUp}>
-      <StModalCloseBtn ref={modalClose} onClick={modalBackgroundOnclickHandler}>
+      <StModalCloseBtn ref={modalBackground} onClick={modalBackgroundOnclickHandler}>
         x
       </StModalCloseBtn>
       <StModalSignupTitle>회원가입</StModalSignupTitle>
@@ -154,23 +154,31 @@ const StModalCloseBtn = styled.div`
 
   cursor: pointer;
 `;
+const StModalSignupTitle = styled.div`
+  width: 120px;
+  font-size: ${({ theme }) => theme.fontSize.xxxl};
+  font-weight: bold;
+  margin: 65px 120px 20px 135px;
+  background-color: green;
+`;
+
 const StModalLoginInput = styled.input`
   width: 250px;
   height: 40px;
-  margin: 5px 23px;
+  margin: 5px 80px 0 73px;
 `;
 const StModalLonInBtn = styled.button`
   background-color: ${({ theme }) => theme.color.white};
   border: 1px solid ${({ theme }) => theme.color.black};
   width: 250px;
   height: 40px;
-  margin: 5px 23px;
+  margin: 5px 80px 0 73px;
 
   cursor: pointer;
 `;
 const StModalSignupBtn = styled.span`
   border-bottom: 1px solid ${({ theme }) => theme.color.black};
-  margin-left: 240px;
+  margin-left: 285px;
   font-size: ${({ theme }) => theme.fontSize.sm};
 
   cursor: pointer;
@@ -180,12 +188,7 @@ const StModalGoogleBtn = styled.button`
   color: ${({ theme }) => theme.color.white};
   width: 250px;
   height: 40px;
-  margin: 10px 23px;
+  margin: 5px 80px 0 73px;
 
   cursor: pointer;
-`;
-const StModalSignupTitle = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.xxxl};
-  font-weight: bold;
-  margin: 20px 85px 20px 85px;
 `;

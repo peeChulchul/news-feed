@@ -11,10 +11,10 @@ export default function Modal({ modalType, setModalOpen, setModalType }) {
   // 사용자 인증정보 확인하기
   const user = AUTH.currentUser;
 
-  const modalClose = useRef();
+  const modalBackground = useRef();
 
   const modalBackgroundOnclickHandler = (event) => {
-    if (event.target === modalClose.current) {
+    if (event.target === modalBackground.current) {
       setModalOpen(false);
     }
   };
@@ -22,8 +22,22 @@ export default function Modal({ modalType, setModalOpen, setModalType }) {
   return (
     <div>
       <StModalContainer>
-        {modalType === "login" && <Login setModalType={setModalType} setModalOpen={setModalOpen} modalClose={modalClose} modalBackgroundOnclickHandler={modalBackgroundOnclickHandler} />}
-        {modalType === "signup" && <Signup setModalType={setModalType} setModalOpen={setModalOpen} modalClose={modalClose} modalBackgroundOnclickHandler={modalBackgroundOnclickHandler} />}
+        {modalType === "login" && (
+          <Login
+            setModalType={setModalType}
+            setModalOpen={setModalOpen}
+            modalBackground={modalBackground}
+            modalBackgroundOnclickHandler={modalBackgroundOnclickHandler}
+          />
+        )}
+        {modalType === "signup" && (
+          <Signup
+            setModalType={setModalType}
+            setModalOpen={setModalOpen}
+            modalBackground={modalBackground}
+            modalBackgroundOnclickHandler={modalBackgroundOnclickHandler}
+          />
+        )}
       </StModalContainer>
     </div>
   );
@@ -45,4 +59,4 @@ const StModalContainer = styled.div`
 
 const StModalCloseBtn = styled.div`
   background-color: green;
-`
+`;
