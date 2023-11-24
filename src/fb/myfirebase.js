@@ -30,4 +30,4 @@ setPersistence(AUTH, browserSessionPersistence);
 
 // 데이터베이스의 콜랙션을 선택한 변수들
 export const postsCollection = collection(DB, "posts");
-export const usersCollection = collection(DB, "user");
+export const usersCollection = collection(DB, "users");

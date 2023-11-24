@@ -1,8 +1,14 @@
 import { IoCalendar } from "react-icons/io5";
 import { FaMessage } from "react-icons/fa6";
 import { GiMuscleUp } from "react-icons/gi";
+import { IoHome } from "react-icons/io5";
 
 export const accordionData = [
+  {
+    fill: "##9D76C1",
+    icon: <IoHome />,
+    title: "All"
+  },
   {
     fill: "#33BFFF",
     icon: <GiMuscleUp />,
