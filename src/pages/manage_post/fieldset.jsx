@@ -13,7 +13,6 @@ const StFieldset = styled.fieldset`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 1rem;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
