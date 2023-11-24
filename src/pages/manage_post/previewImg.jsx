@@ -1,23 +1,41 @@
 import React from "react";
 import styled from "styled-components";
-import { TiDelete } from "react-icons/ti";
+import { MdDeleteForever } from "react-icons/md";
 
-function PreviewImg({ src }) {
+function PreviewImg({ src, newFileName, onDeleteImg }) {
   return (
-    <StImgWrap>
+    <StImgWrap
+      onClick={() => {
+        onDeleteImg(newFileName);
+      }}
+    >
       <img src={src} alt="" />
       <StDeleteIcon />
     </StImgWrap>
   );
 }
 
+const StDeleteIcon = styled(MdDeleteForever)`
+  position: absolute;
+  visibility: hidden;
+  top: 50%;
+  left: 50%;
+  font-size: 50px;
+  fill: ${({ theme }) => theme.color.danger};
+  transform: translateX(-50%) translateY(-50%);
+`;
+
 const StImgWrap = styled.div`
-  max-width: 10rem;
-  width: 100%;
+  width: 8rem;
+  height: 6rem;
   overflow: hidden;
   position: relative;
   transition: ${({ theme }) => theme.animation.transition};
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 1px solid lightgray;
+  border-radius: 1em;
 
   & img {
     width: 100%;
@@ -28,17 +46,12 @@ const StImgWrap = styled.div`
   }
 
   &:hover img {
-    filter: blur(2px) brightness(0.5);
+    filter: brightness(0.5);
   }
-`;
 
-const StDeleteIcon = styled(TiDelete)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: 50px;
-  fill: #6c757d;
-  transform: translateX(-50%) translateY(-50%);
+  &:hover ${StDeleteIcon} {
+    visibility: visible;
+  }
 `;
 
 export default PreviewImg;

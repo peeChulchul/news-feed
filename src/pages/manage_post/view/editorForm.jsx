@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Fieldset from "../fieldset";
 import InputCheckRadio from "../inputCheckRadio";
@@ -19,27 +19,29 @@ function EditorForm() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const checkDone = new Array(selectImage).fill(false);
-    const selectImgId = selectImage.map((n) => n.newFileName);
-    for (let i = 0; i < selectImage.length; i++) {
-      const uploadSuccess = await uploadImg("posts", "mock01", selectImage[i]);
-      if (uploadSuccess === true) {
-        checkDone[i] = true;
-        console.log("업로드 중");
+    // 1. 유효성 검사
+    if (selectImage.length > 0 && hashtag.length > 0 && content !== "") {
+      // 2. Storage에 이미지를 newFileName으로 저장
+      const checkDone = new Array(selectImage).fill(false);
+      const selectImgId = selectImage.map((n) => n.newFileName);
+      for (let i = 0; i < selectImage.length; i++) {
+        const uploadSuccess = await uploadImg("posts", "mock01", selectImage[i]);
+        if (uploadSuccess === true) {
+          checkDone[i] = true;
+          console.log("업로드 중");
+        }
+      }
+      const allDone = checkDone.every((n) => n === true);
+      if (allDone) {
+        // 3. 이미지 업로드 후 FB에 데이터들 저장
+        alert("업로드 완료");
+        const feedData = createSummitObj(category, content, hashtag, selectImgId);
+        console.log(feedData);
+
+        // FB 업로드
+        dispatch(setFirestore(feedData));
       }
     }
-    const allDone = checkDone.every((n) => n === true);
-    if (allDone) {
-      alert("업로드 완료");
-      const feedData = createSummitObj(category, content, hashtag, selectImgId);
-      console.log(feedData);
-      // ===================
-      // Storage 에 저장된 이미지의 id 값으로 전달해야하는지?
-      // Storage 에 저장된 이미지의 id 값으로 가져올 수 있는 이미지의 URL을 저장해야하는지?
-      // =============================
-      dispatch(setFirestore(feedData));
-    }
-    // console.log(submitObj);
   };
 
   const onSelectImg = (e) => {
@@ -50,10 +52,14 @@ function EditorForm() {
     }
   };
 
+  const onDeleteImg = (newFileName) => {
+    const copy = selectImage.filter((n) => n.newFileName !== newFileName);
+    setSelectImage(copy);
+  };
+
   const onDrop = (e) => {
-    e.preventDefault();
     if (e.dataTransfer.items) {
-      [...e.dataTransfer.items].forEach((item, i) => {
+      [...e.dataTransfer.items].forEach((item) => {
         if (
           item.kind === "file" &&
           (item.type === "image/jpeg" || item.type === "image/png" || item.type === "image/webp")
@@ -63,13 +69,7 @@ function EditorForm() {
           setSelectImage((preState) => [...preState, newImgFileState]);
         }
       });
-    } else {
-      [...e.dataTransfer.files].forEach((file, i) => {
-        console.log(`file[${i}].name = ${file.name}`);
-        console.log(`file[${i}].type = ${file.type}`);
-      });
     }
-    console.log(selectImage);
   };
 
   const onChangeCategory = (e) => {
@@ -90,15 +90,27 @@ function EditorForm() {
     setContent(e.target.value);
   };
 
+  useEffect(() => {
+    console.log(selectImage);
+  }, [selectImage]);
+
   return (
     <StFormWrap>
       <StForm onSubmit={onSubmit}>
         <Fieldset legend={"사진"}>
-          <div style={{ display: "flex" }}>
+          <StPreviewImgWrap>
             {selectImage.map((n) => {
-              return <PreviewImg src={n.preveiwImg} key={uuid()} alt="" />;
+              return (
+                <PreviewImg
+                  src={n.previewImg}
+                  newFileName={n.newFileName}
+                  key={uuid()}
+                  onDeleteImg={onDeleteImg}
+                  alt=""
+                />
+              );
             })}
-          </div>
+          </StPreviewImgWrap>
           <InputImg onChange={onSelectImg} onDrop={onDrop} />
         </Fieldset>
 
@@ -121,18 +133,79 @@ function EditorForm() {
           ></InputCheckRadio>
         </Fieldset>
         <Fieldset legend={"내용"}>
-          <textarea name="내용" id="" cols="30" rows="10" value={content} onChange={onChangeContent}></textarea>
+          <StTextarea
+            name="내용"
+            id=""
+            cols="30"
+            rows="10"
+            value={content}
+            onChange={onChangeContent}
+            spellCheck="false"
+            autoComplete="off"
+          ></StTextarea>
         </Fieldset>
-        <button>Summit</button>
+        <StBtn disabled={selectImage.length === 0 || hashtag.length === 0 || content === ""}>게시물 등록</StBtn>
       </StForm>
     </StFormWrap>
   );
 }
 
-const StFormWrap = styled.div``;
+const StFormWrap = styled.div`
+  /* 임시 너비 */
+  width: 500px;
+`;
 
 const StForm = styled.form`
-  & .imgGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.lg};
+`;
+
+const StPreviewImgWrap = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.base};
+`;
+
+const StTextarea = styled.textarea`
+  border: 1px solid lightgray;
+  border-radius: 1em;
+  width: 100%;
+  padding: ${({ theme }) => theme.spacing.base};
+  outline: none;
+  resize: none;
+  transition: ${({ theme }) => theme.animation.transition};
+  &:focus {
+    border: 1px solid ${({ theme }) => theme.color.base};
+  }
+`;
+
+const StBtn = styled.button`
+  padding: 0.5em 1em;
+  border-radius: 1em;
+  transition: ${({ theme }) => theme.animation.transition};
+  color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.color.base};
+  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-weight: bold;
+  cursor: pointer;
+  margin: auto;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.baseLight};
+    color: ${({ theme }) => theme.color.white};
+  }
+
+  &:active {
+    background-color: ${({ theme }) => theme.color.baseDark};
+    color: ${(props) => props.theme.color.white};
+  }
+
+  &:disabled {
+    background-color: lightGray;
+    color: ${({ theme }) => theme.color.white};
+    cursor: not-allowed;
   }
 `;
 

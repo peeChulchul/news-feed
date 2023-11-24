@@ -3,12 +3,12 @@ import { ref, uploadBytes } from "firebase/storage";
 import { v4 as uuid } from "uuid";
 
 function createImgFileState(file) {
-  const preveiwImg = URL.createObjectURL(file);
+  const previewImg = URL.createObjectURL(file);
   const newFileName = uuid();
 
   return {
     file,
-    preveiwImg,
+    previewImg,
     newFileName
   };
 }
@@ -25,6 +25,7 @@ async function uploadImg(storageMainFolderName, id, imgFileState) {
   try {
     const uploadTask = await uploadBytes(imgRef, imgFileState.file);
     if (uploadTask) {
+      console.log(uploadTask);
       return true;
     } else {
       console.log("업로드에 실패하였습니다.");
@@ -33,6 +34,8 @@ async function uploadImg(storageMainFolderName, id, imgFileState) {
     console.error(error);
   }
 }
+
+// function createStorageImgUrl = ()
 
 // firebase/firestore Database 이용 함수
 function createSummitObj(category, content, hashtags, imgsURL, postid = uuid(), uid = "admin01") {

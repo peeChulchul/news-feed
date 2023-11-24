@@ -1,17 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { MdOutlineUploadFile } from "react-icons/md";
 
 function InputImg({ onChange, onDrop }) {
-  const handleeDragOver = (e) => {
+  const [dropZoneActive, setDropZoneActive] = useState(false);
+
+  const handleDragOver = (e) => {
     e.preventDefault();
+  };
+
+  const handleDragEnter = () => {
+    setDropZoneActive(true);
+  };
+
+  const handleDragLeave = (e) => {
+    if (e.currentTarget.contains(e.relatedTarget)) return;
+    setDropZoneActive(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDropZoneActive(false);
+    onDrop(e);
   };
 
   return (
     <>
       <StInputWrap>
         <StInput type="file" id="posts__img" name="posts__img" accept="image/*" multiple onChange={onChange} />
-        <StLabel htmlFor="posts__img" onDrop={onDrop} onDragOver={handleeDragOver}>
+        <StLabel
+          className={dropZoneActive ? "active" : ""}
+          htmlFor="posts__img"
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+        >
           <MdOutlineUploadFile className="icon" />
           <p>
             <b>드래그 앤 드롭</b> 또는 <b>클릭</b>하여 업로드해주세요.
@@ -28,8 +52,13 @@ function InputImg({ onChange, onDrop }) {
 const StInputWrap = styled.div`
   width: 100%;
   padding: ${({ theme }) => theme.spacing.base};
-  background-color: aliceblue;
+  background-color: ${({ theme }) => theme.color.white};
+  border: 3px solid #a5a5a5;
   border-radius: 1rem;
+  transition: ${({ theme }) => theme.animation.transition};
+  &:hover {
+    border: 3px solid ${({ theme }) => theme.color.base};
+  }
 `;
 
 const StInput = styled.input`
@@ -58,9 +87,9 @@ const StLabel = styled.label`
     font-size: 80px;
   }
 
+  &.active,
   &:hover {
     border: 4px dashed ${({ theme }) => theme.color.baseLight};
-    background-color: white;
   }
 `;
 
