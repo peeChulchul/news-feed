@@ -108,12 +108,12 @@ export default function Signup({ setModalType, setModalOpen }) {
         required
         placeholder="이메일"
       />
-      {
-        email.length > 0 &&
-          <span className={`message ${isEmail ? 'success' : 'error'}`}>
-            {emailMessage}
-          </span>
-      }
+        {
+          email.length > 0 &&
+            <span className={`message ${isEmail ? 'success' : 'error'}`}>
+              {emailMessage}
+            </span>
+        }
       <StModalLoginInput
         type="password"
         value={password}
@@ -122,12 +122,12 @@ export default function Signup({ setModalType, setModalOpen }) {
         required
         placeholder="비밀번호"
       />
-      {
-        password.length > 0 && 
-          <span className={`message ${isPassword ? 'success' : 'error'}`}>
-            {passwordMessage}
-          </span>
-      }
+        {
+          password.length > 0 && 
+            <span className={`message ${isPassword ? 'success' : 'error'}`}>
+              {passwordMessage}
+            </span>
+        }
       <StModalLoginInput
         type="password"
         value={confirmPassword}
