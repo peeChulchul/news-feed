@@ -21,6 +21,15 @@ function FeedList() {
           : posts.map((feed) => {
               return <FeedCard feed={feed} />;
             })}
+        {category
+          ? posts
+              .filter((feed) => feed.category === category)
+              .map((feed) => {
+                return <FeedCard feed={feed} />;
+              })
+          : posts.map((feed) => {
+              return <FeedCard feed={feed} />;
+            })}
       </StFeedList>
     </StListWrapper>
   );
