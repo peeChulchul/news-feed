@@ -19,6 +19,7 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     const userSubscribe = onAuthStateChanged(AUTH, async (user) => {
+      console.log("실시간 수신대기");
       if (user) {
         const { uid } = user;
         // 로그인한 유저가 존재할경우
@@ -34,7 +35,7 @@ export default function Layout({ children }) {
     });
     //클린업
     return () => userSubscribe;
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     // posts컬렉션 을 실시간 수신대기 (구독)
@@ -49,13 +50,13 @@ export default function Layout({ children }) {
 
     // 클린업
     return () => dbSubscribe;
-  }, []);
+  }, [dispatch]);
 
   return (
-    <StContainer id={"test"}>
+    <StContainer>
       <Header />
-      <StMain id={"Box"}>
-        <Sidebar />
+      <Sidebar />
+      <StMain>
         <>{children}</>
       </StMain>
 
