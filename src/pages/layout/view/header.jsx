@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useState } from "react";
 
@@ -8,6 +8,16 @@ import AuthBtns from "../auth_btns";
 export default function Header() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState("login");
+
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.style.overflow = "hidden";
+      return;
+    } else {
+      document.body.style.overflow = "auto";
+      return;
+    }
+  }, [modalOpen]);
 
   return (
     <>
@@ -20,14 +30,7 @@ export default function Header() {
         <StInput type="text" placeholder="Enter a search"></StInput>
         <AuthBtns setModalOpen={setModalOpen} setModalType={setModalType} />
       </StHeader>
-      {
-        modalOpen &&
-        <Modal
-        modalType={modalType}
-        setModalOpen={setModalOpen}
-        setModalType={setModalType}
-        />
-      }
+      {modalOpen && <Modal modalType={modalType} setModalOpen={setModalOpen} setModalType={setModalType} />}
     </>
   );
 }
