@@ -1,18 +1,24 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function AuthBtns({ setModalOpen, setModalType }) {
+  const Test = useSelector((state) => state.authState)
+  console.log(Test);
+
   return (
     <>
-      <StLoginBtn
+      <StLogInOutBtn
         onClick={() => {
           setModalOpen(true);
           setModalType("login");
         }}
       >
         Log in
-      </StLoginBtn>
-
+      </StLogInOutBtn>
+      <StLogInOutBtn>
+        Log out
+      </StLogInOutBtn>
       <StSignupBtn
         onClick={() => {
           setModalOpen(true);
@@ -25,7 +31,7 @@ export default function AuthBtns({ setModalOpen, setModalType }) {
   );
 }
 
-const StLoginBtn = styled.button`
+const StLogInOutBtn = styled.button`
   width: 110px;
   height: 40px;
   margin: auto 0;
