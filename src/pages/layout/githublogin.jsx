@@ -8,12 +8,13 @@ export default function Githublogin({ setModalOpen }) {
   const provider = new GithubAuthProvider();
   const auth = getAuth();
   const dispatch = useDispatch();
+  
   // 자동로그인 방지
   provider.setCustomParameters({
     prompt: "select_account"
   });
 
-  function handleGoogleLogin() {
+  function handleGithubLogin() {
     signInWithPopup(auth, provider) // popup을 이용한 signup
       .then((result) => {
         console.log(result);
@@ -33,7 +34,7 @@ export default function Githublogin({ setModalOpen }) {
       });
   }
 
-  return <StModalGithubBtn onClick={handleGoogleLogin}>Sign in Github</StModalGithubBtn>;
+  return <StModalGithubBtn onClick={handleGithubLogin}>Sign in Github</StModalGithubBtn>;
 }
 
 const StModalGithubBtn = styled.button`
