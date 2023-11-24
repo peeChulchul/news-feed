@@ -35,7 +35,7 @@ export default function Layout({ children }) {
     });
     //클린업
     return () => userSubscribe;
-  }, [dispatch]);
+  }, [users, dispatch]);
 
   useEffect(() => {
     // posts컬렉션 을 실시간 수신대기 (구독)
