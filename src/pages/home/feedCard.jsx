@@ -18,7 +18,7 @@ function FeedCard({ feed }) {
         <StUserInfo>
           <Avatar />
           <div>
-            <h2>{feed.uid}</h2>
+            <h2>{feed.displayName}</h2>
             <p>
               <span>like</span> {feed.like}
             </p>
