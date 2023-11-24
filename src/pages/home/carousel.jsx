@@ -4,7 +4,6 @@ import tagData from "data/tagData.json";
 import { v4 as uuid } from "uuid";
 import { useSelector } from "react-redux";
 import { GiMuscleUp } from "react-icons/gi";
-import SvgBox from "components/svgbox";
 
 function Carousel() {
   // const dispatch = useDispatch();
@@ -23,7 +22,9 @@ function Carousel() {
           <StCarouselWrapper>
             <StCarouselImgWrapper key={uuid()} onClick={() => onClickTagNameHandler(post)}>
               <img src={post.image} alt="{post.hashtag}"></img>
-              <StIcon />
+              <StIcon>
+                <GiMuscleUp />
+              </StIcon>
             </StCarouselImgWrapper>
             <h2>{post.hashtag}</h2>
           </StCarouselWrapper>
@@ -88,9 +89,9 @@ const StIcon = styled(GiMuscleUp)`
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 
-  ${StCarouselImgWrapper}:hover & {
+  /* ${StCarouselImgWrapper}:hover & {
     opacity: 1;
-  }
+  } */
 `;
 
 const StCarouselWrapper = styled.li`
@@ -115,6 +116,10 @@ const StCarouselWrapper = styled.li`
       opacity: 0;
     }
     & ${StCarouselImgWrapper}::before {
+      opacity: 1;
+    }
+
+    & svg {
       opacity: 1;
     }
 
