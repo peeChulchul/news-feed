@@ -12,14 +12,15 @@ import { subscribeCurrentUser, subscribeusersFirestore } from "redux/modules/use
 export default function Layout({ children }) {
   const dispatch = useDispatch();
 
-  const { users, currentUser } = useSelector((modules) => modules.usersFirestoreState);
+  const { users, currentUser, loading } = useSelector((modules) => modules.usersFirestoreState);
 
-  console.log(users);
-  console.log(currentUser);
+  console.log(loading);
+
+  // console.log(users);
+  // console.log(currentUser);
 
   useEffect(() => {
     const userSubscribe = onAuthStateChanged(AUTH, async (user) => {
-      console.log("실시간 수신대기");
       if (user) {
         const { uid } = user;
         // 로그인한 유저가 존재할경우
