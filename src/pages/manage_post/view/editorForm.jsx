@@ -5,18 +5,22 @@ import InputCheckRadio from "../inputCheckRadio";
 import InputImg from "../inputImg";
 import { data } from "../mockHashtag";
 import PreviewImg from "../previewImg";
-import { validateImgFiles, createImgFileState, uploadImg } from "utils/useForm";
+import { validateImgFiles, createImgFileState, uploadImg, getFeedById, deleteImgFile } from "utils/useForm";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { setPostsFirestore } from "redux/modules/postsFirestoreState";
+import { useParams } from "react-router-dom";
+import Spinner from "components/spinner";
 function EditorForm() {
-  const [selectImage, setSelectImage] = useState([]);
-  const [category, setCategory] = useState(data.checkedCategory);
+  const [selectImage, setSelectImage] = useState([]); // 쓰기 시 이미지
+  const [storageImg, setStorageImg] = useState([]); //수정 시 이미지
+  const [category, setCategory] = useState([]);
   const [hashtag, setHashtag] = useState([]);
   const [content, setContent] = useState("");
+  const [currnetPostid, setCurrentPostid] = useState(uuid());
 
   const dispatch = useDispatch();
-
+  const { userid, postid } = useParams();
   const onSubmit = async (e) => {
     e.preventDefault();
     // 1. 유효성 검사
@@ -24,7 +28,7 @@ function EditorForm() {
       // 2. Storage에 이미지를 newFileName으로 저장
       const checkDone = new Array(selectImage).fill(null);
       for (let i = 0; i < selectImage.length; i++) {
-        const downloadURL = await uploadImg("posts", "mock01", selectImage[i]);
+        const downloadURL = await uploadImg("posts", currnetPostid, selectImage[i]);
         if (downloadURL) {
           checkDone[i] = downloadURL;
           console.log("업로드 중");
@@ -39,7 +43,7 @@ function EditorForm() {
           content,
           hashtag,
           imgs: checkDone,
-          postid: uuid(),
+          postid: currnetPostid,
           uid: "user uid",
           displayName: "user displayName"
         };
@@ -96,11 +100,33 @@ function EditorForm() {
   };
 
   useEffect(() => {
-    console.log(selectImage);
-  }, [selectImage]);
+    if (postid) {
+      getFeedById(postid).then((res) => {
+        const { category, content, hashtag, imgs } = res;
+        console.log(res);
+        setCategory(category);
+        setHashtag([...hashtag]);
+        setContent(content);
+        setCurrentPostid(postid);
+        setStorageImg(imgs);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(storageImg);
+  }, [storageImg]);
 
   return (
     <StFormWrap>
+      <button
+        onClick={() => {
+          deleteImgFile("posts/60a5fa75-951e-45d8-b8eb-d6d35d21ae14/310fb6e9-bcfa-4c28-b098-448d0e2b130b");
+        }}
+      >
+        삭제
+      </button>
+      <Spinner></Spinner>
       <StForm onSubmit={onSubmit}>
         <Fieldset legend={"사진"}>
           <StPreviewImgWrap>
@@ -113,6 +139,11 @@ function EditorForm() {
                   onDeleteImg={onDeleteImg}
                   alt=""
                 />
+              );
+            })}
+            {storageImg.map((n) => {
+              return (
+                <PreviewImg src={n.url} newFileName={n.newFileName} key={uuid()} onDeleteImg={onDeleteImg} alt="" />
               );
             })}
           </StPreviewImgWrap>

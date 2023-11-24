@@ -19,7 +19,7 @@ const Router = () => {
           {/* 게시물 생성 */}
           <Route path="manage/newpost/:userid" element={<ManagePost></ManagePost>} />
           {/* 게시물 수정 */}
-          {/* <Route path="manage/newpost/:userid/:postid" element={<ManagePost></ManagePost>} /> */}
+          <Route path="manage/newpost/:userid/:postid" element={<ManagePost></ManagePost>} />
           {/* 자신의 게시물 관리 */}
           {/* <Route path="manage/:userid" element={<ManagePost></ManagePost>} /> */}
           {/* <Route path="*" element={<NotFound />} /> */}

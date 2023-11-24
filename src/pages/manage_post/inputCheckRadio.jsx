@@ -18,7 +18,7 @@ function InputCheckRadio({ listData, checkedData, type, name, onChange }) {
               name={name}
               id={`input__${type}-${name}-${i}`}
               value={n}
-              defaultChecked={checked(type, n)}
+              checked={checked(type, n)}
               onChange={onChange}
             />
             <label htmlFor={`input__${type}-${name}-${i}`}>{n}</label>

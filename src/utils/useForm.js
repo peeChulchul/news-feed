@@ -1,5 +1,8 @@
 import { STORAGE } from "fb/myfirebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import { doc, getDoc } from "firebase/firestore";
+import { DB } from "fb/myfirebase";
+
 import { v4 as uuid } from "uuid";
 
 const alertMsg = {
@@ -44,11 +47,46 @@ async function uploadImg(storageMainFolderName, id, imgFileState) {
   const imgRef = ref(STORAGE, path.join("/"));
   try {
     const snapshot = await uploadBytes(imgRef, imgFileState.file);
-    const downloadURL = await getDownloadURL(snapshot.ref);
-    return downloadURL;
+    const imgObj = {
+      storagePath: `${imgRef._location.path_}`,
+      url: await getDownloadURL(snapshot.ref)
+    };
+    return imgObj;
   } catch (error) {
     console.error(error);
   }
 }
 
-export { validateImgFiles, createImgFileState, uploadImg };
+//수정할 때 쓰는 함수
+async function getFeedById(docId) {
+  const docRef = doc(DB, "posts", docId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    console.error(`해당 id로 존재하는 게시물 없음 : ${docId}`);
+  }
+}
+
+//수정할 때 쓰는 함수
+async function deleteImgFile(storagePath) {
+  const desertRef = ref(STORAGE, storagePath);
+
+  try {
+    const result = await deleteObject(desertRef);
+    if (result) {
+      console.log("이미지 삭제 완료");
+      return true;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+export { validateImgFiles, createImgFileState, uploadImg, getFeedById, deleteImgFile };
+
+// "ㄴㅇㄹㄴㅇㄹㄴㅇㄹ"
+
+// // {
+// //   root: "dfsdfsdf",
+// //   url : "https://firebasestorage.googleapis.com/v0/b/newsfeed-200f7.appspot.com/o/posts%2Fmock01%2F357ccc24-6df3-468b-826a-5379a0141fa4?alt=media&token=373ba49c-89c3-4f62-942a-1731dc45792c"
+// // }
