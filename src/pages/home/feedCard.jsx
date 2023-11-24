@@ -34,6 +34,16 @@ function FeedCard({ feed }) {
       </StFeedImg>
       <StContentWarapper>
         <StTagBox>
+          {
+            <Hashtag
+              hashtag={false}
+              content={feed.category}
+              size={"sm"}
+              key={uuid()}
+              color={"base"}
+              fontColor={"white"}
+            />
+          }
           {feed.hashtag.map((tag) => {
             return <Hashtag hashtag={true} content={tag} size={"sm"} key={uuid()} />;
           })}

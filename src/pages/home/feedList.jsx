@@ -8,28 +8,20 @@ function FeedList({ activeTag }) {
   const { posts } = useSelector((state) => state.postsFirestoreState);
   const { category } = useParams();
 
-  //   const [mainCategory, setMainC]
-
-  //   const filteredPosts = activeTag ? posts.filter((feed) => feed.hashtag.includes(activeTag)) : posts;
-
-  // const filteredPosts = () => {
-  //   if (category === "오운완") {
-
-  //   }
-  // }
-
   return (
     <StListWrapper>
       <StFeedList>
         {category
           ? posts
-              .filter((feed) => feed.category === category)
+              .filter((feed) => feed.category === category && (!activeTag || feed.hashtag.includes(activeTag)))
               .map((feed) => {
                 return <FeedCard feed={feed} key={feed.postid} />;
               })
-          : posts.map((feed) => {
-              return <FeedCard feed={feed} key={feed.postid} />;
-            })}
+          : posts
+              .filter((feed) => !activeTag || feed.hashtag.includes(activeTag))
+              .map((feed) => {
+                return <FeedCard feed={feed} key={feed.postid} />;
+              })}
       </StFeedList>
     </StListWrapper>
   );

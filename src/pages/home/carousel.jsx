@@ -1,19 +1,25 @@
 import styled from "styled-components";
 import React from "react";
 import tagData from "data/tagData.json";
+import foodTagData from "data/foodTagData.json";
 import { v4 as uuid } from "uuid";
 import { GiMuscleUp } from "react-icons/gi";
+import { useSelector } from "react-redux";
 
 function Carousel({ setActiveTag }) {
+  const { posts } = useSelector((state) => state.postsFirestoreState);
+
   // const dispatch = useDispatch();
   const onClickTagNameHandler = (post) => {
-    console.log(post.hashtag);
     setActiveTag(post.hashtag);
   };
 
+  // posts.category === "오식완" ? tagData : foodTagData)
+
+  console.log(foodTagData);
   return (
     <StCarouselBox>
-      {tagData.map((post) => {
+      {posts.map((post) => {
         return (
           <StCarouselWrapper key={uuid()}>
             <StCarouselImgWrapper onClick={() => onClickTagNameHandler(post)}>
