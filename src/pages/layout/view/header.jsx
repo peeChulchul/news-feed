@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import Modal from "./modal";
 import AuthBtns from "../auth_btns";
 
 export default function Header() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState("login");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (modalOpen) {
@@ -22,7 +24,7 @@ export default function Header() {
   return (
     <>
       <StHeader>
-        <StTitle>
+        <StTitle onClick={() => navigate("/")}>
           하루
           <br />
           건강
@@ -45,6 +47,8 @@ const StHeader = styled.header`
 const StTitle = styled.h1`
   font-size: ${({ theme }) => theme.fontSize.xxl};
   padding: 1.4rem 1.5rem;
+
+  cursor: pointer;
 `;
 
 const StInput = styled.input`

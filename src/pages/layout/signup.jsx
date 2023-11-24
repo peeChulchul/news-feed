@@ -5,7 +5,7 @@ import { AUTH } from "fb/myfirebase";
 import { useDispatch } from "react-redux";
 import { setUsersFirestore } from "redux/modules/usersFirestoreState";
 
-export default function Signup({ setModalType, setModalOpen }) {
+export default function Signup({ setModalType, setModalOpen, modalClose, modalBackgroundOnclickHandler }) {
   const dispatch = useDispatch();
 
   // 닉네임, 이메일, 비밀번호, 비밀번호 확인
@@ -98,6 +98,7 @@ export default function Signup({ setModalType, setModalOpen }) {
 
   return (
     <StModalContent onSubmit={signUp}>
+      <StModalCloseBtn ref={modalClose} onClick={modalBackgroundOnclickHandler}>x</StModalCloseBtn>
       <StModalSignupTitle>회원가입</StModalSignupTitle>
       <StModalLoginInput type="text" value={name} name="name" onChange={onChangeName} placeholder="닉네임" />
       {name.length > 0 && <span className={`message ${isName ? "success" : "error"}`}>{nameMessage}</span>}
@@ -140,10 +141,16 @@ export default function Signup({ setModalType, setModalOpen }) {
 
 const StModalContent = styled.form`
   background-color: ${({ theme }) => theme.color.white};
-  width: 300px;
-  height: 400px;
+  width: 400px;
+  height: 500px;
 
   z-index: 100;
+`;
+const StModalCloseBtn = styled.div`
+  background-color: green;
+  font-size: 20px;
+
+  cursor: pointer;
 `;
 const StModalLoginInput = styled.input`
   width: 250px;
