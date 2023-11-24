@@ -5,7 +5,7 @@ import InputCheckRadio from "../inputCheckRadio";
 import InputImg from "../inputImg";
 import { data } from "../mockHashtag";
 import PreviewImg from "../previewImg";
-import { createImgFileState, createSummitObj, uploadImg } from "utils/useForm";
+import { createImgFileState, uploadImg } from "utils/useForm";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { setFirestore } from "redux/modules/firestoreState";
@@ -22,24 +22,29 @@ function EditorForm() {
     // 1. 유효성 검사
     if (selectImage.length > 0 && hashtag.length > 0 && content !== "") {
       // 2. Storage에 이미지를 newFileName으로 저장
-      const checkDone = new Array(selectImage).fill(false);
-      const selectImgId = selectImage.map((n) => n.newFileName);
+      const checkDone = new Array(selectImage).fill(null);
       for (let i = 0; i < selectImage.length; i++) {
-        const uploadSuccess = await uploadImg("posts", "mock01", selectImage[i]);
-        if (uploadSuccess === true) {
-          checkDone[i] = true;
+        const downloadURL = await uploadImg("posts", "mock01", selectImage[i]);
+        if (downloadURL) {
+          checkDone[i] = downloadURL;
           console.log("업로드 중");
         }
       }
-      const allDone = checkDone.every((n) => n === true);
+      const allDone = checkDone.every((n) => n !== null);
       if (allDone) {
         // 3. 이미지 업로드 후 FB에 데이터들 저장
-        alert("업로드 완료");
-        const feedData = createSummitObj(category, content, hashtag, selectImgId);
+        console.log("이미지 업로드 완료");
+        const feedData = {
+          category,
+          content,
+          hashtag,
+          imgs: checkDone,
+          postid: uuid(),
+          uid: "admin01"
+        };
         console.log(feedData);
-
         // FB 업로드
-        dispatch(setFirestore(feedData));
+        // dispatch(setFirestore(feedData));
       }
     }
   };

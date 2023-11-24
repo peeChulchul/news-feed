@@ -1,5 +1,5 @@
 import { STORAGE } from "fb/myfirebase";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuid } from "uuid";
 
 function createImgFileState(file) {
@@ -23,13 +23,25 @@ async function uploadImg(storageMainFolderName, id, imgFileState) {
   const path = [storageMainFolderName, id, imgFileState.newFileName];
   const imgRef = ref(STORAGE, path.join("/"));
   try {
-    const uploadTask = await uploadBytes(imgRef, imgFileState.file);
-    if (uploadTask) {
-      console.log(uploadTask);
-      return true;
-    } else {
-      console.log("업로드에 실패하였습니다.");
-    }
+    // uploadBytes(imgRef, imgFileState.file)
+    //   .then((snapshot) => {
+    //     return getDownloadURL(snapshot.ref);
+    //   })
+    //   .then((downloadURL) => {
+    //     return downloadURL;
+    //     // console.log("Download URL", downloadURL);
+    //   });
+
+    const snapshot = await uploadBytes(imgRef, imgFileState.file);
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    return downloadURL;
+    // if (uploadTask) {
+    //   console.log("downloadURL:");
+    //   console.log(uploadTask.downloadURL);
+    //   return true;
+    // } else {
+    //   console.log("업로드에 실패하였습니다.");
+    // }
   } catch (error) {
     console.error(error);
   }
@@ -38,15 +50,5 @@ async function uploadImg(storageMainFolderName, id, imgFileState) {
 // function createStorageImgUrl = ()
 
 // firebase/firestore Database 이용 함수
-function createSummitObj(category, content, hashtags, imgsURL, postid = uuid(), uid = "admin01") {
-  return {
-    category,
-    content,
-    hashtag: hashtags,
-    imgs: imgsURL,
-    like: 0,
-    postid,
-    uid
-  };
-}
-export { createImgFileState, createSummitObj, uploadImg };
+
+export { createImgFileState, uploadImg };
