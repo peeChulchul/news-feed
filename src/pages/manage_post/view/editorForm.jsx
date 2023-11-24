@@ -7,11 +7,12 @@ import { data } from "../mockHashtag";
 import PreviewImg from "../previewImg";
 import { validateImgFiles, createImgFileState, uploadImg, getFeedById, deleteImgFile } from "utils/useForm";
 import { v4 as uuid } from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPostsFirestore } from "redux/modules/postsFirestoreState";
 import { useParams } from "react-router-dom";
 import Spinner from "components/spinner";
 import { useNavigate } from "react-router-dom";
+
 function EditorForm() {
   const [selectImage, setSelectImage] = useState([]); // 쓰기 시 이미지
   const [storageImg, setStorageImg] = useState([]);
@@ -21,6 +22,7 @@ function EditorForm() {
   const [content, setContent] = useState("");
   const [currnetPostid, setCurrentPostid] = useState(uuid());
   const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.usersFirestoreState);
   const dispatch = useDispatch();
   const { userid, postid } = useParams();
   const onSubmit = async (e) => {
@@ -46,8 +48,8 @@ function EditorForm() {
           hashtag,
           imgs: [...checkDone, ...storageImg].filter((n) => n !== null),
           postid: currnetPostid,
-          uid: userid,
-          displayName: "user displayName"
+          uid: currentUser.uid,
+          displayName: currentUser.displayName
         };
         // 4. 사용 안하는 이미지들 Storage에서 삭제
         junkStorageImg.forEach((n) => {
@@ -125,18 +127,8 @@ function EditorForm() {
     }
   }, []);
 
-  useEffect(() => {}, [junkStorageImg]);
-
   return (
     <StFormWrap>
-      <button
-        onClick={() => {
-          deleteImgFile("posts/1ba38a35-1491-4966-917d-356b9e71e524/74091282-697d-4acc-b89c-2269d282a0fb");
-        }}
-      >
-        삭제
-      </button>
-      <Spinner></Spinner>
       <StForm onSubmit={onSubmit}>
         <Fieldset legend={"사진"}>
           <StPreviewImgWrap>

@@ -14,10 +14,8 @@ export default function Layout({ children }) {
 
   const { users, currentUser, loading } = useSelector((modules) => modules.usersFirestoreState);
 
-  console.log(loading);
-
   // console.log(users);
-  // console.log(currentUser);
+  console.log(currentUser);
 
   useEffect(() => {
     const userSubscribe = onAuthStateChanged(AUTH, async (user) => {
@@ -57,10 +55,7 @@ export default function Layout({ children }) {
     <StContainer>
       <Header />
       <Sidebar />
-      <StMain>
-        <>{children}</>
-      </StMain>
-
+      <StMain>{children}</StMain>
       <Footer />
     </StContainer>
   );
@@ -68,11 +63,11 @@ export default function Layout({ children }) {
 
 const StMain = styled.main`
   width: 100%;
-  position: relative;
   height: 100%;
-  display: flex;
-  justify-content: center;
   min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 100px;
 `;
 
 const StContainer = styled.div``;

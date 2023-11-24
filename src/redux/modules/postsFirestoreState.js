@@ -30,7 +30,7 @@ const initialState = { posts: [], loading: true };
 const postsFirestoreState = (state = initialState, action) => {
   switch (action.type) {
     case SUBSCRIBE_POSTSFIRESTORE: {
-      return { ...state, posts: action.payload };
+      return { ...state, posts: action.payload, loading: false };
     }
     //
     case SET_POSTSFIRESTORE: {
