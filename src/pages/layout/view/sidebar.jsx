@@ -152,7 +152,7 @@ export default function Sidebar() {
 
       setPosts((prev) => ({ ...prev, sports, food }));
     }
-  }, [currentUser]);
+  }, [currentUser, dbPosts]);
 
   const onClickToggleBtn = useThrottle(() => {
     setShow((prev) => !prev);
