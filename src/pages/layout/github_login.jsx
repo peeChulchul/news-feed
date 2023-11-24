@@ -34,7 +34,7 @@ export default function Githublogin({ setModalOpen }) {
       });
   }
 
-  return <StModalGithubBtn onClick={handleGithubLogin}>Sign in Github</StModalGithubBtn>;
+  return <StModalGithubBtn onClick={handleGithubLogin}>Sign in with Github</StModalGithubBtn>;
 }
 
 const StModalGithubBtn = styled.button`

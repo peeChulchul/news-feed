@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import styled from "styled-components";
 import Googlelogin from "./google_login";
-import Githublogin from "./githublogin";
+import Githublogin from "./github_login";
 
 export default function Login({ setModalType, setModalOpen, modalClose, modalBackgroundOnclickHandler }) {
   const [email, setEmail] = useState("");
@@ -57,8 +57,10 @@ export default function Login({ setModalType, setModalOpen, modalClose, modalBac
       />
       <StModalLonInBtn disabled={!(email && password)}>로그인</StModalLonInBtn>
       <StModalSignupBtn onClick={() => setModalType("signup")}>회원가입</StModalSignupBtn>
+      <StLoginBtns>
       <Googlelogin setModalOpen={setModalOpen} />
       <Githublogin setModalOpen={setModalOpen} />
+      </StLoginBtns>
     </StModalContent>
   );
 }
@@ -79,26 +81,29 @@ const StModalCloseBtn = styled.div`
 const StLoginModalTitle = styled.div`
   font-size: ${({ theme }) => theme.fontSize.xxxl};
   font-weight: bold;
-  margin: 65px 80px 20px 98px;
+  margin: 65px 160px 20px 150px;
 `;
 const StModalLoginInput = styled.input`
   width: 250px;
   height: 40px;
-  margin: 5px 23px;
+  margin: 5px 50px 0 75px;
 `;
 const StModalLonInBtn = styled.button`
   background-color: ${({ theme }) => theme.color.white};
   border: 1px solid ${({ theme }) => theme.color.black};
   width: 250px;
   height: 40px;
-  margin: 5px 23px;
+  margin: 5px 50px 0 75px;
 
   cursor: pointer;
 `;
 const StModalSignupBtn = styled.span`
   border-bottom: 1px solid ${({ theme }) => theme.color.black};
-  margin-left: 228px;
+  margin-left: 280px;
   font-size: ${({ theme }) => theme.fontSize.sm};
-
+  background-color: green;
   cursor: pointer;
 `;
+const StLoginBtns = styled.div`
+  display: flex;
+`

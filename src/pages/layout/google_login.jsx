@@ -33,7 +33,8 @@ export default function Googlelogin({ setModalOpen }) {
         alert("로그인에 실패하였습니다.");
       });
   }
-  return <StModalGoogleBtn onClick={handleGoogleLogin}>Sign in Google</StModalGoogleBtn>;
+
+  return <StModalGoogleBtn onClick={handleGoogleLogin}>Sign in with Google</StModalGoogleBtn>;
 }
 
 const StModalGoogleBtn = styled.button`
