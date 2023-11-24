@@ -4,6 +4,9 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { AUTH } from "fb/myfirebase";
 import { useDispatch } from "react-redux";
 import { setUsersFirestore } from "redux/modules/usersFirestoreState";
+import Googlelogin from "./google_login";
+import Githublogin from "./githublogin";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 export default function Signup({ setModalType, setModalOpen, modalBackground, modalBackgroundOnclickHandler }) {
   const dispatch = useDispatch();
@@ -99,7 +102,7 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
   return (
     <StModalContent onSubmit={signUp}>
       <StModalCloseBtn ref={modalBackground} onClick={modalBackgroundOnclickHandler}>
-        x
+        <IoCloseCircleOutline ref={modalBackground} onClick={modalBackgroundOnclickHandler} />
       </StModalCloseBtn>
       <StModalSignupTitle>회원가입</StModalSignupTitle>
       <StModalLoginInput type="text" value={name} name="name" onChange={onChangeName} placeholder="닉네임" />
@@ -136,7 +139,8 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
       )}
       <StModalLonInBtn disabled={!(isName && isEmail && isPassword && isConfirmPassword)}>회원가입</StModalLonInBtn>
       <StModalSignupBtn onClick={() => setModalType("login")}>로그인</StModalSignupBtn>
-      <StModalGoogleBtn>Sign in Google</StModalGoogleBtn>
+      <Googlelogin setModalOpen={setModalOpen} />
+      <Githublogin setModalOpen={setModalOpen} />
     </StModalContent>
   );
 }
@@ -148,18 +152,19 @@ const StModalContent = styled.form`
 
   z-index: 100;
 `;
-const StModalCloseBtn = styled.div`
-  background-color: green;
-  font-size: 20px;
-
+const StModalCloseBtn = styled.button`
+  font-size: ${({ theme }) => theme.fontSize.xl};
+  margin: 10px;
   cursor: pointer;
+  outline: none;
+  background-color: transparent;
+  float: right;
 `;
 const StModalSignupTitle = styled.div`
   width: 120px;
   font-size: ${({ theme }) => theme.fontSize.xxxl};
   font-weight: bold;
-  margin: 65px 120px 20px 135px;
-  background-color: green;
+  margin: 75px 120px 20px 140px;
 `;
 
 const StModalLoginInput = styled.input`

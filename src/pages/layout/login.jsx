@@ -37,8 +37,8 @@ export default function Login({ setModalType, setModalOpen, modalBackground, mod
 
   return (
     <StModalContent onSubmit={logIn}>
-      <StModalCloseBtn ref={modalBackground}>
-        <IoCloseCircleOutline onClick={modalBackgroundOnclickHandler} />
+      <StModalCloseBtn ref={modalBackground} onClick={modalBackgroundOnclickHandler}>
+        <IoCloseCircleOutline />
       </StModalCloseBtn>
       <StLoginModalTitle>로그인</StLoginModalTitle>
       <StModalLoginInput
@@ -73,12 +73,13 @@ const StModalContent = styled.form`
 
   z-index: 100;
 `;
-const StModalCloseBtn = styled.div`
+const StModalCloseBtn = styled.button`
   font-size: ${({ theme }) => theme.fontSize.xl};
-  display: flex;
-  justify-content: flex-end;
   margin: 10px;
   cursor: pointer;
+  outline: none;
+  background-color: transparent;
+  float: right;
 `;
 const StLoginModalTitle = styled.div`
   font-size: ${({ theme }) => theme.fontSize.xxxl};
