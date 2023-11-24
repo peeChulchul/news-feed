@@ -1,11 +1,12 @@
 import { AUTH } from "fb/myfirebase";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import styled from "styled-components";
 import Googlelogin from "./google_login";
 import Githublogin from "./githublogin";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
-export default function Login({ setModalType, setModalOpen, modalClose, modalBackgroundOnclickHandler }) {
+export default function Login({ setModalType, setModalOpen, modalBackground, modalBackgroundOnclickHandler }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onChange = (event) => {
@@ -36,7 +37,9 @@ export default function Login({ setModalType, setModalOpen, modalClose, modalBac
 
   return (
     <StModalContent onSubmit={logIn}>
-      <StModalCloseBtn ref={modalClose} onClick={modalBackgroundOnclickHandler}>x</StModalCloseBtn>
+      <StModalCloseBtn ref={modalBackground}>
+        <IoCloseCircleOutline onClick={modalBackgroundOnclickHandler} />
+      </StModalCloseBtn>
       <StLoginModalTitle>로그인</StLoginModalTitle>
       <StModalLoginInput
         type="email"
@@ -71,33 +74,34 @@ const StModalContent = styled.form`
   z-index: 100;
 `;
 const StModalCloseBtn = styled.div`
-  background-color: green;
-  font-size: 20px;
-
+  font-size: ${({ theme }) => theme.fontSize.xl};
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px;
   cursor: pointer;
 `;
 const StLoginModalTitle = styled.div`
   font-size: ${({ theme }) => theme.fontSize.xxxl};
   font-weight: bold;
-  margin: 65px 80px 20px 98px;
+  margin: 65px 145px 20px 155px;
 `;
 const StModalLoginInput = styled.input`
   width: 250px;
   height: 40px;
-  margin: 5px 23px;
+  margin: 5px 80px 0 75px;
 `;
 const StModalLonInBtn = styled.button`
   background-color: ${({ theme }) => theme.color.white};
   border: 1px solid ${({ theme }) => theme.color.black};
   width: 250px;
   height: 40px;
-  margin: 5px 23px;
+  margin: 5px 80px 0 75px;
 
   cursor: pointer;
 `;
 const StModalSignupBtn = styled.span`
   border-bottom: 1px solid ${({ theme }) => theme.color.black};
-  margin-left: 228px;
+  margin-left: 280px;
   font-size: ${({ theme }) => theme.fontSize.sm};
 
   cursor: pointer;

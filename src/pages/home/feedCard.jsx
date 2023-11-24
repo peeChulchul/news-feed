@@ -30,7 +30,7 @@ function FeedCard({ feed }) {
         </StLikeIcon>
       </StFeedInfo>
       <StFeedImg>
-        <img src={feed.imgs} alt="피드이미지"></img>
+        <img src={feed.imgs[0].url} alt="피드이미지" />
       </StFeedImg>
       <StContentWarapper>
         <StTagBox>

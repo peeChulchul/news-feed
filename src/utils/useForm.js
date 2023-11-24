@@ -83,10 +83,3 @@ async function deleteImgFile(storagePath) {
   }
 }
 export { validateImgFiles, createImgFileState, uploadImg, getFeedById, deleteImgFile };
-
-// "ㄴㅇㄹㄴㅇㄹㄴㅇㄹ"
-
-// // {
-// //   root: "dfsdfsdf",
-// //   url : "https://firebasestorage.googleapis.com/v0/b/newsfeed-200f7.appspot.com/o/posts%2Fmock01%2F357ccc24-6df3-468b-826a-5379a0141fa4?alt=media&token=373ba49c-89c3-4f62-942a-1731dc45792c"
-// // }

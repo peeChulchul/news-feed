@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import NotFound from "../pages/NotFound";
 import Layout from "pages/layout/view";
 import DetailPost from "pages/detail_post/view";
 import ManagePost from "pages/manage_post/view";

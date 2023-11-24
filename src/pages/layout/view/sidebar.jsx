@@ -127,6 +127,7 @@ const StSidebarToggleBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 4;
   cursor: pointer;
 `;
 
@@ -136,10 +137,8 @@ export default function Sidebar() {
   const [show, setShow] = useState(true);
   const [posts, setPosts] = useState({ sports: 0, food: 0 });
   const [selectedFilterBtn, setSelectedFilterBtn] = useState("All");
-  const { users, currentUser } = useSelector((modules) => modules.usersFirestoreState);
+  const { currentUser } = useSelector((modules) => modules.usersFirestoreState);
   const { posts: dbPosts } = useSelector((modules) => modules.postsFirestoreState);
-
-  const param = useParams();
 
   console.log(currentUser);
 
