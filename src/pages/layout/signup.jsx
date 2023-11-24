@@ -35,7 +35,7 @@ export default function Signup({ setModalType, setModalOpen, modalClose, modalBa
         user: { uid, photourl = "", displayName = "" }
       } = await createUserWithEmailAndPassword(AUTH, email, password);
 
-      dispatch(setUsersFirestore({ email, uid, photourl, displayName, user_liked: [], user_posts: [] }));
+      dispatch(setUsersFirestore({ email, uid, photourl, displayName: name, user_liked: [], user_posts: [] }));
       alert("회원가입이 완료되었습니다.");
       // 회원가입 성공하면 모달창 닫히게
       setModalOpen(false);
@@ -98,7 +98,9 @@ export default function Signup({ setModalType, setModalOpen, modalClose, modalBa
 
   return (
     <StModalContent onSubmit={signUp}>
-      <StModalCloseBtn ref={modalClose} onClick={modalBackgroundOnclickHandler}>x</StModalCloseBtn>
+      <StModalCloseBtn ref={modalClose} onClick={modalBackgroundOnclickHandler}>
+        x
+      </StModalCloseBtn>
       <StModalSignupTitle>회원가입</StModalSignupTitle>
       <StModalLoginInput type="text" value={name} name="name" onChange={onChangeName} placeholder="닉네임" />
       {name.length > 0 && <span className={`message ${isName ? "success" : "error"}`}>{nameMessage}</span>}
