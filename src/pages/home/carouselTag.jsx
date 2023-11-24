@@ -5,26 +5,19 @@ import { v4 as uuid } from "uuid";
 import { useSelector } from "react-redux";
 
 function CarouselTag() {
-  // const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.firestoreState);
-  const [activeTag, setActiveTag] = useState(posts);
+  const [activeTag, setActiveTag] = useState("");
 
   const onClickTagNameHandler = (post) => {
+    console.log(post.hashtag);
     setActiveTag(post.hashtag);
   };
-
-  //   }
-  // };
 
   return (
     <StCarouselTagWrapper>
       {tagData.map((post) => {
         return (
-          <StCarouselTag
-            key={uuid()}
-            onClick={() => onClickTagNameHandler(post)}
-            $activeTag={activeTag === post.hashtag}
-          >
+          <StCarouselTag key={uuid()} onClick={() => onClickTagNameHandler(post)} $activeTag={activeTag}>
             <figure>
               <img src={post.image} alt="{post.hashtag}"></img>
             </figure>
@@ -57,6 +50,13 @@ const StCarouselTag = styled.li`
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
+
+  ${(props) =>
+    props.$activeTag &&
+    `
+    border: 2px solid ${({ theme }) => theme.color.baseDark};
+  `}
+
   & img {
     width: 100%;
     height: 100%;
