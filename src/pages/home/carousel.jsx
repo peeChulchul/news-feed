@@ -19,7 +19,7 @@ function Carousel({ setActiveTag }) {
   console.log(foodTagData);
   return (
     <StCarouselBox>
-      {posts.map((post) => {
+      {tagData.map((post) => {
         return (
           <StCarouselWrapper key={uuid()}>
             <StCarouselImgWrapper onClick={() => onClickTagNameHandler(post)}>
