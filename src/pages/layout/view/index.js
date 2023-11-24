@@ -19,9 +19,6 @@ export default function Layout({ children }) {
   const dispatch = useDispatch();
   const { posts, loading } = useSelector((modules) => modules.postsFirestoreState);
 
-  console.log("포스트", posts);
-  console.log("유저", AUTH.currentUser);
-
   useEffect(() => {
     // posts컬렉션 을 실시간 수신대기 (구독)
     const q = query(postsCollection);

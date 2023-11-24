@@ -45,7 +45,7 @@ const usersFirestoreState = (state = initialState, action) => {
         // 유저의 경우 게시글작성이나 좋아요에 따른 업데이트가 필요하여 덮어씌우는방식이 아닌 업데이트가 필요
         // set은 유저의 추가에만 사용
         await setDoc(
-          doc(DB, "users", action.payload.postid),
+          doc(DB, "users", action.payload.uid),
           {
             ...action.payload
           },
@@ -69,7 +69,7 @@ const usersFirestoreState = (state = initialState, action) => {
     case DELETE_USERSFIRESTORE: {
       (async () => {
         //삭제 payload로 문서id를 받아야함 현재 사용안함 (유저삭제기능 없음)
-        await deleteDoc(doc(DB, "users", action.payload.postid));
+        await deleteDoc(doc(DB, "users", action.payload.uid));
       })();
 
       return state;
