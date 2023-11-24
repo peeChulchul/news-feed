@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { v4 as uuid } from "uuid";
+import Hashtag from "components/hashtag";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Avatar from "components/avatar";
-import FeedHashtag from "./feedHashtag";
 import { useNavigate } from "react-router";
 
 function FeedCard({ feed }) {
@@ -32,7 +33,11 @@ function FeedCard({ feed }) {
         <img src={feed.imgs} alt="피드이미지"></img>
       </StFeedImg>
       <StContentWarapper>
-        <FeedHashtag hashtag={feed.hashtag} />
+        <StTagBox>
+          {feed.hashtag.map((tag) => {
+            return <Hashtag hashtag={true} content={tag} size={"sm"} key={uuid()} />;
+          })}
+        </StTagBox>
         <p>{feed.content}</p>
       </StContentWarapper>
     </StCardWrapper>
@@ -110,4 +115,11 @@ const StContentWarapper = styled.div`
 
 const StLikeIcon = styled.div`
   font-size: 23px;
+`;
+
+const StTagBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 `;

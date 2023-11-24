@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import FeedCard from "../feedCard";
+import FeedCard from "./feedCard";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
 function FeedList() {
-  // const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.postsFirestoreState);
   const { category } = useParams();
 
