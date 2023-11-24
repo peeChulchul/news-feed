@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 function CarouselTag() {
   // const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.firestoreState);
+  const { posts } = useSelector((state) => state.postsFirestoreState);
   const [activeTag, setActiveTag] = useState(posts);
 
   const onClickTagNameHandler = (post) => {

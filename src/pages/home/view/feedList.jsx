@@ -6,7 +6,7 @@ import { useParams } from "react-router";
 
 function FeedList() {
   // const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.firestoreState);
+  const { posts } = useSelector((state) => state.postsFirestoreState);
   const { category } = useParams();
 
   return (
