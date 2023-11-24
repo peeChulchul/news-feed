@@ -1,7 +1,8 @@
 import { AUTH } from "fb/myfirebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import styled from "styled-components";
+import Googlelogin from "./google_login";
 
 export default function Login({ setModalType, setModalOpen }) {
   const [email, setEmail] = useState("");
@@ -54,7 +55,7 @@ export default function Login({ setModalType, setModalOpen }) {
       <StModalLonInBtn
       disabled={!(email && password)}>로그인</StModalLonInBtn>
       <StModalSignupBtn onClick={() => setModalType("signup")}>회원가입</StModalSignupBtn>
-      <StModalGoogleBtn>Sign in Google</StModalGoogleBtn>
+      <Googlelogin />
     </StModalContent>
   );
 }
@@ -89,15 +90,6 @@ const StModalSignupBtn = styled.span`
   border-bottom: 1px solid ${({ theme }) => theme.color.black};
   margin-left: 228px;
   font-size: ${({ theme }) => theme.fontSize.sm};
-
-  cursor: pointer;
-`;
-const StModalGoogleBtn = styled.button`
-  background-color: ${({ theme }) => theme.color.success};
-  color: ${({ theme }) => theme.color.white};
-  width: 250px;
-  height: 40px;
-  margin: 10px 23px;
 
   cursor: pointer;
 `;
