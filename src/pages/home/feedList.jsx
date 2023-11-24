@@ -4,9 +4,19 @@ import FeedCard from "./feedCard";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
-function FeedList() {
+function FeedList({ activeTag }) {
   const { posts } = useSelector((state) => state.postsFirestoreState);
   const { category } = useParams();
+
+  //   const [mainCategory, setMainC]
+
+  //   const filteredPosts = activeTag ? posts.filter((feed) => feed.hashtag.includes(activeTag)) : posts;
+
+  // const filteredPosts = () => {
+  //   if (category === "오운완") {
+
+  //   }
+  // }
 
   return (
     <StListWrapper>

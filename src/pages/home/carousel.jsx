@@ -1,15 +1,11 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React from "react";
 import tagData from "data/tagData.json";
 import { v4 as uuid } from "uuid";
-import { useSelector } from "react-redux";
 import { GiMuscleUp } from "react-icons/gi";
 
-function Carousel() {
+function Carousel({ setActiveTag }) {
   // const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.postsFirestoreState);
-  const [activeTag, setActiveTag] = useState("");
-
   const onClickTagNameHandler = (post) => {
     console.log(post.hashtag);
     setActiveTag(post.hashtag);
@@ -19,8 +15,8 @@ function Carousel() {
     <StCarouselBox>
       {tagData.map((post) => {
         return (
-          <StCarouselWrapper>
-            <StCarouselImgWrapper key={uuid()} onClick={() => onClickTagNameHandler(post)}>
+          <StCarouselWrapper key={uuid()}>
+            <StCarouselImgWrapper onClick={() => onClickTagNameHandler(post)}>
               <img src={post.image} alt="{post.hashtag}"></img>
               <StIcon>
                 <GiMuscleUp />
@@ -88,10 +84,6 @@ const StIcon = styled(GiMuscleUp)`
   color: ${({ theme }) => theme.color.white};
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-
-  /* ${StCarouselImgWrapper}:hover & {
-    opacity: 1;
-  } */
 `;
 
 const StCarouselWrapper = styled.li`

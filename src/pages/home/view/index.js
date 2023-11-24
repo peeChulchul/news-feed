@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import FeedList from "../feedList";
 import Carousel from "../carousel";
 import { onSnapshot, query } from "firebase/firestore";
@@ -25,10 +25,12 @@ export default function Home() {
     return () => dbSubscribe;
   }, [dispatch]);
 
+  const { posts } = useSelector((state) => state.postsFirestoreState);
+  const [activeTag, setActiveTag] = useState("");
   return (
     <div>
-      <Carousel />
-      <FeedList />
+      <Carousel setActiveTag={setActiveTag} />
+      <FeedList activeTag={activeTag} />
     </div>
   );
 }
