@@ -48,7 +48,7 @@ async function uploadImg(storageMainFolderName, id, imgFileState) {
   try {
     const snapshot = await uploadBytes(imgRef, imgFileState.file);
     const imgObj = {
-      storagePath: `${imgRef._location.path_}`,
+      storagePath: imgRef._location.path_,
       url: await getDownloadURL(snapshot.ref)
     };
     return imgObj;
@@ -69,13 +69,13 @@ async function getFeedById(docId) {
 }
 
 //수정할 때 쓰는 함수
+// Storage에서 사진 지우기
 async function deleteImgFile(storagePath) {
   const desertRef = ref(STORAGE, storagePath);
 
   try {
     const result = await deleteObject(desertRef);
     if (result) {
-      console.log("이미지 삭제 완료");
       return true;
     }
   } catch (error) {

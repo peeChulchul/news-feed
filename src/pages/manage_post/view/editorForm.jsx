@@ -11,30 +11,32 @@ import { useDispatch } from "react-redux";
 import { setPostsFirestore } from "redux/modules/postsFirestoreState";
 import { useParams } from "react-router-dom";
 import Spinner from "components/spinner";
+import { useNavigate } from "react-router-dom";
 function EditorForm() {
   const [selectImage, setSelectImage] = useState([]); // 쓰기 시 이미지
-  const [storageImg, setStorageImg] = useState([]); //수정 시 이미지
+  const [storageImg, setStorageImg] = useState([]);
+  const [junkStorageImg, setJunkStorageImg] = useState([]); //Storage에서 삭제할 이미지
   const [category, setCategory] = useState([]);
   const [hashtag, setHashtag] = useState([]);
   const [content, setContent] = useState("");
   const [currnetPostid, setCurrentPostid] = useState(uuid());
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userid, postid } = useParams();
   const onSubmit = async (e) => {
     e.preventDefault();
     // 1. 유효성 검사
-    if (selectImage.length > 0 && hashtag.length > 0 && content !== "") {
+    if ((selectImage.length > 0 || storageImg.length > 0) && hashtag.length > 0 && content !== "") {
       // 2. Storage에 이미지를 newFileName으로 저장
       const checkDone = new Array(selectImage).fill(null);
       for (let i = 0; i < selectImage.length; i++) {
-        const downloadURL = await uploadImg("posts", currnetPostid, selectImage[i]);
-        if (downloadURL) {
-          checkDone[i] = downloadURL;
+        const storageObj = await uploadImg("posts", currnetPostid, selectImage[i]);
+        if (storageObj) {
+          checkDone[i] = storageObj;
           console.log("업로드 중");
         }
       }
-      const allDone = checkDone.every((n) => n !== null);
+      const allDone = postid && selectImage.length === 0 ? true : checkDone.every((n) => n !== null);
       if (allDone) {
         // 3. 이미지 업로드 후 FB에 데이터들 저장
         console.log("이미지 업로드 완료");
@@ -42,14 +44,18 @@ function EditorForm() {
           category,
           content,
           hashtag,
-          imgs: checkDone,
+          imgs: [...checkDone, ...storageImg].filter((n) => n !== null),
           postid: currnetPostid,
-          uid: "user uid",
+          uid: userid,
           displayName: "user displayName"
         };
-        console.log(feedData);
+        // 4. 사용 안하는 이미지들 Storage에서 삭제
+        junkStorageImg.forEach((n) => {
+          deleteImgFile(n.storagePath);
+        });
         // FB 업로드
         dispatch(setPostsFirestore(feedData));
+        return navigate("/");
       }
     }
   };
@@ -99,11 +105,17 @@ function EditorForm() {
     setContent(e.target.value);
   };
 
+  const onDeleteStorageImg = (url) => {
+    const deleteStorageImg = storageImg.filter((n) => n.url === url);
+    const copy = storageImg.filter((n) => n.url !== url);
+    setStorageImg(copy);
+    setJunkStorageImg([...junkStorageImg, ...deleteStorageImg]);
+  };
+
   useEffect(() => {
     if (postid) {
       getFeedById(postid).then((res) => {
         const { category, content, hashtag, imgs } = res;
-        console.log(res);
         setCategory(category);
         setHashtag([...hashtag]);
         setContent(content);
@@ -113,15 +125,13 @@ function EditorForm() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(storageImg);
-  }, [storageImg]);
+  useEffect(() => {}, [junkStorageImg]);
 
   return (
     <StFormWrap>
       <button
         onClick={() => {
-          deleteImgFile("posts/60a5fa75-951e-45d8-b8eb-d6d35d21ae14/310fb6e9-bcfa-4c28-b098-448d0e2b130b");
+          deleteImgFile("posts/1ba38a35-1491-4966-917d-356b9e71e524/74091282-697d-4acc-b89c-2269d282a0fb");
         }}
       >
         삭제
@@ -143,7 +153,7 @@ function EditorForm() {
             })}
             {storageImg.map((n) => {
               return (
-                <PreviewImg src={n.url} newFileName={n.newFileName} key={uuid()} onDeleteImg={onDeleteImg} alt="" />
+                <PreviewImg src={n?.url} newFileName={n?.url} key={uuid()} onDeleteImg={onDeleteStorageImg} alt="" />
               );
             })}
           </StPreviewImgWrap>
@@ -180,7 +190,9 @@ function EditorForm() {
             autoComplete="off"
           ></StTextarea>
         </Fieldset>
-        <StBtn disabled={selectImage.length === 0 || hashtag.length === 0 || content === ""}>게시물 등록</StBtn>
+        <StBtn disabled={selectImage.length + storageImg.length === 0 || hashtag.length === 0 || content === ""}>
+          게시물 등록
+        </StBtn>
       </StForm>
     </StFormWrap>
   );

@@ -212,7 +212,7 @@ export default function Sidebar() {
           {/* 페이지이동 */}
           {currentUser && (
             <>
-              <NavigationBox onClick={() => navigate(`/manage/newpost/${currentUser}`)}>게시글 쓰기</NavigationBox>
+              <NavigationBox onClick={() => navigate(`/manage/newpost/${currentUser.uid}`)}>게시글 쓰기</NavigationBox>
               <NavigationBox>나의 게시글</NavigationBox>
             </>
           )}
