@@ -13,7 +13,6 @@ export const subscribeusersFirestore = (payload) => {
     payload
   };
 };
-
 export const subscribeCurrentUser = (payload) => {
   return {
     type: SUBSCRIBE_CURRENTUSER,

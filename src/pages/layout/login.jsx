@@ -1,11 +1,11 @@
 import { AUTH } from "fb/myfirebase";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import styled from "styled-components";
 import Googlelogin from "./google_login";
 import Githublogin from "./githublogin";
 
-export default function Login({ setModalType, setModalOpen }) {
+export default function Login({ setModalType, setModalOpen, modalClose, modalBackgroundOnclickHandler }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onChange = (event) => {
@@ -36,6 +36,7 @@ export default function Login({ setModalType, setModalOpen }) {
 
   return (
     <StModalContent onSubmit={logIn}>
+      <StModalCloseBtn ref={modalClose} onClick={modalBackgroundOnclickHandler}>x</StModalCloseBtn>
       <StLoginModalTitle>로그인</StLoginModalTitle>
       <StModalLoginInput
         type="email"
@@ -64,10 +65,16 @@ export default function Login({ setModalType, setModalOpen }) {
 
 const StModalContent = styled.form`
   background-color: ${({ theme }) => theme.color.white};
-  width: 300px;
-  height: 400px;
+  width: 400px;
+  height: 500px;
 
   z-index: 100;
+`;
+const StModalCloseBtn = styled.div`
+  background-color: green;
+  font-size: 20px;
+
+  cursor: pointer;
 `;
 const StLoginModalTitle = styled.div`
   font-size: ${({ theme }) => theme.fontSize.xxxl};
