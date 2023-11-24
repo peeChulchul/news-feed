@@ -16,19 +16,10 @@ function FeedList() {
           ? posts
               .filter((feed) => feed.category === category)
               .map((feed) => {
-                return <FeedCard feed={feed} />;
+                return <FeedCard feed={feed} key={feed.postid} />;
               })
           : posts.map((feed) => {
-              return <FeedCard feed={feed} />;
-            })}
-        {category
-          ? posts
-              .filter((feed) => feed.category === category)
-              .map((feed) => {
-                return <FeedCard feed={feed} />;
-              })
-          : posts.map((feed) => {
-              return <FeedCard feed={feed} />;
+              return <FeedCard feed={feed} key={feed.postid} />;
             })}
       </StFeedList>
     </StListWrapper>

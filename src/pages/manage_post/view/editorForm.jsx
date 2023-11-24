@@ -8,6 +8,7 @@ import PreviewImg from "../previewImg";
 import { createImgFileState, uploadImg } from "utils/useForm";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
+import { setPostsFirestore } from "redux/modules/postsFirestoreState";
 function EditorForm() {
   const [selectImage, setSelectImage] = useState([]);
   const [category, setCategory] = useState(data.checkedCategory);
@@ -39,11 +40,12 @@ function EditorForm() {
           hashtag,
           imgs: checkDone,
           postid: uuid(),
-          uid: "admin01"
+          uid: "user uid",
+          displayName: "user displayName"
         };
         console.log(feedData);
         // FB 업로드
-        // dispatch(setFirestore(feedData));
+        dispatch(setPostsFirestore(feedData));
       }
     }
   };
