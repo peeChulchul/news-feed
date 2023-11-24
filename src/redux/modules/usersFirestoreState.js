@@ -45,7 +45,11 @@ const usersFirestoreState = (state = initialState, action) => {
   switch (action.type) {
     case SUBSCRIBE_CURRENTUSER: {
       // 유저 정보가 변경될때 currentUser에 uid를 넣어줌
-      return { ...state, currentUser: action.payload };
+      const currentUser = state.users.find((user) => user.uid === action.payload);
+
+      console.log(currentUser);
+
+      return { ...state, currentUser: currentUser ? currentUser : null };
     }
 
     case SUBSCRIBE_USERSFIRESTORE: {
