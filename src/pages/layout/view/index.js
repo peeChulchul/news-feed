@@ -18,6 +18,7 @@ import styled from "styled-components";
 export default function Layout({ children }) {
   const dispatch = useDispatch();
   const { posts, loading } = useSelector((modules) => modules.postsFirestoreState);
+  const { users, currentUser } = useSelector((modules) => modules.usersFirestoreState);
 
   useEffect(() => {
     // posts컬렉션 을 실시간 수신대기 (구독)
@@ -39,8 +40,12 @@ export default function Layout({ children }) {
       if (user) {
         // 로그인한 유저가 존재할경우
         // dispatch(subscribeAUth(user));
+        // 해당유저가 이미 DB에 저장된경우 DB에 저장하지않아야함
+        // current유저 값을 해당 유저의 데이터로 변경해줘야함
+        // 해당유저가 DB에 없는경우 DB에 유저정보 저장이필요(회원가입시 해당로직추가 필요)
       } else {
         // 로그인한 유저가 없음
+        // currentUser값을 null로 변경해야함
         // dispatch(subscribeAUth(user));
       }
     });

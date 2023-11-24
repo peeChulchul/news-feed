@@ -5,27 +5,28 @@ import { AUTH } from "fb/myfirebase";
 
 export default function Signup({ setModalType, setModalOpen }) {
   // 닉네임, 이메일, 비밀번호, 비밀번호 확인
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   // 오류 메세지 상태
-  const [nameMessage, setNameMessage] = useState('')
-  const [emailMessage, setEmailMessage] = useState('')
-  const [passwordMessage, setPasswordMessage] = useState('')
-  const [confirmPasswordMessage, setconfirmPasswordMessage] = useState('')
+  const [nameMessage, setNameMessage] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [confirmPasswordMessage, setconfirmPasswordMessage] = useState("");
 
   // 유효성 검사
-  const [isName, setIsName] = useState(false)
-  const [isEmail, setIsEmail] = useState(false)
-  const [isPassword, setIsPassword] = useState(false)
-  const [isConfirmPassword, setIsConfirmPassword] = useState(false)
+  const [isName, setIsName] = useState(false);
+  const [isEmail, setIsEmail] = useState(false);
+  const [isPassword, setIsPassword] = useState(false);
+  const [isConfirmPassword, setIsConfirmPassword] = useState(false);
 
   // 회원가입
   const signUp = async (event) => {
     event.preventDefault();
     try {
+      // const userCredential = await createUserWithEmailAndPassword(AUTH, email, password);
       const userCredential = await createUserWithEmailAndPassword(AUTH, email, password);
       console.log(userCredential);
       alert("회원가입이 완료되었습니다.");
@@ -33,7 +34,7 @@ export default function Signup({ setModalType, setModalOpen }) {
       setModalOpen(false);
     } catch (error) {
       console.log(error);
-      alert("회원가입에 실패했습니다.")
+      alert("회원가입에 실패했습니다.");
     }
   };
 
@@ -47,7 +48,7 @@ export default function Signup({ setModalType, setModalOpen }) {
       setNameMessage("올바른 형식입니다.");
       setIsName(true);
     }
-  }, [])
+  }, []);
 
   // 이메일
   const onChangeEmail = useCallback((event) => {
@@ -74,32 +75,25 @@ export default function Signup({ setModalType, setModalOpen }) {
   }, []);
 
   // 비밀번호 확인
-  const onChangeConfirmPassword = useCallback((event) => {
-    setConfirmPassword(event.target.value);
-    if (password === event.target.value) {
-      setconfirmPasswordMessage("비밀번호가 일치합니다.");
-      setIsConfirmPassword(true);
-    } else {
-      setconfirmPasswordMessage("비밀번호가 일치하지 않습니다.");
-      setIsConfirmPassword(false);
-    }
-  }, [password]);
+  const onChangeConfirmPassword = useCallback(
+    (event) => {
+      setConfirmPassword(event.target.value);
+      if (password === event.target.value) {
+        setconfirmPasswordMessage("비밀번호가 일치합니다.");
+        setIsConfirmPassword(true);
+      } else {
+        setconfirmPasswordMessage("비밀번호가 일치하지 않습니다.");
+        setIsConfirmPassword(false);
+      }
+    },
+    [password]
+  );
 
   return (
-    <StModalContent  onSubmit={signUp}>
+    <StModalContent onSubmit={signUp}>
       <StModalSignupTitle>회원가입</StModalSignupTitle>
-      <StModalLoginInput
-        type="text"
-        value={name}
-        name="name"
-        onChange={onChangeName}
-        placeholder="닉네임" />
-        {
-          name.length > 0 &&
-            <span className={`message ${isName ? 'success' : 'error'}`}>
-              {nameMessage}
-            </span>
-        }
+      <StModalLoginInput type="text" value={name} name="name" onChange={onChangeName} placeholder="닉네임" />
+      {name.length > 0 && <span className={`message ${isName ? "success" : "error"}`}>{nameMessage}</span>}
       <StModalLoginInput
         type="email"
         value={email}
@@ -108,12 +102,7 @@ export default function Signup({ setModalType, setModalOpen }) {
         required
         placeholder="이메일"
       />
-      {
-        email.length > 0 &&
-          <span className={`message ${isEmail ? 'success' : 'error'}`}>
-            {emailMessage}
-          </span>
-      }
+      {email.length > 0 && <span className={`message ${isEmail ? "success" : "error"}`}>{emailMessage}</span>}
       <StModalLoginInput
         type="password"
         value={password}
@@ -122,27 +111,18 @@ export default function Signup({ setModalType, setModalOpen }) {
         required
         placeholder="비밀번호"
       />
-      {
-        password.length > 0 && 
-          <span className={`message ${isPassword ? 'success' : 'error'}`}>
-            {passwordMessage}
-          </span>
-      }
+      {password.length > 0 && <span className={`message ${isPassword ? "success" : "error"}`}>{passwordMessage}</span>}
       <StModalLoginInput
         type="password"
         value={confirmPassword}
         name="confirmPassword"
         onChange={onChangeConfirmPassword}
-        placeholder="비밀번호 확인" />
-        {
-          confirmPassword.length > 0 &&
-            <span className={`message ${isConfirmPassword ? 'success' : 'error'}`}>
-              {confirmPasswordMessage}
-            </span>
-        }
-      <StModalLonInBtn
-        disabled={!(isName && isEmail && isPassword && isConfirmPassword)}>
-        회원가입</StModalLonInBtn>
+        placeholder="비밀번호 확인"
+      />
+      {confirmPassword.length > 0 && (
+        <span className={`message ${isConfirmPassword ? "success" : "error"}`}>{confirmPasswordMessage}</span>
+      )}
+      <StModalLonInBtn disabled={!(isName && isEmail && isPassword && isConfirmPassword)}>회원가입</StModalLonInBtn>
       <StModalSignupBtn onClick={() => setModalType("login")}>로그인</StModalSignupBtn>
       <StModalGoogleBtn>Sign in Google</StModalGoogleBtn>
     </StModalContent>
