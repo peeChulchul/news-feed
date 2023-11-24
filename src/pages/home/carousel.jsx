@@ -72,9 +72,9 @@ const StCarouselImgWrapper = styled.figure`
     background-color: ${({ theme }) => theme.color.baseLight};
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
-    display: flex;
+    /* display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
   }
 `;
 
@@ -107,6 +107,7 @@ const StCarouselWrapper = styled.li`
     background-color: ${({ theme }) => theme.color.baseDark};
     padding: 4px 8px;
     border-radius: 10px;
+    cursor: pointer;
   }
 
   &:hover {
