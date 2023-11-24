@@ -137,17 +137,22 @@ export default function Sidebar() {
   const [posts, setPosts] = useState({ sports: 0, food: 0 });
   const [selectedFilterBtn, setSelectedFilterBtn] = useState("All");
   const { users, currentUser } = useSelector((modules) => modules.usersFirestoreState);
+  const { posts: dbPosts } = useSelector((modules) => modules.postsFirestoreState);
+
   const param = useParams();
+
+  console.log(currentUser);
 
   useEffect(() => {
     if (currentUser) {
-      const { user_posts } = currentUser;
-      const sports = user_posts.filter((post) => post.category === "오운완").length;
-      const food = user_posts.filter((post) => post.category === "오식완").length;
+      const { uid } = currentUser;
+      const myPosts = dbPosts.filter((post) => post.uid === uid);
+      const sports = myPosts.filter((post) => post.category === "오운완").length;
+      const food = myPosts.filter((post) => post.category === "오식완").length;
 
       setPosts((prev) => ({ ...prev, sports, food }));
     }
-  }, [currentUser]);
+  }, [currentUser, dbPosts]);
 
   const onClickToggleBtn = useThrottle(() => {
     setShow((prev) => !prev);
@@ -178,7 +183,7 @@ export default function Sidebar() {
           {/* 사용자부분 */}
           <StAuthBox>
             <Avatar width={"60px"} height={"60px"} />
-            <h1>닉네임</h1>
+            <h1> {currentUser ? currentUser.displayName : "로그인이 필요합니다."}</h1>
             <SvgBox>
               <MdSettings />
             </SvgBox>
@@ -212,7 +217,7 @@ export default function Sidebar() {
           {/* 페이지이동 */}
           {currentUser && (
             <>
-              <NavigationBox onClick={() => navigate(`/manage/newpost/${currentUser}`)}>게시글 쓰기</NavigationBox>
+              <NavigationBox onClick={() => navigate(`/manage/newpost/${currentUser.uid}`)}>게시글 쓰기</NavigationBox>
               <NavigationBox>나의 게시글</NavigationBox>
             </>
           )}
