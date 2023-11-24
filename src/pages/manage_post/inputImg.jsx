@@ -26,7 +26,7 @@ function InputImg({ onChange, onDrop }) {
 
   return (
     <>
-      <StInputWrap>
+      <StInputWrap className={dropZoneActive ? "active" : ""}>
         <StInput type="file" id="posts__img" name="posts__img" accept="image/*" multiple onChange={onChange} />
         <StLabel
           className={dropZoneActive ? "active" : ""}
@@ -56,6 +56,7 @@ const StInputWrap = styled.div`
   border: 3px solid #a5a5a5;
   border-radius: 1rem;
   transition: ${({ theme }) => theme.animation.transition};
+  &.active,
   &:hover {
     border: 3px solid ${({ theme }) => theme.color.base};
   }
