@@ -1,10 +1,12 @@
 import { DB } from "fb/myfirebase";
 import { doc, setDoc, deleteDoc, updateDoc } from "firebase/firestore";
 
-const SUBSCRIBE_USERSFIRESTORE = "usersFirestore/SUBSCRIBE_AUTH";
+const SUBSCRIBE_CURRENTUSER = "usersFirestore/SUBSCRIBE_CURRENTUSER";
+const SUBSCRIBE_USERSFIRESTORE = "usersFirestore/SUBSCRIBE";
 const SET_USERSFIRESTORE = "usersFirestore/SET_FIRESTORE";
 const DELETE_USERSFIRESTORE = "usersFirestore/DELETE_FIRESTORE";
 const UPDATE_USERSFIRESTORE = "usersFirestore/UPDATE_FIRESTORE";
+
 export const subscribeusersFirestore = (payload) => {
   return {
     type: SUBSCRIBE_USERSFIRESTORE,
@@ -12,6 +14,12 @@ export const subscribeusersFirestore = (payload) => {
   };
 };
 
+export const subscribeCurrentUser = (payload) => {
+  return {
+    type: SUBSCRIBE_CURRENTUSER,
+    payload
+  };
+};
 export const setUsersFirestore = (payload) => {
   return {
     type: SET_USERSFIRESTORE,
@@ -35,22 +43,22 @@ const initialState = { users: [], loading: true, currentUser: null };
 
 const usersFirestoreState = (state = initialState, action) => {
   switch (action.type) {
-    // 보류..
+    case SUBSCRIBE_CURRENTUSER: {
+      // 유저 정보가 변경될때 currentUser에 uid를 넣어줌
+      return { ...state, currentUser: action.payload };
+    }
+
     case SUBSCRIBE_USERSFIRESTORE: {
-      return { users: action.payload.users, currentUser: action.payload.currentUser };
+      return { ...state, users: action.payload };
     }
     case SET_USERSFIRESTORE: {
       (async () => {
         // SetDoc은 collection이 아닌 doc을인자로 사용 doc에는 DB,콜렉션네임,유저아이디를 인자로 전달 문서아이디 동일한경우 덮어씌움
         // 유저의 경우 게시글작성이나 좋아요에 따른 업데이트가 필요하여 덮어씌우는방식이 아닌 업데이트가 필요
         // set은 유저의 추가에만 사용
-        await setDoc(
-          doc(DB, "users", action.payload.uid),
-          {
-            ...action.payload
-          },
-          { merge: true }
-        );
+        await setDoc(doc(DB, "users", action.payload.uid), {
+          ...action.payload
+        });
       })();
       return state;
     }

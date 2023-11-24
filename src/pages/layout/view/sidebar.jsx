@@ -109,8 +109,7 @@ const StAccordionChildren = styled.div`
 export default function Sidebar() {
   const theme = useTheme();
   const [show, setShow] = useState(true);
-  const { user } = useSelector((modules) => modules.authState);
-  const { users } = useSelector((modules) => modules.usersFirestoreState);
+  const { users, currentUser } = useSelector((modules) => modules.usersFirestoreState);
 
   const navigate = useNavigate();
 
@@ -156,9 +155,9 @@ export default function Sidebar() {
         </StAuthPostInfoBox>
 
         {/* 페이지이동 */}
-        {user?.uid && (
+        {currentUser && (
           <>
-            <NavigationBox onClick={() => navigate(`/manage/newpost/${user.uid}`)}>게시글 쓰기</NavigationBox>
+            <NavigationBox onClick={() => navigate(`/manage/newpost/${currentUser}`)}>게시글 쓰기</NavigationBox>
             <NavigationBox>나의 게시글</NavigationBox>
           </>
         )}
