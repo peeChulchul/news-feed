@@ -2,10 +2,30 @@ import { STORAGE } from "fb/myfirebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuid } from "uuid";
 
+const alertMsg = {
+  size: "최대 10MB 이내의 파일만 등록가능합니다.",
+  type: "잘못된 파일 입니다."
+};
+const mb = 1024 ** 2;
+const possibleImgType = ["image/jpeg", "image/png", "image/webp"];
+
+function validateImgFiles(e, file) {
+  const currentFile = e.type === "change" ? file : file.getAsFile();
+  const typeCheck = possibleImgType.includes(currentFile.type);
+  const sizeCheck = currentFile.size <= 10 * mb;
+
+  if (!typeCheck) {
+    alert(alertMsg.type);
+  }
+  if (!sizeCheck) {
+    alert(alertMsg.size);
+  }
+  return typeCheck && sizeCheck;
+}
+
 function createImgFileState(file) {
   const previewImg = URL.createObjectURL(file);
   const newFileName = uuid();
-
   return {
     file,
     previewImg,
@@ -23,32 +43,12 @@ async function uploadImg(storageMainFolderName, id, imgFileState) {
   const path = [storageMainFolderName, id, imgFileState.newFileName];
   const imgRef = ref(STORAGE, path.join("/"));
   try {
-    // uploadBytes(imgRef, imgFileState.file)
-    //   .then((snapshot) => {
-    //     return getDownloadURL(snapshot.ref);
-    //   })
-    //   .then((downloadURL) => {
-    //     return downloadURL;
-    //     // console.log("Download URL", downloadURL);
-    //   });
-
     const snapshot = await uploadBytes(imgRef, imgFileState.file);
     const downloadURL = await getDownloadURL(snapshot.ref);
     return downloadURL;
-    // if (uploadTask) {
-    //   console.log("downloadURL:");
-    //   console.log(uploadTask.downloadURL);
-    //   return true;
-    // } else {
-    //   console.log("업로드에 실패하였습니다.");
-    // }
   } catch (error) {
     console.error(error);
   }
 }
 
-// function createStorageImgUrl = ()
-
-// firebase/firestore Database 이용 함수
-
-export { createImgFileState, uploadImg };
+export { validateImgFiles, createImgFileState, uploadImg };

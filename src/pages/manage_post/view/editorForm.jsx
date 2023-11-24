@@ -5,7 +5,7 @@ import InputCheckRadio from "../inputCheckRadio";
 import InputImg from "../inputImg";
 import { data } from "../mockHashtag";
 import PreviewImg from "../previewImg";
-import { createImgFileState, uploadImg } from "utils/useForm";
+import { validateImgFiles, createImgFileState, uploadImg } from "utils/useForm";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { setPostsFirestore } from "redux/modules/postsFirestoreState";
@@ -53,8 +53,10 @@ function EditorForm() {
   const onSelectImg = (e) => {
     const files = e.currentTarget.files;
     for (let file of files) {
-      const newImgFileState = createImgFileState(file);
-      setSelectImage((preState) => [...preState, newImgFileState]);
+      if (validateImgFiles(e, file)) {
+        const newImgFileState = createImgFileState(file);
+        setSelectImage((preState) => [...preState, newImgFileState]);
+      }
     }
   };
 
@@ -66,10 +68,7 @@ function EditorForm() {
   const onDrop = (e) => {
     if (e.dataTransfer.items) {
       [...e.dataTransfer.items].forEach((item) => {
-        if (
-          item.kind === "file" &&
-          (item.type === "image/jpeg" || item.type === "image/png" || item.type === "image/webp")
-        ) {
+        if (validateImgFiles(e, item)) {
           const file = item.getAsFile();
           const newImgFileState = createImgFileState(file);
           setSelectImage((preState) => [...preState, newImgFileState]);
