@@ -8,7 +8,6 @@ import PreviewImg from "../previewImg";
 import { createImgFileState, uploadImg } from "utils/useForm";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
-import { setFirestore } from "redux/modules/firestoreState";
 function EditorForm() {
   const [selectImage, setSelectImage] = useState([]);
   const [category, setCategory] = useState(data.checkedCategory);

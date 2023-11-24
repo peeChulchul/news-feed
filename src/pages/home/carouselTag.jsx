@@ -5,8 +5,9 @@ import { v4 as uuid } from "uuid";
 import { useSelector } from "react-redux";
 
 function CarouselTag() {
-  const { posts } = useSelector((state) => state.firestoreState);
-  const [activeTag, setActiveTag] = useState("");
+  // const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.postsFirestoreState);
+  const [activeTag, setActiveTag] = useState(posts);
 
   const onClickTagNameHandler = (post) => {
     console.log(post.hashtag);
