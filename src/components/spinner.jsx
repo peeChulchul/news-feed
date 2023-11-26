@@ -15,8 +15,8 @@ const StRotation = keyframes`
 `;
 
 const StSpinner = styled.span`
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: 100%;
   border: 10px solid ${({ theme }) => theme.color.baseLight};
   border-bottom-color: ${({ theme }) => theme.color.baseDark};
   border-radius: 50%;

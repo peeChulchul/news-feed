@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useThrottle } from "utils/usethrottle";
 import { BiSolidCategoryAlt } from "react-icons/bi";
+import Spinner from "components/spinner";
 const StContainer = styled.aside`
   background-color: #f5f5f5;
   top: 100px;
@@ -131,16 +132,20 @@ const StSidebarToggleBox = styled.div`
   cursor: pointer;
 `;
 
+const StSpinnerBox = styled.div`
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+`;
+
 export default function Sidebar() {
   const theme = useTheme();
   const navigate = useNavigate();
   const [show, setShow] = useState(true);
   const [posts, setPosts] = useState({ sports: 0, food: 0 });
   const [selectedFilterBtn, setSelectedFilterBtn] = useState("All");
-  const { currentUser } = useSelector((modules) => modules.usersFirestoreState);
+  const { currentUser, loading } = useSelector((modules) => modules.usersFirestoreState);
   const { posts: dbPosts } = useSelector((modules) => modules.postsFirestoreState);
-
-  console.log(currentUser);
 
   useEffect(() => {
     if (currentUser) {
@@ -180,38 +185,46 @@ export default function Sidebar() {
         </StSidebarClose> */}
         <StAuthWrapper>
           {/* 사용자부분 */}
-          <StAuthBox>
-            <Avatar width={"60px"} height={"60px"} />
-            <h1> {currentUser ? currentUser.displayName : "로그인이 필요합니다."}</h1>
-            <SvgBox>
-              <MdSettings />
-            </SvgBox>
-          </StAuthBox>
+          {loading ? (
+            <StSpinnerBox>
+              <Spinner />
+            </StSpinnerBox>
+          ) : (
+            <>
+              <StAuthBox>
+                <Avatar width={"60px"} height={"60px"} />
+                <h1> {currentUser ? currentUser.displayName : "로그인이 필요합니다."}</h1>
+                <SvgBox>
+                  <MdSettings />
+                </SvgBox>
+              </StAuthBox>
 
-          {/* 게시물 */}
-          <StAuthPostInfoBox>
-            <StAuthPostInfo>
-              <SvgBox fill={"#33BFFF"} fontSize={"3rem"}>
-                <GiMuscleUp />
-              </SvgBox>
-              <h1>{currentUser ? formatlocaleString({ num: posts.sports }) : "정보없음"}</h1>
-              <p>운동 게시물</p>
-            </StAuthPostInfo>
-            <StAuthPostInfo>
-              <SvgBox fill={"#29CC39"} fontSize={"3rem"}>
-                <IoCalendar />
-              </SvgBox>
-              <h1> {currentUser ? formatlocaleString({ num: posts.food }) : "정보없음"}</h1>
-              <p>식단 게시물</p>
-            </StAuthPostInfo>
-            <StAuthPostInfo>
-              <SvgBox fill={"#105EFB"} fontSize={"3rem"}>
-                <FaMessage />
-              </SvgBox>
-              <h1> {currentUser ? formatlocaleString({ num: 0 }) : "정보없음"}</h1>
-              <p>팔로워</p>
-            </StAuthPostInfo>
-          </StAuthPostInfoBox>
+              {/* 게시물 */}
+              <StAuthPostInfoBox>
+                <StAuthPostInfo>
+                  <SvgBox fill={"#33BFFF"} fontSize={"3rem"}>
+                    <GiMuscleUp />
+                  </SvgBox>
+                  <h1>{currentUser ? formatlocaleString({ num: posts.sports }) : "정보없음"}</h1>
+                  <p>운동 게시물</p>
+                </StAuthPostInfo>
+                <StAuthPostInfo>
+                  <SvgBox fill={"#29CC39"} fontSize={"3rem"}>
+                    <IoCalendar />
+                  </SvgBox>
+                  <h1> {currentUser ? formatlocaleString({ num: posts.food }) : "정보없음"}</h1>
+                  <p>식단 게시물</p>
+                </StAuthPostInfo>
+                <StAuthPostInfo>
+                  <SvgBox fill={"#105EFB"} fontSize={"3rem"}>
+                    <FaMessage />
+                  </SvgBox>
+                  <h1> {currentUser ? formatlocaleString({ num: 0 }) : "정보없음"}</h1>
+                  <p>팔로워</p>
+                </StAuthPostInfo>
+              </StAuthPostInfoBox>
+            </>
+          )}
 
           {/* 페이지이동 */}
           {currentUser && (
