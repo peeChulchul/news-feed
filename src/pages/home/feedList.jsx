@@ -20,7 +20,11 @@ function FeedList({ activeTag }) {
             ? posts
                 .filter((feed) => feed.category === category && (!activeTag || feed.hashtag.includes(activeTag)))
                 .map((feed) => {
-                  return <FeedCard feed={feed} key={feed.postid} />;
+                  return (
+                    <div>
+                      <FeedCard feed={feed} key={feed.postid} />
+                    </div>
+                  );
                 })
             : posts
                 .filter((feed) => !activeTag || feed.hashtag.includes(activeTag))
