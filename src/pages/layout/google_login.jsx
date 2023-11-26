@@ -21,7 +21,7 @@ export default function Googlelogin({ setModalOpen }) {
         console.log(result);
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        const { email, uid, photourl = "", displayName = "" } = result.user;
+        const { email, uid, photourl = "", displayName } = result.user;
 
         dispatch(setUsersFirestore({ email, uid, photourl, displayName, user_liked: [], user_posts: [] }));
 
@@ -37,9 +37,10 @@ export default function Googlelogin({ setModalOpen }) {
 
   return (
     <StModalGoogleBtn onClick={handleGoogleLogin}>
-      <FcGoogle/><StModalGoogleText>Sign in with Google</StModalGoogleText>
+      <FcGoogle />
+      <StModalGoogleText>Sign in with Google</StModalGoogleText>
     </StModalGoogleBtn>
-  )
+  );
 }
 
 const StModalGoogleBtn = styled.button`
@@ -51,7 +52,7 @@ const StModalGoogleBtn = styled.button`
   padding: 5px 45px 5px 45px;
   display: flex;
   cursor: pointer;
-  border: 1px solid ${({ theme }) => theme.color.success};;
+  border: 1px solid ${({ theme }) => theme.color.success};
 `;
 const StModalGoogleText = styled.p`
   font-size: 14px;
@@ -59,4 +60,4 @@ const StModalGoogleText = styled.p`
   margin-left: 10px;
   margin-top: 6px;
   color: grey;
-`
+`;
