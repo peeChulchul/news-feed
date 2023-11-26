@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function AuthBtns({ setModalOpen, setModalType }) {
-  const { currentUser } = useSelector((modules) => modules.usersFirestoreState);
+  const { currentUser, loading } = useSelector((modules) => modules.usersFirestoreState);
 
   const logOut = async (event) => {
     event.preventDefault();
@@ -14,28 +14,34 @@ export default function AuthBtns({ setModalOpen, setModalType }) {
 
   return (
     <>
-      {currentUser === null && (
-        <StLogInBtn
-          onClick={() => {
-            setModalOpen(true);
-            setModalType("login");
-          }}
-        >
-          Log in
-        </StLogInBtn>
-      )}
+      {loading ? (
+        ""
+      ) : (
+        <>
+          {currentUser === null && (
+            <StLogInBtn
+              onClick={() => {
+                setModalOpen(true);
+                setModalType("login");
+              }}
+            >
+              Log in
+            </StLogInBtn>
+          )}
 
-      {currentUser !== null && <StLogOutBtn onClick={logOut}>Log out</StLogOutBtn>}
+          {currentUser !== null && <StLogOutBtn onClick={logOut}>Log out</StLogOutBtn>}
 
-      {currentUser == null && (
-        <StSignupBtn
-          onClick={() => {
-            setModalOpen(true);
-            setModalType("signup");
-          }}
-        >
-          Sign up
-        </StSignupBtn>
+          {currentUser == null && (
+            <StSignupBtn
+              onClick={() => {
+                setModalOpen(true);
+                setModalType("signup");
+              }}
+            >
+              Sign up
+            </StSignupBtn>
+          )}
+        </>
       )}
     </>
   );
@@ -60,7 +66,7 @@ const StLogOutBtn = styled.button`
   background-color: ${({ theme }) => theme.color.white};
 
   cursor: pointer;
-`
+`;
 const StSignupBtn = styled.button`
   width: 110px;
   height: 40px;

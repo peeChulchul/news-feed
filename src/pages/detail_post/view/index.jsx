@@ -2,7 +2,21 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { DB } from "fb/myfirebase";
-import Test from "../test";
+import DetailPostContent from "../detailPostContent";
+import Spinner from "components/spinner";
+import styled from "styled-components";
+
+const StLoadingBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 100px);
+
+  & span {
+    width: 200px;
+    height: 200px;
+  }
+`;
 
 export default function DetailPost() {
   const { postid } = useParams();
@@ -21,10 +35,12 @@ export default function DetailPost() {
   return (
     <>
       {!selectedPost ? (
-        <>로딩중</>
+        <StLoadingBox>
+          <Spinner />
+        </StLoadingBox>
       ) : (
         <>
-          <Test data={selectedPost} />
+          <DetailPostContent data={selectedPost} />
         </>
       )}
     </>

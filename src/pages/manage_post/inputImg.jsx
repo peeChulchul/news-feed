@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { MdOutlineUploadFile } from "react-icons/md";
 
-function InputImg({ onChange, onDrop }) {
+function InputImg({ onChange, onDrop, multiple = true }) {
   const [dropZoneActive, setDropZoneActive] = useState(false);
 
   const handleDragOver = (e) => {
@@ -27,7 +27,14 @@ function InputImg({ onChange, onDrop }) {
   return (
     <>
       <StInputWrap className={dropZoneActive ? "active" : ""}>
-        <StInput type="file" id="posts__img" name="posts__img" accept="image/*" multiple onChange={onChange} />
+        <StInput
+          type="file"
+          id="posts__img"
+          name="posts__img"
+          accept="image/*"
+          multiple={multiple}
+          onChange={onChange}
+        />
         <StLabel
           className={dropZoneActive ? "active" : ""}
           htmlFor="posts__img"

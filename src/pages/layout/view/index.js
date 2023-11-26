@@ -8,15 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { onSnapshot, query } from "firebase/firestore";
 import { subscribeCurrentUser, subscribeusersFirestore } from "redux/modules/usersFirestoreState";
+import { getAuth, updateProfile } from "firebase/auth";
 import Spinner from "components/spinner";
 
 export default function Layout({ children }) {
   const dispatch = useDispatch();
 
   const { users, currentUser, loading } = useSelector((modules) => modules.usersFirestoreState);
-
-  // console.log(users);
-  console.log(currentUser);
 
   useEffect(() => {
     const userSubscribe = onAuthStateChanged(AUTH, async (user) => {

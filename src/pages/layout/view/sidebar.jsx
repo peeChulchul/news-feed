@@ -171,6 +171,8 @@ export default function Sidebar() {
     navigate(`/${query}`);
   };
 
+  useEffect(() => {}, [currentUser]);
+
   return (
     <StContainer>
       {/* 사이드바 닫기 */}
@@ -192,11 +194,13 @@ export default function Sidebar() {
           ) : (
             <>
               <StAuthBox>
-                <Avatar width={"60px"} height={"60px"} />
+                <Avatar src={currentUser ? currentUser?.photoURL : ""} width={"60px"} height={"60px"} />
                 <h1> {currentUser ? currentUser.displayName : "로그인이 필요합니다."}</h1>
-                <SvgBox>
-                  <MdSettings />
-                </SvgBox>
+                {currentUser && (
+                  <SvgBox pointer={true}>
+                    <MdSettings onClick={() => navigate(`manage/modifyuser/${currentUser.uid}`)} />
+                  </SvgBox>
+                )}
               </StAuthBox>
 
               {/* 게시물 */}
@@ -230,7 +234,7 @@ export default function Sidebar() {
           {currentUser && (
             <>
               <NavigationBox onClick={() => navigate(`/manage/newpost/${currentUser.uid}`)}>게시글 쓰기</NavigationBox>
-              <NavigationBox>나의 게시글</NavigationBox>
+              <NavigationBox onClick={() => navigate(`/posts/${currentUser.uid}`)}>나의 게시글</NavigationBox>
             </>
           )}
         </StAuthWrapper>

@@ -3,23 +3,39 @@ import FeedList from "../feedList";
 import Carousel from "../carousel";
 import { onSnapshot, query } from "firebase/firestore";
 import { postsCollection } from "fb/myfirebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { subscribePostsFirestore } from "redux/modules/postsFirestoreState";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import Spinner from "components/spinner";
+
+const StLoadingBox = styled.div`
+  min-height: calc(100vh - 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & span {
+    width: 200px;
+    height: 200px;
+  }
+`;
 
 export default function Home() {
   const dispatch = useDispatch();
-  // const { posts, loading } = useSelector((modules) => modules.postsFirestoreState);
+  const { posts, loading } = useSelector((modules) => modules.postsFirestoreState);
   const { category } = useParams();
 
   useEffect(() => {
     // posts컬렉션 을 실시간 수신대기 (구독)
     const q = query(postsCollection);
     const dbSubscribe = onSnapshot(q, async (querySnapshot) => {
+      // if (querySnapshot === null || loading) return;
       const result = [];
+
       querySnapshot.forEach((doc) => {
         result.push(doc.data());
       });
+      result.sort((a, b) => b?.timesteamp.seconds - a?.timesteamp.seconds);
       dispatch(subscribePostsFirestore(result));
     });
 
@@ -36,8 +52,16 @@ export default function Home() {
 
   return (
     <>
-      <Carousel setActiveTag={setActiveTag} />
-      <FeedList activeTag={activeTag} />
+      {loading ? (
+        <StLoadingBox>
+          <Spinner />
+        </StLoadingBox>
+      ) : (
+        <>
+          <Carousel setActiveTag={setActiveTag} />
+          <FeedList activeTag={activeTag} />
+        </>
+      )}
     </>
   );
 }

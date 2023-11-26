@@ -7,7 +7,7 @@ function Avatar({ width, height, src }) {
       <img
         src={
           src
-            ? { src }
+            ? src
             : "https://i.namu.wiki/i/Bge3xnYd4kRe_IKbm2uqxlhQJij2SngwNssjpjaOyOqoRhQlNwLrR2ZiK-JWJ2b99RGcSxDaZ2UCI7fiv4IDDQ.webp"
         }
         alt="프로필이미지"
