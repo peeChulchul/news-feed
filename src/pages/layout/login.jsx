@@ -3,12 +3,15 @@ import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import styled from "styled-components";
 import Googlelogin from "./google_login";
-import Githublogin from "./githublogin";
+import Githublogin from "./github_login";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { setUsersFirestore } from "redux/modules/usersFirestoreState";
 
 export default function Login({ setModalType, setModalOpen, modalBackground, modalBackgroundOnclickHandler }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
   const onChange = (event) => {
     const {
       target: { name, value }
@@ -24,8 +27,12 @@ export default function Login({ setModalType, setModalOpen, modalBackground, mod
   const logIn = async (event) => {
     event.preventDefault();
     try {
-      const userCredential = await signInWithEmailAndPassword(AUTH, email, password);
-      console.log(userCredential);
+      const {
+        user: { uid, photourl = "", displayName = "" }
+      } = await signInWithEmailAndPassword(AUTH, email, password);
+
+      dispatch(setUsersFirestore({ email, uid, photourl, displayName, user_liked: [], user_posts: [] }));
+      console.log(dispatch);
       alert("로그인에 성공하였습니다.");
       // 로그인 성공하면 모달창 닫히게
       setModalOpen(false);
@@ -37,8 +44,8 @@ export default function Login({ setModalType, setModalOpen, modalBackground, mod
 
   return (
     <StModalContent onSubmit={logIn}>
-      <StModalCloseBtn ref={modalBackground}>
-        <IoCloseCircleOutline onClick={modalBackgroundOnclickHandler} />
+      <StModalCloseBtn>
+        <IoCloseCircleOutline ref={modalBackground} onClick={modalBackgroundOnclickHandler} />
       </StModalCloseBtn>
       <StLoginModalTitle>로그인</StLoginModalTitle>
       <StModalLoginInput
@@ -60,6 +67,7 @@ export default function Login({ setModalType, setModalOpen, modalBackground, mod
       />
       <StModalLonInBtn disabled={!(email && password)}>로그인</StModalLonInBtn>
       <StModalSignupBtn onClick={() => setModalType("signup")}>회원가입</StModalSignupBtn>
+      <StLine>--------------- 다른 계정으로 로그인 ---------------</StLine>
       <Googlelogin setModalOpen={setModalOpen} />
       <Githublogin setModalOpen={setModalOpen} />
     </StModalContent>
@@ -69,21 +77,22 @@ export default function Login({ setModalType, setModalOpen, modalBackground, mod
 const StModalContent = styled.form`
   background-color: ${({ theme }) => theme.color.white};
   width: 400px;
-  height: 500px;
+  height: 620px;
 
   z-index: 100;
 `;
-const StModalCloseBtn = styled.div`
+const StModalCloseBtn = styled.button`
   font-size: ${({ theme }) => theme.fontSize.xl};
-  display: flex;
-  justify-content: flex-end;
   margin: 10px;
   cursor: pointer;
+  outline: none;
+  background-color: transparent;
+  float: right;
 `;
 const StLoginModalTitle = styled.div`
   font-size: ${({ theme }) => theme.fontSize.xxxl};
   font-weight: bold;
-  margin: 65px 145px 20px 155px;
+  margin: 135px 145px 20px 155px;
 `;
 const StModalLoginInput = styled.input`
   width: 250px;
@@ -106,3 +115,8 @@ const StModalSignupBtn = styled.span`
 
   cursor: pointer;
 `;
+const StLine = styled.div`
+  font-size: 13px;
+  color: grey;
+  margin: 30px 77px 10px 78px;
+`

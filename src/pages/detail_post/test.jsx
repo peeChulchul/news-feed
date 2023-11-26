@@ -4,9 +4,7 @@ import Hashtag from "components/hashtag";
 import { v4 as uuid } from "uuid";
 function Test({ data }) {
   const { displayName, content, imgs, category, hashtag, postid, uid } = data;
-  const [currentImg, setCurrentImg] = useState(
-    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.aitimes.kr%2Fnews%2FarticleView.html%3Fidxno%3D27617&psig=AOvVaw1Ihi6HRg5-04ihcfx0XSDA&ust=1700920267779000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCPjOtPXj3IIDFQAAAAAdAAAAABAJ"
-  );
+  const [currentImg, setCurrentImg] = useState(imgs[0]);
 
   const onClickSubImg = (imgURL) => {
     // setCurrentImg(imgURL)
@@ -17,7 +15,7 @@ function Test({ data }) {
     <StWrap>
       <div className="row">nickname</div>
       <StImgWrap>
-        <img src={currentImg} alt="" />
+        <img src={currentImg.url} alt="" />
       </StImgWrap>
       <div className="row">
         {imgs.map((n) => {
@@ -29,18 +27,20 @@ function Test({ data }) {
         })}
       </div>
       <div className="row">
-        {/* {hashtag.map((n) => {
-
-        })} */}
+        <Hashtag hashtag={"true"} content={category} color={"white"} fontColor={"base"} />
+        {hashtag.map((n) => {
+          <Hashtag hashtag={"true"} content={n} color={"base"} fontColor={"white"} key={uuid()} />;
+        })}
       </div>
-      <div className="row"></div>
+      <div className="row">
+        <p>{content}</p>
+      </div>
     </StWrap>
   );
 }
 
 const StWrap = styled.div`
   width: 100%;
-
   &.row {
     display: flex;
     padding: ${({ theme }) => theme.spacing.base};
@@ -49,7 +49,7 @@ const StWrap = styled.div`
 `;
 
 const StImgWrap = styled.figure`
-  height: 20rem;
+  height: 10rem;
   display: flex;
   justify-content: center;
   align-items: center;

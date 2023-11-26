@@ -50,4 +50,6 @@ const StModalContainer = styled.div`
   background: rgba(0, 0, 0, 0.5);
 
   z-index: 100;
+
 `;
+
