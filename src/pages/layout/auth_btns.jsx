@@ -9,6 +9,7 @@ export default function AuthBtns({ setModalOpen, setModalType }) {
   const logOut = async (event) => {
     event.preventDefault();
     await signOut(AUTH);
+    alert("로그아웃이 완료되었습니다.");
   };
 
   return (
