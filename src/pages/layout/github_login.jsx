@@ -21,7 +21,7 @@ export default function Githublogin({ setModalOpen }) {
         console.log(result);
         const credential = GithubAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        const { email, uid, photourl = "", displayName = "" } = result.user;
+        const { email, uid, photourl = "", displayName = uid } = result.user;
 
         dispatch(setUsersFirestore({ email, uid, photourl, displayName, user_liked: [], user_posts: [] }));
 
