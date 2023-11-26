@@ -21,7 +21,7 @@ export default function Githublogin({ setModalOpen }) {
         console.log(result);
         const credential = GithubAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        const { email, uid, photourl = "", displayName = uid } = result.user;
+        const { email, uid, photourl = "", displayName } = result.user;
 
         dispatch(setUsersFirestore({ email, uid, photourl, displayName, user_liked: [], user_posts: [] }));
 
@@ -37,9 +37,10 @@ export default function Githublogin({ setModalOpen }) {
 
   return (
     <StModalGithubBtn onClick={handleGithubLogin}>
-     <IoLogoGithub /><StModalGithubText>Sign in with Github</StModalGithubText>
+      <IoLogoGithub />
+      <StModalGithubText>Sign in with Github</StModalGithubText>
     </StModalGithubBtn>
-  )
+  );
 }
 
 const StModalGithubBtn = styled.button`
@@ -51,7 +52,7 @@ const StModalGithubBtn = styled.button`
   padding: 3px 45px 5px 45px;
   display: flex;
   cursor: pointer;
-  border: 1px solid ${({ theme }) => theme.color.black};;
+  border: 1px solid ${({ theme }) => theme.color.black};
 `;
 const StModalGithubText = styled.p`
   font-size: 14px;
@@ -59,4 +60,4 @@ const StModalGithubText = styled.p`
   margin-left: 10px;
   margin-top: 8px;
   color: grey;
-`
+`;
