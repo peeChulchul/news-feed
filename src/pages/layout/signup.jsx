@@ -140,6 +140,7 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
       )}
       <StModalLonInBtn disabled={!(isName && isEmail && isPassword && isConfirmPassword)}>회원가입</StModalLonInBtn>
       <StModalSignupBtn onClick={() => setModalType("login")}>로그인</StModalSignupBtn>
+      <StLine>--------------- 다른 계정으로 로그인 ---------------</StLine>
       <Googlelogin setModalOpen={setModalOpen} />
       <Githublogin setModalOpen={setModalOpen} />
     </StModalContent>
@@ -149,7 +150,7 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
 const StModalContent = styled.form`
   background-color: ${({ theme }) => theme.color.white};
   width: 400px;
-  height: 580px;
+  height: 620px;
 
   z-index: 100;
 `;
@@ -201,3 +202,8 @@ const StModalSignupBtn = styled.span`
 
   cursor: pointer;
 `;
+const StLine = styled.div`
+  font-size: 13px;
+  color: grey;
+  margin: 30px 77px 10px 78px;
+`

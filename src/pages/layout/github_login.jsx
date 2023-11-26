@@ -3,6 +3,7 @@ import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { setUsersFirestore } from "redux/modules/usersFirestoreState";
+import { IoLogoGithub } from "react-icons/io";
 
 export default function Githublogin({ setModalOpen }) {
   const provider = new GithubAuthProvider();
@@ -34,15 +35,28 @@ export default function Githublogin({ setModalOpen }) {
       });
   }
 
-  return <StModalGithubBtn onClick={handleGithubLogin}>Sign in with Github</StModalGithubBtn>;
+  return (
+    <StModalGithubBtn onClick={handleGithubLogin}>
+     <IoLogoGithub /><StModalGithubText>Sign in with Github</StModalGithubText>
+    </StModalGithubBtn>
+  )
 }
 
 const StModalGithubBtn = styled.button`
-  background-color: ${({ theme }) => theme.color.success};
-  color: ${({ theme }) => theme.color.white};
+  font-size: 30px;
+  background-color: ${({ theme }) => theme.color.white};
   width: 250px;
   height: 40px;
-  margin: 5px 80px 0 75px;
-
+  margin: 10px 80px 0 75px;
+  padding: 3px 45px 5px 45px;
+  display: flex;
   cursor: pointer;
+  border: 1px solid ${({ theme }) => theme.color.black};;
 `;
+const StModalGithubText = styled.p`
+  font-size: 14px;
+  width: 170px;
+  margin-left: 10px;
+  margin-top: 8px;
+  color: grey;
+`
