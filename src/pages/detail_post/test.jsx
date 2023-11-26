@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Hashtag from "components/hashtag";
 import { v4 as uuid } from "uuid";
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
 import { GrPrevious, GrNext } from "react-icons/gr";
+import ListOption from "components/listOption";
 function Test({ data }) {
   const { displayName, content, imgs, category, hashtag, postid, uid } = data;
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
@@ -17,40 +16,41 @@ function Test({ data }) {
     if (boolean) {
       const nextImgIndex = currentImgIndex + 1;
       nextImgIndex >= imgs.length ? setCurrentImgIndex(0) : setCurrentImgIndex(nextImgIndex);
+    } else {
+      const preImgIndex = currentImgIndex - 1;
+      preImgIndex < 0 ? setCurrentImgIndex(imgs.length - 1) : setCurrentImgIndex(preImgIndex);
     }
-    const preImgIndex = currentImgIndex - 1;
-    preImgIndex < 0 ? setCurrentImgIndex(imgs.length - 1) : setCurrentImgIndex(preImgIndex);
   };
 
   return (
     <StWrap>
       <StRow className="header">
         <div>{displayName}</div>
-        <div>
-          <StIconWrap>
-            <MdDelete />
-          </StIconWrap>
-          <StIconWrap>
-            <FaEdit />
-          </StIconWrap>
-        </div>
+        <ListOption />
       </StRow>
       <StRow className="center">
-        <StImgWrap backgroundImg={imgs[currentImgIndex].url}>
+        <StImgWrap $bgImg={imgs[currentImgIndex].url}>
           <img src={imgs[currentImgIndex].url} alt="" />
-
-          <StImgControler className="left" onClick={() => showNextImg(false)}>
-            <GrPrevious />
-          </StImgControler>
-          <StImgControler className="right" onClick={() => showNextImg(true)}>
-            <GrNext />
-          </StImgControler>
+          {imgs.length > 1 && (
+            <>
+              <StImgControler className="left" onClick={() => showNextImg(false)}>
+                <GrPrevious />
+              </StImgControler>
+              <StImgControler className="right" onClick={() => showNextImg(true)}>
+                <GrNext />
+              </StImgControler>
+            </>
+          )}
         </StImgWrap>
       </StRow>
       <StRow className="center">
         {imgs.map((n, i) => {
           return (
-            <StSubImgWrap className={currentImgIndex === i ? "active" : null} onClick={() => onClickSubImg(i)}>
+            <StSubImgWrap
+              className={currentImgIndex === i ? "active" : null}
+              onClick={() => onClickSubImg(i)}
+              key={uuid()}
+            >
               <img src={n.url} alt="" />
             </StSubImgWrap>
           );
@@ -66,7 +66,7 @@ function Test({ data }) {
       <StRow>
         <p>{content}</p>
       </StRow>
-      <StRow className="direction-col ">
+      <StRow className="comment">
         <h1>댓글 0개</h1>
         <ul>
           <li>현재 댓글기능은 지원하지 않습니다.</li>
@@ -77,13 +77,15 @@ function Test({ data }) {
 }
 
 const StWrap = styled.div`
-  padding: ${({ theme }) => theme.spacing.lg};
-  border: 3px solid red;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.lg} 0;
 `;
 
 const StRow = styled.div`
   display: flex;
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
   gap: ${({ theme }) => theme.spacing.base};
 
   &.center {
@@ -96,15 +98,27 @@ const StRow = styled.div`
     font-size: ${({ theme }) => theme.fontSize.xl};
   }
 
-  &.direction-col {
+  &.comment {
     flex-direction: column;
+    & h1 {
+      font-size: ${({ theme }) => theme.fontSize.lg};
+      font-weight: bold;
+      margin-bottom: ${({ theme }) => theme.spacing.base};
+    }
+
+    & ul {
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.spacing.base};
+    }
   }
 `;
 
 const StIconWrap = styled.span`
   cursor: pointer;
+  position: relative;
   &:hover {
-    color: red;
+    color: ${({ theme }) => theme.color.base};
   }
 `;
 
@@ -123,7 +137,7 @@ const StImgWrap = styled.figure`
     width: 150%;
     height: 150%;
     background-position: center;
-    background-image: url(${({ backgroundImg }) => backgroundImg});
+    background-image: url(${(props) => props.$bgImg});
     z-index: -1;
     filter: blur(30px) brightness(0.5);
   }
@@ -143,7 +157,9 @@ const StImgControler = styled.button`
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.5);
   color: ${({ theme }) => theme.color.white};
+  border: 3px solid rgba(0, 0, 0, 0.5);
   cursor: pointer;
+  transition: ${({ theme }) => theme.animation.transition};
 
   &.left {
     left: ${({ theme }) => theme.spacing.base};
@@ -151,6 +167,10 @@ const StImgControler = styled.button`
 
   &.right {
     right: ${({ theme }) => theme.spacing.base};
+  }
+
+  &:hover {
+    border: 3px solid white;
   }
 `;
 
