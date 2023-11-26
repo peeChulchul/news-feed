@@ -5,15 +5,22 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
 function FeedList({ activeTag }) {
-  const { posts, loading } = useSelector((state) => state.postsFirestoreState);
-  const { category } = useParams();
-
-  console.log(loading);
+  const { posts } = useSelector((state) => state.postsFirestoreState);
+  const { currentUser } = useSelector((state) => state.usersFirestoreState);
+  const { category, userid } = useParams();
 
   return (
     <StListWrapper>
-      {loading ? (
-        <>로딩중</>
+      {userid ? (
+        <StFeedList>
+          {posts
+            .filter((feed) => feed.uid === currentUser.uid)
+            .map((feed) => (
+              <div>
+                <FeedCard feed={feed} key={feed.postid} />
+              </div>
+            ))}
+        </StFeedList>
       ) : (
         <StFeedList>
           {category
@@ -33,6 +40,23 @@ function FeedList({ activeTag }) {
                 })}
         </StFeedList>
       )}
+      {/* <StFeedList>
+        {category
+          ? posts
+              .filter((feed) => feed.category === category && (!activeTag || feed.hashtag.includes(activeTag)))
+              .map((feed) => {
+                return (
+                  <div>
+                    <FeedCard feed={feed} key={feed.postid} />
+                  </div>
+                );
+              })
+          : posts
+              .filter((feed) => !activeTag || feed.hashtag.includes(activeTag))
+              .map((feed) => {
+                return <FeedCard feed={feed} key={feed.postid} />;
+              })}
+      </StFeedList> */}
     </StListWrapper>
   );
 }

@@ -3,7 +3,10 @@ import styled from "styled-components";
 import Fieldset from "../fieldset";
 import InputCheckRadio from "../inputCheckRadio";
 import InputImg from "../inputImg";
-import { data } from "../mockHashtag";
+// import { data } from "../mockHashtag";
+import foodTagData from "data/foodTagData";
+import tagData from "data/tagData";
+
 import PreviewImg from "../previewImg";
 import { validateImgFiles, createImgFileState, uploadImg, getFeedById, deleteImgFile } from "utils/useForm";
 import { v4 as uuid } from "uuid";
@@ -154,7 +157,7 @@ function EditorForm() {
 
         <Fieldset legend={"카테고리"}>
           <InputCheckRadio
-            listData={data.allCategory}
+            listData={["오운완", "오식완"]}
             checkedData={category}
             type={"radio"}
             name={"category"}
@@ -163,7 +166,7 @@ function EditorForm() {
         </Fieldset>
         <Fieldset legend={"해시태그"}>
           <InputCheckRadio
-            listData={data.allHashtag}
+            listData={category === "오운완" ? tagData.map((n) => n.hashtag) : foodTagData.map((n) => n.hashtag)}
             checkedData={hashtag}
             type={"checkbox"}
             name={"hashtag"}
@@ -192,7 +195,8 @@ function EditorForm() {
 
 const StFormWrap = styled.div`
   /* 임시 너비 */
-  width: 500px;
+  width: 800px;
+  margin: 0 auto;
 `;
 
 const StForm = styled.form`

@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-function Hashtag({ hashtag, content, active, size, onClick, color, fontColor }) {
+function Hashtag({ hashtag, content, active, size, onClick, color, $fontcolor }) {
   return (
     <StHashtag
-      fontColor={fontColor}
+      $fontcolor={$fontcolor}
       color={color}
       className={active && "hashtag-active"}
       size={size}
@@ -23,7 +23,7 @@ const StHashtag = styled.span`
   outline: 1px solid ${({ theme }) => theme.color.base};
   border-radius: 1em;
   transition: ${({ theme }) => theme.animation.transition};
-  color: ${({ theme, fontColor }) => theme.color[fontColor]};
+  color: ${({ theme, $fontcolor }) => theme.color[$fontcolor]};
   cursor: pointer;
   font-size: ${(props) => props.theme.fontSize[props?.size] || props.theme.fontSize.base};
 

@@ -1,5 +1,5 @@
 import { DB } from "fb/myfirebase";
-import { doc, setDoc, deleteDoc } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, addDoc, serverTimestamp } from "firebase/firestore";
 
 const SUBSCRIBE_POSTSFIRESTORE = "postsFirestore/SUBSCRIBE_AUTH";
 const SET_POSTSFIRESTORE = "postsFirestore/SET_FIRESTORE";
@@ -38,14 +38,12 @@ const postsFirestoreState = (state = initialState, action) => {
         // SetDoc은 collection이 아닌 doc을인자로 사용 doc에는 DB,콜렉션네임,문서아이디를 인자로 전달 문서아이디 동일한경우 덮어씌움
         // 덮어씌운데이터가 이전과 동일할 경우 실시간감지에서 변경사항을 감지하지않는듯
         // 추가 수정 동시관리 (기능 및 사용방법 동일)
-        await setDoc(
-          doc(DB, "posts", action.payload.postid),
-          {
-            ...action.payload
-          },
-          { merge: true }
-        );
+        await setDoc(doc(DB, "posts", action.payload.postid), {
+          ...action.payload,
+          timesteamp: action.payload.timesteamp ? action.payload.timesteamp : serverTimestamp()
+        });
       })();
+
       return state;
     }
     case DELETE_POSTSFIRESTORE: {

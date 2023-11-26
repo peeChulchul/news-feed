@@ -28,11 +28,10 @@ export default function Login({ setModalType, setModalOpen, modalBackground, mod
     event.preventDefault();
     try {
       const {
-        user: { uid, photourl = "", displayName = "" }
+        user: { uid, photoURL = "", displayName }
       } = await signInWithEmailAndPassword(AUTH, email, password);
 
-      dispatch(setUsersFirestore({ email, uid, photourl, displayName, user_liked: [], user_posts: [] }));
-      console.log(dispatch);
+      dispatch(setUsersFirestore({ email, uid, photoURL, displayName, user_liked: [], user_posts: [] }));
       alert("로그인에 성공하였습니다.");
       // 로그인 성공하면 모달창 닫히게
       setModalOpen(false);
@@ -119,4 +118,4 @@ const StLine = styled.div`
   font-size: 13px;
   color: grey;
   margin: 30px 77px 10px 78px;
-`
+`;

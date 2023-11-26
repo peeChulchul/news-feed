@@ -18,12 +18,11 @@ export default function Googlelogin({ setModalOpen }) {
   function handleGoogleLogin() {
     signInWithPopup(auth, provider) // popup을 이용한 signup
       .then((result) => {
-        console.log(result);
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        const { email, uid, photourl = "", displayName } = result.user;
+        const { email, uid, photoURL = "", displayName } = result.user;
 
-        dispatch(setUsersFirestore({ email, uid, photourl, displayName, user_liked: [], user_posts: [] }));
+        dispatch(setUsersFirestore({ email, uid, photoURL, displayName, user_liked: [], user_posts: [] }));
 
         alert("로그인에 성공하였습니다.");
         setModalOpen(false);

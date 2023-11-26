@@ -4,7 +4,7 @@ import Hashtag from "components/hashtag";
 import { v4 as uuid } from "uuid";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import ListOption from "components/listOption";
-function Test({ data }) {
+function DetailPostContent({ data }) {
   const { displayName, content, imgs, category, hashtag, postid, uid } = data;
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
 
@@ -58,9 +58,9 @@ function Test({ data }) {
       </StRow>
 
       <StRow>
-        <Hashtag hashtag={"true"} content={category} color={"white"} fontColor={"base"} />
+        <Hashtag hashtag={"true"} content={category} color={"white"} $fontcolor={"base"} />
         {hashtag.map((n) => {
-          return <Hashtag hashtag={"true"} content={n} color={"base"} fontColor={"white"} key={uuid()} />;
+          return <Hashtag hashtag={"true"} content={n} color={"base"} $fontcolor={"white"} key={uuid()} />;
         })}
       </StRow>
       <StRow>
@@ -77,7 +77,8 @@ function Test({ data }) {
 }
 
 const StWrap = styled.div`
-  max-width: 800px;
+  max-width: 1000px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
@@ -193,4 +194,4 @@ const StSubImgWrap = styled.figure`
   }
 `;
 
-export default Test;
+export default DetailPostContent;

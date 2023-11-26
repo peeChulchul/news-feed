@@ -13,6 +13,8 @@ function FeedCard({ feed }) {
     navigate(`/posts/${feed.uid}/${feed.postid}`);
   };
 
+  const timestamp = feed.timesteamp.toDate().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+
   return (
     <StCardWrapper onClick={onClickFeedHandler}>
       <StFeedInfo>
@@ -21,7 +23,7 @@ function FeedCard({ feed }) {
           <div>
             <h2>{feed.displayName}</h2>
             <p>
-              <span>like</span> {feed.like}
+              <span>{timestamp}</span> {feed.like}
             </p>
           </div>
         </StUserInfo>
@@ -41,11 +43,11 @@ function FeedCard({ feed }) {
               size={"sm"}
               key={uuid()}
               color={"base"}
-              fontColor={"white"}
+              $fontcolor={"white"}
             />
           }
           {feed.hashtag.map((tag) => {
-            return <Hashtag hashtag={true} content={tag} size={"sm"} key={uuid()} />;
+            return <Hashtag hashtag={true} content={tag} size={"sm"} key={uuid()} $fontcolor={"baseDark"} />;
           })}
         </StTagBox>
         <p>{feed.content}</p>
@@ -88,7 +90,7 @@ const StFeedInfo = styled.div`
     font-size: 0.7rem;
   }
   & h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
   }
 `;
@@ -104,8 +106,8 @@ const StUserInfo = styled.div`
     gap: 5px;
   }
   & span {
-    color: ${({ theme }) => theme.color.base};
-    font-weight: 700;
+    color: ${({ theme }) => theme.color.black};
+    font-weight: 400;
   }
 `;
 
@@ -116,7 +118,7 @@ const StContentWarapper = styled.div`
   gap: 0.75rem;
   & p {
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
