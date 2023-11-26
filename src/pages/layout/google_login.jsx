@@ -3,6 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { setUsersFirestore } from "redux/modules/usersFirestoreState";
+import { FcGoogle } from "react-icons/fc";
 
 export default function Googlelogin({ setModalOpen }) {
   const provider = new GoogleAuthProvider();
@@ -33,15 +34,29 @@ export default function Googlelogin({ setModalOpen }) {
         alert("로그인에 실패하였습니다.");
       });
   }
-  return <StModalGoogleBtn onClick={handleGoogleLogin}>Sign in Google</StModalGoogleBtn>;
+
+  return (
+    <StModalGoogleBtn onClick={handleGoogleLogin}>
+      <FcGoogle/><StModalGoogleText>Sign in with Google</StModalGoogleText>
+    </StModalGoogleBtn>
+  )
 }
 
 const StModalGoogleBtn = styled.button`
-  background-color: ${({ theme }) => theme.color.success};
-  color: ${({ theme }) => theme.color.white};
+  font-size: 30px;
+  background-color: ${({ theme }) => theme.color.white};
   width: 250px;
   height: 40px;
   margin: 10px 80px 0 75px;
-
+  padding: 5px 45px 5px 45px;
+  display: flex;
   cursor: pointer;
+  border: 1px solid ${({ theme }) => theme.color.success};;
 `;
+const StModalGoogleText = styled.p`
+  font-size: 14px;
+  width: 170px;
+  margin-left: 10px;
+  margin-top: 6px;
+  color: grey;
+`

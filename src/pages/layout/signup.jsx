@@ -5,7 +5,7 @@ import { AUTH } from "fb/myfirebase";
 import { useDispatch } from "react-redux";
 import { setUsersFirestore } from "redux/modules/usersFirestoreState";
 import Googlelogin from "./google_login";
-import Githublogin from "./githublogin";
+import Githublogin from "./github_login";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 export default function Signup({ setModalType, setModalOpen, modalBackground, modalBackgroundOnclickHandler }) {
@@ -39,7 +39,9 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
       } = await createUserWithEmailAndPassword(AUTH, email, password);
 
       dispatch(setUsersFirestore({ email, uid, photourl, displayName: name, user_liked: [], user_posts: [] }));
+      console.log(dispatch);
       alert("회원가입이 완료되었습니다.");
+      alert("로그인에 성공하였습니다.");
       // 회원가입 성공하면 모달창 닫히게
       setModalOpen(false);
     } catch (error) {
@@ -101,12 +103,12 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
 
   return (
     <StModalContent onSubmit={signUp}>
-      <StModalCloseBtn ref={modalBackground} onClick={modalBackgroundOnclickHandler}>
+      <StModalCloseBtn>
         <IoCloseCircleOutline ref={modalBackground} onClick={modalBackgroundOnclickHandler} />
       </StModalCloseBtn>
       <StModalSignupTitle>회원가입</StModalSignupTitle>
       <StModalLoginInput type="text" value={name} name="name" onChange={onChangeName} placeholder="닉네임" />
-      {name.length > 0 && <span className={`message ${isName ? "success" : "error"}`}>{nameMessage}</span>}
+      {name.length > 0 && <StWarningText className={`message ${isName ? "success" : "error"}`}>{nameMessage}</StWarningText>}
       <StModalLoginInput
         type="email"
         value={email}
@@ -115,7 +117,7 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
         required
         placeholder="이메일"
       />
-      {email.length > 0 && <span className={`message ${isEmail ? "success" : "error"}`}>{emailMessage}</span>}
+      {email.length > 0 && <StWarningText className={`message ${isEmail ? "success" : "error"}`}>{emailMessage}</StWarningText>}
       <StModalLoginInput
         type="password"
         value={password}
@@ -125,7 +127,7 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
         autoComplete="off"
         placeholder="비밀번호"
       />
-      {password.length > 0 && <span className={`message ${isPassword ? "success" : "error"}`}>{passwordMessage}</span>}
+      {password.length > 0 && <StWarningText className={`message ${isPassword ? "success" : "error"}`}>{passwordMessage}</StWarningText>}
       <StModalLoginInput
         autoComplete="off"
         type="password"
@@ -135,10 +137,11 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
         placeholder="비밀번호 확인"
       />
       {confirmPassword.length > 0 && (
-        <span className={`message ${isConfirmPassword ? "success" : "error"}`}>{confirmPasswordMessage}</span>
+        <StWarningText className={`message ${isConfirmPassword ? "success" : "error"}`}>{confirmPasswordMessage}</StWarningText>
       )}
       <StModalLonInBtn disabled={!(isName && isEmail && isPassword && isConfirmPassword)}>회원가입</StModalLonInBtn>
       <StModalSignupBtn onClick={() => setModalType("login")}>로그인</StModalSignupBtn>
+      <StLine>--------------- 다른 계정으로 로그인 ---------------</StLine>
       <Googlelogin setModalOpen={setModalOpen} />
       <Githublogin setModalOpen={setModalOpen} />
     </StModalContent>
@@ -148,7 +151,7 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
 const StModalContent = styled.form`
   background-color: ${({ theme }) => theme.color.white};
   width: 400px;
-  height: 500px;
+  height: 620px;
 
   z-index: 100;
 `;
@@ -164,7 +167,7 @@ const StModalSignupTitle = styled.div`
   width: 120px;
   font-size: ${({ theme }) => theme.fontSize.xxxl};
   font-weight: bold;
-  margin: 75px 120px 20px 140px;
+  margin: 40px 120px 20px 140px;
 `;
 
 const StModalLoginInput = styled.input`
@@ -172,6 +175,18 @@ const StModalLoginInput = styled.input`
   height: 40px;
   margin: 5px 80px 0 73px;
 `;
+const StWarningText = styled.div`
+  font-size: 13px;
+  margin: 5px 78px 5px 73px;
+  &.success {
+    transition: 0.5s;
+    color: green;
+  }
+  &.error {
+    transition: 0.5s;
+    color: ${({ theme }) => theme.color.danger};
+  }
+`
 const StModalLonInBtn = styled.button`
   background-color: ${({ theme }) => theme.color.white};
   border: 1px solid ${({ theme }) => theme.color.black};
@@ -188,12 +203,8 @@ const StModalSignupBtn = styled.span`
 
   cursor: pointer;
 `;
-const StModalGoogleBtn = styled.button`
-  background-color: ${({ theme }) => theme.color.success};
-  color: ${({ theme }) => theme.color.white};
-  width: 250px;
-  height: 40px;
-  margin: 5px 80px 0 73px;
-
-  cursor: pointer;
-`;
+const StLine = styled.div`
+  font-size: 13px;
+  color: grey;
+  margin: 30px 77px 10px 78px;
+`
