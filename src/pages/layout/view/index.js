@@ -37,14 +37,12 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     // posts컬렉션 을 실시간 수신대기 (구독)
-    const q = query(postsCollection);
+    const q = query(usersCollection);
     const dbSubscribe = onSnapshot(q, async (querySnapshot) => {
       const result = [];
       querySnapshot.forEach((doc) => {
         result.push(doc.data());
       });
-      console.log(result);
-      // result.sort((a, b) => b.timesteamp.seconds - a.timesteamp.seconds);
       dispatch(subscribeusersFirestore(result));
     });
 

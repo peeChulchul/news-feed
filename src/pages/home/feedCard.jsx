@@ -9,11 +9,13 @@ import { useNavigate } from "react-router";
 function FeedCard({ feed }) {
   const navigate = useNavigate();
 
+  console.log(new Date());
   const onClickFeedHandler = () => {
     navigate(`/posts/${feed.uid}/${feed.postid}`);
   };
 
-  const timestamp = feed.timesteamp.toDate().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+  const timestamp =
+    feed.timesteamp === null ? "대기중" : feed.timesteamp.toDate().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
 
   return (
     <StCardWrapper onClick={onClickFeedHandler}>

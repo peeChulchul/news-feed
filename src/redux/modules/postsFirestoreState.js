@@ -40,7 +40,7 @@ const postsFirestoreState = (state = initialState, action) => {
         // 추가 수정 동시관리 (기능 및 사용방법 동일)
         await setDoc(doc(DB, "posts", action.payload.postid), {
           ...action.payload,
-          timesteamp: action.payload.timesteamp ? action.payload.timesteamp : serverTimestamp()
+          timesteamp: action.payload.timesteamp ? action.payload.timesteamp.toDate() : serverTimestamp()
         });
       })();
 

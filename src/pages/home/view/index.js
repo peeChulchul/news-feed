@@ -29,12 +29,19 @@ export default function Home() {
     // posts컬렉션 을 실시간 수신대기 (구독)
     const q = query(postsCollection);
     const dbSubscribe = onSnapshot(q, async (querySnapshot) => {
-      // if (querySnapshot === null || loading) return;
+      if (querySnapshot === null) return;
       const result = [];
 
       querySnapshot.forEach((doc) => {
         result.push(doc.data());
       });
+
+      // result.sort((a, b) => {
+      //   if (a.timesteam && b.timesteam) {
+      //     return b.timesteamp.seconds - a.timesteamp.seconds;
+      //   }
+      //   return {};
+      // });
       dispatch(subscribePostsFirestore(result));
     });
 
