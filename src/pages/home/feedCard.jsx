@@ -19,7 +19,7 @@ function FeedCard({ feed }) {
     <StCardWrapper onClick={onClickFeedHandler}>
       <StFeedInfo>
         <StUserInfo>
-          <Avatar />
+          <Avatar src={feed?.photoURL} />
           <div>
             <h2>{feed.displayName}</h2>
             <p>

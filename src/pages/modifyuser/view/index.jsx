@@ -36,11 +36,6 @@ function Index() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    posts.forEach((post) => {
-      if (post.uid === currentUser.uid) {
-        dispatch(setPostsFirestore({ ...post, displayName: nickname, photoURL: currentUser?.photoURL }));
-      }
-    });
     if (typeof profileImg.file !== "string") {
       const preImgDeleteCheck = deleteImgFile(`users/${userid}`);
       if (preImgDeleteCheck) {
@@ -48,11 +43,23 @@ function Index() {
         if (storageObj) {
           await currentUserUpdate({ displayName: nickname, photoURL: storageObj.url });
           dispatch(setUsersFirestore({ ...currentUser, displayName: nickname, photoURL: storageObj.url }));
+          //
+          await posts.forEach((post) => {
+            if (post.uid === currentUser.uid) {
+              dispatch(setPostsFirestore({ ...post, displayName: nickname, photoURL: storageObj.url }));
+            }
+          });
         }
       }
     } else {
       await currentUserUpdate({ displayName: nickname, photoURL: currentUser?.photoURL });
       dispatch(setUsersFirestore({ ...currentUser, displayName: nickname, photoURL: currentUser?.photoURL }));
+      //
+      await posts.forEach((post) => {
+        if (post.uid === currentUser.uid) {
+          dispatch(setPostsFirestore({ ...post, displayName: nickname, photoURL: currentUser?.photoURL }));
+        }
+      });
     }
 
     return navigate("/");
@@ -81,8 +88,6 @@ function Index() {
       setProfileImg(newImgFileState);
     }
   };
-
-  useEffect(() => {}, [profileImg]);
 
   // useEffect(() => {
   //   const userData = async () => {

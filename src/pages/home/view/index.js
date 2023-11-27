@@ -35,7 +35,6 @@ export default function Home() {
       querySnapshot.forEach((doc) => {
         result.push(doc.data());
       });
-      result.sort((a, b) => b?.timesteamp.seconds - a?.timesteamp.seconds);
       dispatch(subscribePostsFirestore(result));
     });
 
