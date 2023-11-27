@@ -9,7 +9,6 @@ import { useNavigate } from "react-router";
 function FeedCard({ feed }) {
   const navigate = useNavigate();
 
-  console.log(new Date());
   const onClickFeedHandler = () => {
     navigate(`/posts/${feed.uid}/${feed.postid}`);
   };
