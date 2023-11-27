@@ -39,7 +39,6 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
       } = await createUserWithEmailAndPassword(AUTH, email, password);
 
       dispatch(setUsersFirestore({ email, uid, photoURL, displayName: name, user_liked: [], user_posts: [] }));
-      console.log(dispatch);
       alert("회원가입이 완료되었습니다.");
       alert("로그인에 성공하였습니다.");
       // 회원가입 성공하면 모달창 닫히게

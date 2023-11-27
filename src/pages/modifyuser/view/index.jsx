@@ -76,7 +76,6 @@ function Index() {
       previewImg: URL.createObjectURL(file),
       newFileName: userid
     };
-    console.log(imgObject);
     setProfileImg(imgObject);
   };
 
@@ -115,8 +114,7 @@ function Index() {
   }, [currentUser]);
 
   // useEffect(() => {
-  //   console.log(user);
-  //   console.log(nickname);
+
   //   setNickname(user?.displayName);
   //   setProfileImg((prev) => ({ ...prev, file: user?.photourl }));
   // }, [user, nickname]);
