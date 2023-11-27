@@ -3,7 +3,7 @@ import Header from "pages/layout/view/header";
 import Footer from "pages/layout/view/footer";
 import Sidebar from "pages/layout/view/sidebar";
 import { onAuthStateChanged } from "firebase/auth";
-import { AUTH, usersCollection } from "fb/myfirebase";
+import { AUTH, postsCollection, usersCollection } from "fb/myfirebase";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { onSnapshot, query } from "firebase/firestore";
@@ -37,12 +37,14 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     // posts컬렉션 을 실시간 수신대기 (구독)
-    const q = query(usersCollection);
+    const q = query(postsCollection);
     const dbSubscribe = onSnapshot(q, async (querySnapshot) => {
       const result = [];
       querySnapshot.forEach((doc) => {
         result.push(doc.data());
       });
+      console.log(result);
+      // result.sort((a, b) => b.timesteamp.seconds - a.timesteamp.seconds);
       dispatch(subscribeusersFirestore(result));
     });
 

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
 function FeedList({ activeTag }) {
-  const { posts } = useSelector((state) => state.postsFirestoreState);
+  const { posts, loading } = useSelector((state) => state.postsFirestoreState);
   const { currentUser } = useSelector((state) => state.usersFirestoreState);
   const { category, userid } = useParams();
 
