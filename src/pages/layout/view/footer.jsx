@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { FaGithub } from "react-icons/fa6";
 
 function Footer() {
-  const onClickGithubHandler = () => (window.location.href = "https://github.com/nbc-9gling/news-feed.git");
+  const onClickGithubHandler = () => (window.location.href = "https://github.com/peeChulchul/news-feed");
   return (
     <StFooterStyle>
       <FaGithub size={30} onClick={onClickGithubHandler} />
