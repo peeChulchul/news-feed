@@ -149,7 +149,7 @@ function Index() {
 
 const StFormWrap = styled.div`
   /* 임시 너비 */
-  width: 800px;
+  width: 100%;
   margin: 0 auto;
 `;
 

@@ -11,6 +11,7 @@ const StLoadingBox = styled.div`
   align-items: center;
   justify-content: center;
   min-height: calc(100vh - 100px);
+  width: 100%;
 
   & span {
     width: 200px;

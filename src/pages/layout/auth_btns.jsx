@@ -19,27 +19,27 @@ export default function AuthBtns({ setModalOpen, setModalType }) {
       ) : (
         <>
           {currentUser === null && (
-            <StLogInBtn
+            <StBtn
               onClick={() => {
                 setModalOpen(true);
                 setModalType("login");
               }}
             >
-              Log in
-            </StLogInBtn>
+              로그인
+            </StBtn>
           )}
 
-          {currentUser !== null && <StLogOutBtn onClick={logOut}>Log out</StLogOutBtn>}
+          {currentUser !== null && <StBtn onClick={logOut}>로그아웃</StBtn>}
 
           {currentUser == null && (
-            <StSignupBtn
+            <StBtn
               onClick={() => {
                 setModalOpen(true);
                 setModalType("signup");
               }}
             >
-              Sign up
-            </StSignupBtn>
+              가입하기
+            </StBtn>
           )}
         </>
       )}
@@ -47,33 +47,9 @@ export default function AuthBtns({ setModalOpen, setModalType }) {
   );
 }
 
-const StLogInBtn = styled.button`
-  width: 110px;
-  height: 40px;
-  margin: auto 0;
-  border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.color.black};
-  background-color: ${({ theme }) => theme.color.white};
-
-  cursor: pointer;
-`;
-const StLogOutBtn = styled.button`
-  width: 110px;
-  height: 40px;
-  margin: auto 1.5rem auto 0;
-  border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.color.black};
-  background-color: ${({ theme }) => theme.color.white};
-
-  cursor: pointer;
-`;
-const StSignupBtn = styled.button`
-  width: 110px;
-  height: 40px;
-  margin: auto 1.5rem auto 0.5rem;
-  border-radius: 20px;
-  background-color: ${({ theme }) => theme.color.success};
-  color: ${({ theme }) => theme.color.white};
-
+const StBtn = styled.button`
+  border-radius: 15px;
+  word-break: keep-all;
+  padding: 5px 10px;
   cursor: pointer;
 `;

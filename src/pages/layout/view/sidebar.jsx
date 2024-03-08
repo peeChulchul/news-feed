@@ -11,18 +11,26 @@ import Avatar from "components/avatar";
 import { accordionData } from "data/sidebar/accordion_data";
 import { formatlocaleString } from "utils/format/number";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useThrottle } from "utils/usethrottle";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import Spinner from "components/spinner";
 const StContainer = styled.aside`
   background-color: #f5f5f5;
-  top: 100px;
+  top: 88px;
   left: 0;
-  height: 100%;
+  bottom: 0;
+  overflow-y: auto;
   position: fixed;
   z-index: 2;
   max-width: 100%;
+
+  @media (max-width: 760px) {
+    top: 80px;
+  }
+  @media (max-width: 480px) {
+    top: 72px;
+  }
 `;
 
 const StSidebarContents = styled.div`
@@ -30,6 +38,7 @@ const StSidebarContents = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => `calc(${theme.spacing.base} * 2)`};
   width: 350px;
+  height: 100%;
   padding: ${({ theme }) => `0 calc(${theme.spacing.base} * 2)`};
   transition: all 0.3s;
   ${({ $show }) =>
@@ -39,7 +48,11 @@ const StSidebarContents = styled.div`
       padding: 0px;
       width: 0px;
       transform: translateX(-100%);
-    `}
+    `};
+
+  @media (max-width: 480px) {
+    width: 100vw;
+  }
 `;
 
 const StAuthWrapper = styled.div`
@@ -88,6 +101,9 @@ const NavigationBox = styled.div`
   color: #ff6633;
   border-radius: 8px;
   cursor: pointer;
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 const StAccordinonChildrenBox = styled.div`
@@ -117,12 +133,14 @@ const StAccordionChildren = styled.div`
 
 const StSidebarToggleBox = styled.div`
   position: fixed;
-  left: ${({ $show }) => ($show ? "calc(350px - 50px)" : "0px")};
+  left: ${({ $show }) => ($show ? "calc(350px - 60px)" : "10px")};
   width: 50px;
   height: 50px;
-  top: calc(100% - 50px);
+  top: calc(100% - 70px);
   border-radius: 100%;
-  background-color: ${({ theme }) => theme.color.disable};
+  background-color: ${({ theme }) => theme.color.baseLight};
+  color: ${({ theme }) => theme.color.white};
+  border: 2px solid black;
   transform: ${({ $show }) => ($show ? "rotate(180deg)" : "")};
   transition: all 0.3s ease-in;
   display: flex;
@@ -130,6 +148,9 @@ const StSidebarToggleBox = styled.div`
   justify-content: center;
   z-index: 4;
   cursor: pointer;
+  &:hover {
+    background-color: ${({ theme }) => theme.color.baseDark};
+  }
 `;
 
 const StSpinnerBox = styled.div`
@@ -138,14 +159,31 @@ const StSpinnerBox = styled.div`
   margin: 0 auto;
 `;
 
+const StEmpty = styled.div`
+  padding-top: 40px;
+`;
+
 export default function Sidebar() {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [posts, setPosts] = useState({ sports: 0, food: 0 });
   const [selectedFilterBtn, setSelectedFilterBtn] = useState("All");
   const { currentUser, loading } = useSelector((modules) => modules.usersFirestoreState);
   const { posts: dbPosts } = useSelector((modules) => modules.postsFirestoreState);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const filterName = decodeURI(location.pathname).split("/")[1];
+    const selectedFilter = accordionData.find((data) => data.title === filterName);
+
+    if (selectedFilter) {
+      return setSelectedFilterBtn(selectedFilter.title);
+    }
+
+    return setSelectedFilterBtn("All");
+  }, [location.pathname]);
 
   useEffect(() => {
     if (currentUser) {
@@ -164,6 +202,7 @@ export default function Sidebar() {
 
   const onClickNavigateBtn = (query) => {
     setSelectedFilterBtn(query);
+    setShow((prev) => !prev);
     if (query === "All") {
       navigate(`/`);
       return;
@@ -233,16 +272,30 @@ export default function Sidebar() {
           {/* 페이지이동 */}
           {currentUser && (
             <>
-              <NavigationBox onClick={() => navigate(`/manage/newpost/${currentUser.uid}`)}>게시글 쓰기</NavigationBox>
-              <NavigationBox onClick={() => navigate(`/posts/${currentUser.uid}`)}>나의 게시글</NavigationBox>
+              <NavigationBox
+                onClick={() => {
+                  setShow((prev) => !prev);
+                  navigate(`/manage/newpost/${currentUser.uid}`);
+                }}
+              >
+                게시글 쓰기
+              </NavigationBox>
+              <NavigationBox
+                onClick={() => {
+                  setShow((prev) => !prev);
+                  navigate(`/posts/${currentUser.uid}`);
+                }}
+              >
+                나의 게시글
+              </NavigationBox>
             </>
           )}
         </StAuthWrapper>
 
         {/* 아코디언 버튼 */}
         <Accordion
-          title={"Category"}
-          btnIcon={<BiSolidCategoryAlt />}
+          title={"카테고리"}
+          btnIcon={<BiSolidCategoryAlt fill="white" color="white" />}
           height={"60px"}
           padding={`calc( ${theme.spacing.base} * 2)`}
           iconSize={theme.fontSize.xl}
@@ -263,6 +316,7 @@ export default function Sidebar() {
             ))}
           </StAccordinonChildrenBox>
         </Accordion>
+        <StEmpty />
       </StSidebarContents>
     </StContainer>
   );

@@ -38,13 +38,11 @@ function EditorForm() {
         const storageObj = await uploadImg("posts", currnetPostid, selectImage[i]);
         if (storageObj) {
           checkDone[i] = storageObj;
-          console.log("업로드 중");
         }
       }
       const allDone = postid && selectImage.length === 0 ? true : checkDone.every((n) => n !== null);
       if (allDone) {
         // 3. 이미지 업로드 후 FB에 데이터들 저장
-        console.log("이미지 업로드 완료");
         const feedData = {
           category,
           content,
@@ -195,8 +193,9 @@ function EditorForm() {
 
 const StFormWrap = styled.div`
   /* 임시 너비 */
-  width: 800px;
+  width: 100%;
   margin: 0 auto;
+  padding: ${({ theme }) => theme.spacing.lg} 0px;
 `;
 
 const StForm = styled.form`

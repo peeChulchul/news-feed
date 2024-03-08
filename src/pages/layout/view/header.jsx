@@ -26,12 +26,13 @@ export default function Header() {
       <StHeader>
         <StHeaderContainer>
           <StTitle onClick={() => navigate("/")}>
-            하루
-            <br />
-            건강
+            <p>하루</p>
+            <p>건강</p>
           </StTitle>
-          <StInput type="text" placeholder="Enter a search"></StInput>
-          <AuthBtns setModalOpen={setModalOpen} setModalType={setModalType} />
+          <StSearchWrap>
+            <StInput type="text" placeholder="검색어를 입력해주세요." disabled></StInput>
+            <AuthBtns setModalOpen={setModalOpen} setModalType={setModalType} />
+          </StSearchWrap>
         </StHeaderContainer>
       </StHeader>
       {modalOpen && <Modal modalType={modalType} setModalOpen={setModalOpen} setModalType={setModalType} />}
@@ -40,10 +41,11 @@ export default function Header() {
 }
 
 const StHeader = styled.header`
-  height: 100px;
+  padding: 15px 0;
   width: 100%;
-  border: 2px solid ${({ theme }) => theme.color.black};
+  border-bottom: 2px solid ${({ theme }) => theme.color.black};
   display: flex;
+  flex-direction: column;
   background-color: ${({ theme }) => theme.color.white};
   position: fixed;
   z-index: 10;
@@ -52,19 +54,40 @@ const StHeader = styled.header`
 const StHeaderContainer = styled.div`
   margin: 0 auto;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1000px;
+  padding: 0 10px;
 `;
 const StTitle = styled.h1`
   font-size: ${({ theme }) => theme.fontSize.xxl};
-  padding: 1.4rem 1.5rem;
   cursor: pointer;
-`;
+  word-break: keep-all;
 
+  @media (max-width: 760px) {
+    font-size: ${({ theme }) => theme.fontSize.xl};
+  }
+  @media (max-width: 480px) {
+    font-size: ${({ theme }) => theme.fontSize.lg};
+  }
+`;
+const StSearchWrap = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 600px;
+  width: 100%;
+`;
 const StInput = styled.input`
-  width: 500px;
-  height: 40px;
-  margin: auto;
-  border-radius: 25px;
-  padding-left: ${({ theme }) => theme.spacing.lg};
+  width: 100%;
+  max-width: 500px;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 15px 10px;
+
+  @media (max-width: 760px) {
+    padding: 10px;
+  }
 `;

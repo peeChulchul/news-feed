@@ -4,6 +4,7 @@ import DetailPost from "pages/detail_post/view";
 import ManagePost from "pages/manage_post/view";
 import Home from "pages/home/view";
 import Index from "pages/modifyuser/view";
+import { Navigate } from "react-router-dom";
 const Router = () => {
   return (
     <BrowserRouter>
@@ -26,6 +27,7 @@ const Router = () => {
           {/* 자신의 게시물 관리 */}
           {/* <Route path="manage/:userid" element={<ManagePost></ManagePost>} /> */}
           {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="*" element={<Navigate to="/" replace={true} />} />
         </Routes>
       </Layout>
     </BrowserRouter>

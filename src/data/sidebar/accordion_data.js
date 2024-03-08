@@ -18,10 +18,10 @@ export const accordionData = [
     fill: "#29CC39",
     icon: <IoCalendar />,
     title: "오식완"
-  },
-  {
-    fill: "#105EFB",
-    icon: <FaMessage />,
-    title: "팔로우"
   }
+  // {
+  //   fill: "#105EFB",
+  //   icon: <FaMessage />,
+  //   title: "팔로우"
+  // }
 ];

@@ -30,7 +30,7 @@ function DetailPostContent({ data }) {
       </StRow>
       <StRow className="center">
         <StImgWrap $bgImg={imgs[currentImgIndex].url}>
-          <img src={imgs[currentImgIndex].url} alt="" />
+          {/* <img src={imgs[currentImgIndex].url} alt="" /> */}
           {imgs.length > 1 && (
             <>
               <StImgControler className="left" onClick={() => showNextImg(false)}>
@@ -82,7 +82,7 @@ const StWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
-  padding: ${({ theme }) => theme.spacing.lg} 0;
+  padding: ${({ theme }) => theme.spacing.lg} 0px;
 `;
 
 const StRow = styled.div`
@@ -124,29 +124,47 @@ const StIconWrap = styled.span`
 `;
 
 const StImgWrap = styled.figure`
-  width: 800px;
-  height: 600px;
-  text-align: center;
   position: relative;
+  padding-bottom: 70%;
+  width: 100%;
   overflow: hidden;
 
   &::before {
     content: "";
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 150%;
-    height: 150%;
-    background-position: center;
     background-image: url(${(props) => props.$bgImg});
-    z-index: -1;
-    filter: blur(30px) brightness(0.5);
-  }
 
-  & img {
+    background-size: cover;
+    width: 100%;
     height: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
   }
 `;
+// const StImgWrap = styled.figure`
+//   width: 800px;
+//   height: 600px;
+//   text-align: center;
+//   position: relative;
+//   overflow: hidden;
+
+//   &::before {
+//     content: "";
+//     position: absolute;
+//     left: 0;
+//     top: 0;
+//     width: 150%;
+//     height: 150%;
+//     background-position: center;
+//     background-image: url(${(props) => props.$bgImg});
+//     z-index: -1;
+//     filter: blur(30px) brightness(0.5);
+//   }
+
+//   & img {
+//     height: 100%;
+//   }
+// `;
 
 const StImgControler = styled.button`
   position: absolute;

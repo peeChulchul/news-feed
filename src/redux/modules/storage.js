@@ -20,7 +20,7 @@ const initialState = {
 const storage = (state = initialState, action) => {
   switch (action.type) {
     case UPLOAD_STORAGE: {
-      return console.log("작성중");
+      return;
     }
     default:
       return state;

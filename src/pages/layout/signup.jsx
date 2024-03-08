@@ -44,7 +44,6 @@ export default function Signup({ setModalType, setModalOpen, modalBackground, mo
       // 회원가입 성공하면 모달창 닫히게
       setModalOpen(false);
     } catch (error) {
-      console.log(error);
       alert("회원가입에 실패했습니다.");
     }
   };

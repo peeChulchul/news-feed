@@ -27,9 +27,13 @@ const StHeader = styled.div`
 const StButton = styled.div`
   font-size: ${({ $iconSize, theme }) => ($iconSize ? $iconSize : theme.fontSzie.base)};
   color: ${({ $bg }) => $bg};
-  filter: brightness(0.6);
+  /* filter: brightness(0.6); */
   transform: ${({ $active }) => $active && `rotate(180deg)`};
   transition: transform 0.5s linear;
+
+  svg {
+    fill: white;
+  }
 `;
 
 const StContentsWrapper = styled.div`
@@ -64,7 +68,7 @@ export function Accordion({ title, height, btnIcon, padding, children, iconSize,
         $height={height}
         onClick={onClickAccordion}
       >
-        <StButton $bg={bg} $iconSize={iconSize}>
+        <StButton $bg={bg} $iconSize={iconSize} style={{ fill: "white" }}>
           {btnIcon}
         </StButton>
         <h1>{title}</h1>

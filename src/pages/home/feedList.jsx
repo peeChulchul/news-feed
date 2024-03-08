@@ -12,15 +12,25 @@ function FeedList({ activeTag }) {
   return (
     <StListWrapper>
       {userid ? (
-        <StFeedList>
-          {posts
-            .filter((feed) => feed.uid === currentUser.uid)
-            .map((feed) => (
-              <div>
-                <FeedCard feed={feed} key={feed.postid} />
-              </div>
-            ))}
-        </StFeedList>
+        <>
+          {posts.filter((feed) => feed.uid === currentUser.uid).length > 0 && (
+            <StFeedList>
+              {posts
+                .filter((feed) => feed.uid === currentUser.uid)
+                .map((feed) => (
+                  <div key={feed.postid}>
+                    <FeedCard feed={feed} />
+                  </div>
+                ))}
+            </StFeedList>
+          )}
+
+          {posts.filter((feed) => feed.uid === currentUser.uid).length === 0 && (
+            <div>
+              <h1 style={{ fontSize: 24, textAlign: "center", width: "100%" }}>작성한 글이 없어요! 🥲</h1>
+            </div>
+          )}
+        </>
       ) : (
         <StFeedList>
           {category
@@ -28,8 +38,8 @@ function FeedList({ activeTag }) {
                 .filter((feed) => feed.category === category && (!activeTag || feed.hashtag.includes(activeTag)))
                 .map((feed) => {
                   return (
-                    <div>
-                      <FeedCard feed={feed} key={feed.postid} />
+                    <div key={feed.postid}>
+                      <FeedCard feed={feed} />
                     </div>
                   );
                 })
@@ -64,18 +74,22 @@ function FeedList({ activeTag }) {
 export default FeedList;
 
 const StListWrapper = styled.ul`
-  width: 1000px;
+  width: 100%;
   background-color: ${({ theme }) => theme.color.white};
-  margin: 30px auto;
+  margin: 10px auto 0;
   display: flex;
   justify-content: center;
 `;
 
 const StFeedList = styled.div`
-  width: 850px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 20px;
+  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(100px, 1fr));
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+  }
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+  }
 `;

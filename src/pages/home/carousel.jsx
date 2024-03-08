@@ -39,10 +39,11 @@ function Carousel({ setActiveTag }) {
 export default Carousel;
 
 const StCarouselBox = styled.ul`
-  width: 1000px;
-  margin: 1rem auto;
-  padding: 10px;
+  width: 100%;
+  max-width: 100vw;
+  padding-top: 10px;
   display: flex;
+  overflow-x: auto;
   justify-content: center;
   gap: 20px;
 `;
@@ -78,6 +79,11 @@ const StCarouselImgWrapper = styled.figure`
     /* display: flex;
     align-items: center;
     justify-content: center; */
+  }
+
+  @media (max-width: 760px) {
+    width: 60px;
+    height: 60px;
   }
 `;
 

@@ -60,21 +60,23 @@ function FeedCard({ feed }) {
 export default FeedCard;
 
 const StCardWrapper = styled.li`
-  width: 270px;
   background-color: #e0dddd;
   border-radius: 8px;
   padding: 1rem;
-  flex: 0;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    padding: 0.5rem;
+  }
 `;
 
 const StFeedImg = styled.figure`
-  width: 240px;
-  height: 200px;
-  background-color: ${({ theme }) => theme.color.disable};
-  overflow: hidden;
+  padding-bottom: 80%;
+  position: relative;
+
   border-radius: 5px;
   & img {
+    position: absolute;
     width: 100%;
     height: 100%;
     object-fit: cover;

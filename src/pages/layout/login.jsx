@@ -36,7 +36,6 @@ export default function Login({ setModalType, setModalOpen, modalBackground, mod
       // 로그인 성공하면 모달창 닫히게
       setModalOpen(false);
     } catch (error) {
-      console.log(error);
       alert("이메일 또는 비밀번호가 일치하지 않습니다.");
     }
   };
