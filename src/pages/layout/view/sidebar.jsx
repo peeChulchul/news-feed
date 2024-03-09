@@ -51,7 +51,11 @@ const StSidebarContents = styled.div`
     `};
 
   @media (max-width: 480px) {
-    width: 100vw;
+    ${({ $show }) =>
+      $show &&
+      css`
+        width: 100vw;
+      `};
   }
 `;
 
